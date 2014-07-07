@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>A View &mdash; Symfony2Docs v1 documentation</title>
+    <title>A View &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Guia de Início Rápido" href="index.html" />
     <link rel="next" title="O Controller" href="the_controller.html" />
-    <link rel="prev" title="The Big Picture" href="the_big_picture.html" /> 
+    <link rel="prev" title="Panorama Geral" href="the_big_picture.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,9 +39,9 @@
           <a href="the_controller.html" title="O Controller"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="the_big_picture.html" title="The Big Picture"
+          <a href="the_big_picture.html" title="Panorama Geral"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Guia de Início Rápido</a> &raquo;</li> 
       </ul>
     </div>  
@@ -60,7 +61,7 @@ sejam mais legíveis e concisos e também os torna mais amigáveis para os web
 designers.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Em vez do Twig, você também pode usar <a class="reference internal" href="../cookbook/templating/PHP.html"><em>PHP</em></a>
+<p class="last">Em vez do Twig, você também pode usar <tt class="xref doc docutils literal"><span class="pre">PHP</span></tt>
 para os seus templates. Ambos são suportados pelo Symfony2.</p>
 </div>
 <div class="section" id="familiarizando-se-com-o-twig">
@@ -105,9 +106,10 @@ template:</p>
 </div>
 <p>Para renderizar um template no Symfony, use o método <tt class="docutils literal"><span class="pre">render</span></tt> a partir do
 controller, e passe para ele todas as variávels necessárias ao template:</p>
-<div class="highlight-python"><pre>$this-&gt;render('AcmeDemoBundle:Demo:hello.html.twig', array(
-    'name' =&gt; $name,
-));</pre>
+<div class="highlight-python"><div class="highlight"><pre>$this-&gt;render(&#39;AcmeDemoBundle:Demo:hello.html.twig&#39;, array(
+    &#39;name&#39; =&gt; $name,
+));
+</pre></div>
 </div>
 <p>As variáveis passadas para o template podem ser strings, arrays ou até objetos.
 O Twig abstrai a diferença entre eles e deixa acessar os &#8220;atributos&#8221; de uma
@@ -221,7 +223,7 @@ template <tt class="docutils literal"><span class="pre">index</span></tt>. Para 
 controller <tt class="docutils literal"><span class="pre">Demo</span></tt>. Os argumentos (<tt class="docutils literal"><span class="pre">name``e</span> <span class="pre">``color</span></tt>) agem como variáveis de
 requisições simuladas (como se <tt class="docutils literal"><span class="pre">fancyAction</span></tt> estivesse manipulando uma
 requisição totalmente nova) e ficam disponíveis para o controller:</p>
-<div class="highlight-python"><pre>// src/Acme/DemoBundle/Controller/DemoController.php
+<div class="highlight-python"><div class="highlight"><pre>// src/Acme/DemoBundle/Controller/DemoController.php
 
 class DemoController extends Controller
 {
@@ -230,11 +232,12 @@ class DemoController extends Controller
         // create some object, based on the $color variable
         $object = ...;
 
-        return $this-&gt;render('AcmeDemoBundle:Demo:fancy.html.twig', array('name' =&gt; $name, 'object' =&gt; $object));
+        return $this-&gt;render(&#39;AcmeDemoBundle:Demo:fancy.html.twig&#39;, array(&#39;name&#39; =&gt; $name, &#39;object&#39; =&gt; $object));
     }
 
     // ...
-}</pre>
+}
+</pre></div>
 </div>
 </div>
 <div class="section" id="criando-links-entre-paginas">
@@ -250,18 +253,19 @@ configuração:</p>
 <p>A função <tt class="docutils literal"><span class="pre">path</span></tt> pega o nome da rota e um array de parâmetros como argumentos.
 O nome da rota é a chave principal sob a qual as rotas são referenciadas e os
 parâmetros são os valores dos marcadores definidos no padrão da rota:</p>
-<div class="highlight-python"><pre>// src/Acme/DemoBundle/Controller/DemoController.php
+<div class="highlight-python"><div class="highlight"><pre>// src/Acme/DemoBundle/Controller/DemoController.php
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * @Route("/hello/{name}", name="_demo_hello")
+ * @Route(&quot;/hello/{name}&quot;, name=&quot;_demo_hello&quot;)
  * @Template()
  */
 public function helloAction($name)
 {
-    return array('name' =&gt; $name);
-}</pre>
+    return array(&#39;name&#39; =&gt; $name);
+}
+</pre></div>
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
@@ -331,7 +335,7 @@ Pronto para mais 10 minutos de Symfony2?</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="the_big_picture.html"
-                        title="previous chapter">The Big Picture</a></p>
+                        title="previous chapter">Panorama Geral</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="the_controller.html"
                         title="next chapter">O Controller</a></p>
@@ -343,7 +347,7 @@ Pronto para mais 10 minutos de Symfony2?</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -367,15 +371,15 @@ Pronto para mais 10 minutos de Symfony2?</p>
           <a href="the_controller.html" title="O Controller"
              >next</a> |</li>
         <li class="right" >
-          <a href="the_big_picture.html" title="The Big Picture"
+          <a href="the_big_picture.html" title="Panorama Geral"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Guia de Início Rápido</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

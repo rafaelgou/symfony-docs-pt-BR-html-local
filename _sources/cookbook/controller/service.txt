@@ -1,23 +1,23 @@
 .. index::
-   single: Controller; As Services
+   single: Controlador; Como Serviços
 
-How to define Controllers as Services
-=====================================
+Como definir Controladores como Serviços
+========================================
 
-In the book, you've learned how easily a controller can be used when it
-extends the base
-:class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller` class. While
-this works fine, controllers can also be specified as services.
+No livro, você aprendeu como um controlador pode ser facilmente usado quando ele
+estende a classe base
+:class:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller`. Mesmo
+isso funcionando bem, os controladores também podem ser especificados como serviços.
 
-To refer to a controller that's defined as a service, use the single colon (:)
-notation. For example, suppose we've defined a service called
-``my_controller`` and we want to forward to a method called ``indexAction()``
-inside the service::
+Para referir-se a um controlador que é definido como um serviço, utilize a notação de um único dois pontos (:)
+. Por exemplo, supondo que você definiu um serviço chamado
+``my_controller`` e que deseja encaminhar para um método chamado ``indexAction()``
+dentro do serviço::
 
     $this->forward('my_controller:indexAction', array('foo' => $bar));
 
-You need to use the same notation when defining the route ``_controller``
-value:
+Você precisa usar a mesma notação ao definir o valor da rota 
+``_controller``:
 
 .. code-block:: yaml
 
@@ -25,22 +25,41 @@ value:
         pattern:   /
         defaults:  { _controller: my_controller:indexAction }
 
-To use a controller in this way, it must be defined in the service container
-configuration. For more information, see the :doc:`Service Container
-</book/service_container>` chapter.
+Para utilizar um controlador desta forma, ele deve estar definido na configuração do
+container de serviço. Para mais informações, consulte o capítulo :doc:`Service Container
+</book/service_container>`
 
-When using a controller defined as a service, it will most likely not extend
-the base ``Controller`` class. Instead of relying on its shortcut methods,
-you'll interact directly with the services that you need. Fortunately, this is
-usually pretty easy and the base ``Controller`` class itself is a great source
-on how to perform many common tasks.
+Ao usar um controlador definido como um serviço, ele provavelmente não estenderá
+a classe base ``Controller``. Em vez de contar com seus métodos de atalho,
+você vai interagir diretamente com os serviços que você precisa. Felizmente, isto é
+normalmente muito fácil e a classe base ``Controller`` em si é uma grande fonte
+sobre a forma de realizar muitas das tarefas comuns.
 
 .. note::
 
-    Specifying a controller as a service takes a little bit more work. The
-    primary advantage is that the entire controller or any services passed to
-    the controller can be modified via the service container configuration.
-    This is especially useful when developing an open-source bundle or any
-    bundle that will be used in many different projects. So, even if you don't
-    specify your controllers as services, you'll likely see this done in some
-    open-source Symfony2 bundles.
+    Especificar um controlador como um serviço leva um pouco mais de trabalho. A
+    principal vantagem é que todo o controlador ou quaisquer serviços passados ​​para
+    o controlador podem ser modificados através da configuração do container de serviço.
+    Isto é especialmente útil no desenvolvimento de um bundle open-source ou qualquer
+    bundle que será utilizado em vários projetos diferentes. Assim, mesmo se você não
+    especificar os seus controladores como serviços, provavelmente verá isto feito em alguns
+    bundles open-source do Symfony2.
+
+Usando Anotação no Roteamento
+-----------------------------
+
+Ao usar anotações para configurar as rotas em um controlador definido como um
+serviço, é necessário especificar o serviço da seguinte forma::
+
+    /**
+     * @Route("/blog", service="my_bundle.annot_controller")
+     * @Cache(expires="tomorrow")
+     */
+    class AnnotController extends Controller
+    {
+    }
+
+Neste exemplo, ``my_bundle.annot_controller`` deve ser o id da
+instância ``AnnotController`` definida no container de serviço. Isto está
+documentado no capítulo :doc:`/bundles/SensioFrameworkExtraBundle/annotations/routing`
+.

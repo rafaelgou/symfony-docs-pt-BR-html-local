@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Referência de Configuração &mdash; Symfony2Docs v1 documentation</title>
+    <title>Referência de Configuração &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
     <link rel="up" title="Documentos de Referência" href="../index.html" />
-    <link rel="next" title="WebProfilerBundle Configuration" href="web_profiler.html" />
-    <link rel="prev" title="TwigBundle Configuration Reference" href="twig.html" /> 
+    <link rel="next" title="Referência para Tipos de Form" href="../forms/types.html" />
+    <link rel="prev" title="Documentos de Referência" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,12 +36,12 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="web_profiler.html" title="WebProfilerBundle Configuration"
+          <a href="../forms/types.html" title="Referência para Tipos de Form"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="twig.html" title="TwigBundle Configuration Reference"
+          <a href="../index.html" title="Documentos de Referência"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="../index.html" accesskey="U">Documentos de Referência</a> &raquo;</li> 
       </ul>
     </div>  
@@ -54,7 +55,7 @@
 <span id="index-0"></span><h1>Referência de Configuração<a class="headerlink" href="#referencia-de-configuracao" title="Permalink to this headline">¶</a></h1>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>monolog:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>monolog:
     handlers:
 
         # Examples:
@@ -64,6 +65,8 @@
             level:               ERROR
             bubble:              false
             formatter:           my_formatter
+            processors:
+                - some_callable
         main:
             type:                fingerscrossed
             action_level:        WARNING
@@ -73,8 +76,8 @@
             type:                service
             id:                  my_handler
 
-        # Prototype
-        name:
+        # Default options and values for some &quot;my_custom_handler&quot;
+        my_custom_handler:
             type:                 ~ # Required
             id:                   ~
             priority:             0
@@ -85,17 +88,25 @@
             facility:             user
             max_files:            0
             action_level:         WARNING
+            activation_strategy:  ~
             stop_buffering:       true
             buffer_size:          0
             handler:              ~
             members:              []
+            channels:
+                type:     ~
+                elements: ~
             from_email:           ~
             to_email:             ~
             subject:              ~
             email_prototype:
-                id:     ~ # Required (when the email_prototype is used)
-                method: ~
-            formatter:            ~</pre>
+                id:                   ~ # Required (when the email_prototype is used)
+                factory-method:       ~
+            channels:
+                type:                 ~
+                elements:             []
+            formatter:            ~
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
@@ -146,11 +157,11 @@ mensagens dos logs&#8217; no profiler. O Profiler usa o nome &#8220;debug&#8221;
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="twig.html"
-                        title="previous chapter">TwigBundle Configuration Reference</a></p>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Documentos de Referência</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="web_profiler.html"
-                        title="next chapter">WebProfilerBundle Configuration</a></p>
+  <p class="topless"><a href="../forms/types.html"
+                        title="next chapter">Referência para Tipos de Form</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/reference/configuration/monolog.txt"
@@ -159,7 +170,7 @@ mensagens dos logs&#8217; no profiler. O Profiler usa o nome &#8220;debug&#8221;
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -180,18 +191,18 @@ mensagens dos logs&#8217; no profiler. O Profiler usa o nome &#8220;debug&#8221;
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="web_profiler.html" title="WebProfilerBundle Configuration"
+          <a href="../forms/types.html" title="Referência para Tipos de Form"
              >next</a> |</li>
         <li class="right" >
-          <a href="twig.html" title="TwigBundle Configuration Reference"
+          <a href="../index.html" title="Documentos de Referência"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="../index.html" >Documentos de Referência</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

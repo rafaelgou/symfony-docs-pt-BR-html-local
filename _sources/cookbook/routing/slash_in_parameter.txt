@@ -1,33 +1,33 @@
-.. index::
-   single: Routing; Allow / in route parameter
+﻿.. index::
+   single: Roteamento; Permitir / no parâmetro de rota
 
-How to allow a "/" character in a route parameter
-=================================================
+Como permitir um caractere "/" em um parâmetro de rota
+======================================================
 
-Sometimes, you need to compose URLs with parameters that can contain a slash 
-``/``. For example, take the classic ``/hello/{name}`` route. By default,
-``/hello/Fabien`` will match this route but not ``/hello/Fabien/Kris``. This
-is because Symfony uses this character as separator between route parts.
+Às vezes, você precisa compor URLs com parâmetros que podem conter uma barra
+``/``. Por exemplo, considere a rota clássica ``/hello/{name}``. Por padrão,
+``/hello/Fabien`` irá corresponder a esta rota, mas ``/hello/Fabien/Kris`` não irá.
+Isso ocorre porque o Symfony usa esse caractere como separador entre as partes da rota.
 
-This guide covers how you can modify a route so that ``/hello/Fabien/Kris``
-matches the ``/hello/{name}`` route, where ``{name}`` equals ``Fabien/Kris``.
+Este guia aborda como você pode modificar a rota para que ``/hello/Fabien/Kris``
+corresponda à rota ``/hello/{name}``, onde ``{name}`` iguala ``Fabien/Kris``.
 
-Configure the Route
--------------------
+Configure a Rota
+----------------
 
-By default, the symfony routing components requires that the parameters 
-match the following regex pattern: ``[^/]+``. This means that all characters 
-are allowed except ``/``. 
+Por padrão, o componente de roteamento do Symfony requer que os parâmetros correspondam
+com o seguinte path de expressão regular: ``[^/]+``. Isso significa que todos os caracteres
+são permitidos, exceto ``/``.
 
-You must explicitly allow ``/`` to be part of your parameter by specifying 
-a more permissive regex pattern.
+Você deve explicitamente permitir que a ``/`` faça parte de seu parâmetro, especificando
+um path regex mais permissivo.
 
 .. configuration-block::
 
     .. code-block:: yaml
 
         _hello:
-            pattern: /hello/{name}
+            path: /hello/{name}
             defaults: { _controller: AcmeDemoBundle:Demo:hello }
             requirements:
                 name: ".+"
@@ -40,7 +40,7 @@ a more permissive regex pattern.
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-            <route id="_hello" pattern="/hello/{name}">
+            <route id="_hello" path="/hello/{name}">
                 <default key="_controller">AcmeDemoBundle:Demo:hello</default>
                 <requirement key="name">.+</requirement>
             </route>
@@ -75,4 +75,4 @@ a more permissive regex pattern.
             }
         }
 
-That's it! Now, the ``{name}`` parameter can contain the ``/`` character.
+É isso! Agora, o parâmetro ``{name}`` pode conter o caractere ``/``.

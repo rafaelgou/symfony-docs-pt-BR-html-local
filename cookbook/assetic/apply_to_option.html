@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Como Aplicar um filtro Assetic a uma extensão de arquivo específica &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como Aplicar um filtro Assetic a uma extensão de arquivo específica &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to handle File Uploads with Doctrine" href="../doctrine/file_uploads.html" />
-    <link rel="prev" title="How to Use Assetic For Image Optimization with Twig Functions" href="jpeg_optimize.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Assetic" href="index.html" />
+    <link rel="next" title="Doctrine" href="../doctrine/index.html" />
+    <link rel="prev" title="Como usar o Assetic para otimização de imagem com funções do Twig" href="jpeg_optimize.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../doctrine/file_uploads.html" title="How to handle File Uploads with Doctrine"
+          <a href="../doctrine/index.html" title="Doctrine"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="jpeg_optimize.html" title="How to Use Assetic For Image Optimization with Twig Functions"
+          <a href="jpeg_optimize.html" title="Como usar o Assetic para otimização de imagem com funções do Twig"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Assetic</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -79,15 +81,15 @@ para <tt class="docutils literal"><span class="pre">/usr/bin/coffee</span></tt> 
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;assetic&#39;, array(</span>
-<span class="x">    &#39;filters&#39; =&gt; array(</span>
-<span class="x">        &#39;coffee&#39; =&gt; array(</span>
-<span class="x">            &#39;bin&#39; =&gt; &#39;/usr/bin/coffee&#39;,</span>
-<span class="x">            &#39;node&#39; =&gt; &#39;/usr/bin/node&#39;,</span>
-<span class="x">        ),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;assetic&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;filters&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;coffee&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;bin&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/usr/bin/coffee&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;node&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/usr/bin/node&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -99,11 +101,12 @@ para <tt class="docutils literal"><span class="pre">/usr/bin/coffee</span></tt> 
 templates:</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>{% javascripts '@AcmeFooBundle/Resources/public/js/example.coffee'
-    filter='coffee'
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>{% javascripts &#39;@AcmeFooBundle/Resources/public/js/example.coffee&#39;
+    filter=&#39;coffee&#39;
 %}
-&lt;script src="{{ asset_url }} type="text/javascript"&gt;&lt;/script&gt;
-{% endjavascripts %}</pre>
+&lt;script src=&quot;{{ asset_url }} type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+{% endjavascripts %}
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assetic&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">javascripts</span><span class="p">(</span>
@@ -124,12 +127,13 @@ como JavaScript compilado.</p>
 <p>Você também pode combinar vários arquivos <tt class="docutils literal"><span class="pre">CoffeeScript</span></tt> em um único arquivo de saída:</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>{% javascripts '@AcmeFooBundle/Resources/public/js/example.coffee'
-               '@AcmeFooBundle/Resources/public/js/another.coffee'
-    filter='coffee'
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>{% javascripts &#39;@AcmeFooBundle/Resources/public/js/example.coffee&#39;
+               &#39;@AcmeFooBundle/Resources/public/js/another.coffee&#39;
+    filter=&#39;coffee&#39;
 %}
-&lt;script src="{{ asset_url }} type="text/javascript"&gt;&lt;/script&gt;
-{% endjavascripts %}</pre>
+&lt;script src=&quot;{{ asset_url }} type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+{% endjavascripts %}
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assetic&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">javascripts</span><span class="p">(</span>
@@ -160,13 +164,14 @@ extensões de arquivo. Neste caso, você pode especificar que o filtro <tt class
 aplicado à todos os arquivos <tt class="docutils literal"><span class="pre">.coffee</span></tt>:</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># app/config/config.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># app/config/config.yml
 assetic:
     filters:
         coffee:
             bin: /usr/bin/coffee
             node: /usr/bin/node
-            apply_to: "\.coffee$"</pre>
+            apply_to: &quot;\.coffee$&quot;
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
@@ -180,16 +185,16 @@ assetic:
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;assetic&#39;, array(</span>
-<span class="x">    &#39;filters&#39; =&gt; array(</span>
-<span class="x">        &#39;coffee&#39; =&gt; array(</span>
-<span class="x">            &#39;bin&#39; =&gt; &#39;/usr/bin/coffee&#39;,</span>
-<span class="x">            &#39;node&#39; =&gt; &#39;/usr/bin/node&#39;,</span>
-<span class="x">            &#39;apply_to&#39; =&gt; &#39;\.coffee$&#39;,</span>
-<span class="x">        ),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;assetic&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;filters&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;coffee&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;bin&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/usr/bin/coffee&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;node&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/usr/bin/node&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;apply_to&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;\.coffee$&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -201,12 +206,13 @@ e renderizados como um único arquivo JavaScript (apenas com os arquivos <tt cla
 sendo executados através do filtro <tt class="docutils literal"><span class="pre">CoffeeScript</span></tt>):</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>{% javascripts '@AcmeFooBundle/Resources/public/js/example.coffee'
-               '@AcmeFooBundle/Resources/public/js/another.coffee'
-               '@AcmeFooBundle/Resources/public/js/regular.js'
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>{% javascripts &#39;@AcmeFooBundle/Resources/public/js/example.coffee&#39;
+               &#39;@AcmeFooBundle/Resources/public/js/another.coffee&#39;
+               &#39;@AcmeFooBundle/Resources/public/js/regular.js&#39;
 %}
-&lt;script src="{{ asset_url }} type="text/javascript"&gt;&lt;/script&gt;
-{% endjavascripts %}</pre>
+&lt;script src=&quot;{{ asset_url }} type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+{% endjavascripts %}
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assetic&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">javascripts</span><span class="p">(</span>
@@ -242,10 +248,10 @@ sendo executados através do filtro <tt class="docutils literal"><span class="pr
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="jpeg_optimize.html"
-                        title="previous chapter">How to Use Assetic For Image Optimization with Twig Functions</a></p>
+                        title="previous chapter">Como usar o Assetic para otimização de imagem com funções do Twig</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../doctrine/file_uploads.html"
-                        title="next chapter">How to handle File Uploads with Doctrine</a></p>
+  <p class="topless"><a href="../doctrine/index.html"
+                        title="next chapter">Doctrine</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/assetic/apply_to_option.txt"
@@ -254,7 +260,7 @@ sendo executados através do filtro <tt class="docutils literal"><span class="pr
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -275,18 +281,19 @@ sendo executados através do filtro <tt class="docutils literal"><span class="pr
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../doctrine/file_uploads.html" title="How to handle File Uploads with Doctrine"
+          <a href="../doctrine/index.html" title="Doctrine"
              >next</a> |</li>
         <li class="right" >
-          <a href="jpeg_optimize.html" title="How to Use Assetic For Image Optimization with Twig Functions"
+          <a href="jpeg_optimize.html" title="Como usar o Assetic para otimização de imagem com funções do Twig"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Assetic</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

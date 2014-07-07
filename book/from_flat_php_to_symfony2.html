@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Symfony2 versus o PHP puro &mdash; Symfony2Docs v1 documentation</title>
+    <title>Symfony2 versus o PHP puro &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Livro" href="index.html" />
     <link rel="next" title="Instalando e Configurando o Symfony" href="installation.html" />
     <link rel="prev" title="Fundamentos de Symfony e HTTP" href="http_fundamentals.html" /> 
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="http_fundamentals.html" title="Fundamentos de Symfony e HTTP"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Livro</a> &raquo;</li> 
       </ul>
     </div>  
@@ -162,7 +163,7 @@ que é um arquivo HTML que utiliza um sintaxe PHP parecida com a de templates:</
 </pre></div>
 </div>
 <p>Por convenção, o arquivo que contém toda a lógica da aplicação - <tt class="docutils literal"><span class="pre">index.php</span></tt> -
-é conhecido como &#8220;controller&#8221;. O termo <a class="reference internal" href="../glossary.html#term-controller"><em class="xref std std-term">controller</em></a> é uma palavra que você
+é conhecido como &#8220;controller&#8221;. O termo <em class="xref std std-term">controller</em> é uma palavra que você
 vai escutar bastante, independente da linguagem ou framework você utilize. Ela
 refere-se a área do <em>seu</em> código que processa as entradas do usuário e prepara uma
 resposta.</p>
@@ -283,20 +284,21 @@ Para provar isso, adicione ao blog uma página chamada &#8220;show&#8221;, que e
 identificado pelo parâmetro <tt class="docutils literal"><span class="pre">id</span></tt>.</p>
 <p>Para começar, crie uma nova função no arquivo <tt class="docutils literal"><span class="pre">model.php</span></tt> que recupera o post
 com base no id informado:</p>
-<div class="highlight-python"><pre>// model.php
+<div class="highlight-python"><div class="highlight"><pre>// model.php
 function get_post_by_id($id)
 {
     $link = open_database_connection();
 
     $id = mysql_real_escape_string($id);
-    $query = 'SELECT date, title, body FROM post WHERE id = '.$id;
+    $query = &#39;SELECT date, title, body FROM post WHERE id = &#39;.$id;
     $result = mysql_query($query);
     $row = mysql_fetch_assoc($result);
 
     close_database_connection($link);
 
     return $row;
-}</pre>
+}
+</pre></div>
 </div>
 <p>Em seguida, crie um novo arquivo chamado <tt class="docutils literal"><span class="pre">show.php</span></tt> - o controller para essa nova
 página:</p>
@@ -340,7 +342,7 @@ espero que não seja algo relacionado a segurança...</p>
 </div>
 <div class="section" id="um-front-controller-para-a-salvacao">
 <h2>Um &#8220;Front Controller&#8221; para a salvação<a class="headerlink" href="#um-front-controller-para-a-salvacao" title="Permalink to this headline">¶</a></h2>
-<p>A solução é utilizar um <a class="reference internal" href="../glossary.html#term-front-controller"><em class="xref std std-term">front controller</em></a>: um único arquivo PHP que irá
+<p>A solução é utilizar um <em class="xref std std-term">front controller</em>: um único arquivo PHP que irá
 processar <em>todas</em> as requisições. Com um front controller, as URIs vão mudar um
 pouco, mas começam a ficar mais flexíveis:</p>
 <div class="highlight-text"><div class="highlight"><pre>Without a front controller
@@ -384,7 +386,7 @@ post baseado na URI da requisição:</p>
 <span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">==</span> <span class="s1">&#39;/index.php/show&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span> <span class="p">{</span>
     <span class="nx">show_action</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]);</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="nb">header</span><span class="p">(</span><span class="s1">&#39;Status: 404 Not Found&#39;</span><span class="p">);</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Status: 404 Not Found&#39;</span><span class="p">);</span>
     <span class="k">echo</span> <span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Page Not Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
@@ -392,17 +394,17 @@ post baseado na URI da requisição:</p>
 <p>Por questão de organização, ambos os controllers (os antigos arquivos <tt class="docutils literal"><span class="pre">index.php</span></tt>
 e <tt class="docutils literal"><span class="pre">show.php</span></tt>) agora são funções e cada uma foi movida para um arquivo separado,
 chamado <tt class="docutils literal"><span class="pre">controllers.php</span></tt>:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">function list_action()</span>
-<span class="x">{</span>
-<span class="x">    $posts = get_all_posts();</span>
-<span class="x">    require &#39;templates/list.php&#39;;</span>
-<span class="x">}</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">function</span> <span class="nf">list_action</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$posts</span> <span class="o">=</span> <span class="nx">get_all_posts</span><span class="p">();</span>
+    <span class="k">require</span> <span class="s1">&#39;templates/list.php&#39;</span><span class="p">;</span>
+<span class="p">}</span>
 
-<span class="x">function show_action($id)</span>
-<span class="x">{</span>
-<span class="x">    $post = get_post_by_id($id);</span>
-<span class="x">    require &#39;templates/show.php&#39;;</span>
-<span class="x">}</span>
+<span class="k">function</span> <span class="nf">show_action</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$post</span> <span class="o">=</span> <span class="nx">get_post_by_id</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="k">require</span> <span class="s1">&#39;templates/show.php&#39;</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Sendo um front controller, <tt class="docutils literal"><span class="pre">index.php</span></tt> agora tem um papel inteiramente novo, que
@@ -435,18 +437,18 @@ ter certeza que o PHP sabe onde encontrar as classes do framework. Isso pode ser
 feito com o autoloader fornecido pelo Symfony. Um autoloader é uma ferramenta que
 permite a utilização de classes PHP sem a necessidade de incluir os seus arquivos
 explicitamente.</p>
-<p>Primeiro, <a class="reference external" href="http://symfony.com/download">faça o download do symfony</a> e o coloque no diretório <tt class="docutils literal"><span class="pre">vendor/symfony/</span></tt>.
+<p>Primeiro, <a class="reference external" href="http://symfony.com/download">faça o download do symfony</a> e o coloque no diretório <tt class="docutils literal"><span class="pre">vendor/symfony/symfony/</span></tt>.
 A seguir, crie um o arquivo <tt class="docutils literal"><span class="pre">app/bootstrap.php</span></tt>. Utilize-o para dar <tt class="docutils literal"><span class="pre">require</span></tt>
 dos dois arquivos da aplicação e para configurar o autoloader:</p>
 <div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
 <span class="c1">// bootstrap.php</span>
 <span class="k">require_once</span> <span class="s1">&#39;model.php&#39;</span><span class="p">;</span>
 <span class="k">require_once</span> <span class="s1">&#39;controllers.php&#39;</span><span class="p">;</span>
-<span class="k">require_once</span> <span class="s1">&#39;vendor/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s1">&#39;vendor/symfony/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php&#39;</span><span class="p">;</span>
 
 <span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Symfony\Component\ClassLoader\UniversalClassLoader</span><span class="p">();</span>
 <span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">registerNamespaces</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
-    <span class="s1">&#39;Symfony&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/vendor/symfony/src&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Symfony&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../vendor/symfony/symfony/src&#39;</span><span class="p">,</span>
 <span class="p">));</span>
 
 <span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">();</span>
@@ -457,8 +459,8 @@ pode começar a utilizar as classes sem precisar de um <tt class="docutils liter
 que as contém.</p>
 <p>Dentro da filosofia do Symfony está a idéia de que a principal tarefa de uma aplicação
 é interpretar cada requisição e retornar uma resposta. Para essa finalidade, o
-Symfony2 fornece as classes <tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> e
-<tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt>. Elas são representações
+Symfony2 fornece as classes <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> e
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt>. Elas são representações
 orientadas a objetos da requisição HTTP pura sendo processada e da resposta HTTP
 sendo retornada. Utilize-as para melhorar o blog:</p>
 <div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
@@ -488,35 +490,35 @@ sendo retornada. Utilize-as para melhorar o blog:</p>
 tornar isso mais fácil, você pode adicionar uma nova função chamada <tt class="docutils literal"><span class="pre">render_template()</span></tt>,
 que, a propósito, funciona de forma um pouco parecida com o mecanismo de template
 do Symfony2:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// controllers.php</span>
-<span class="x">use Symfony\Component\HttpFoundation\Response;</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// controllers.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
 
-<span class="x">function list_action()</span>
-<span class="x">{</span>
-<span class="x">    $posts = get_all_posts();</span>
-<span class="x">    $html = render_template(&#39;templates/list.php&#39;, array(&#39;posts&#39; =&gt; $posts));</span>
+<span class="k">function</span> <span class="nf">list_action</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$posts</span> <span class="o">=</span> <span class="nx">get_all_posts</span><span class="p">();</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nx">render_template</span><span class="p">(</span><span class="s1">&#39;templates/list.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span> <span class="o">=&gt;</span> <span class="nv">$posts</span><span class="p">));</span>
 
-<span class="x">    return new Response($html);</span>
-<span class="x">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="x">function show_action($id)</span>
-<span class="x">{</span>
-<span class="x">    $post = get_post_by_id($id);</span>
-<span class="x">    $html = render_template(&#39;templates/show.php&#39;, array(&#39;post&#39; =&gt; $post));</span>
+<span class="k">function</span> <span class="nf">show_action</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$post</span> <span class="o">=</span> <span class="nx">get_post_by_id</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nx">render_template</span><span class="p">(</span><span class="s1">&#39;templates/show.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;post&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">));</span>
 
-<span class="x">    return new Response($html);</span>
-<span class="x">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+<span class="p">}</span>
 
-<span class="x">// helper function to render templates</span>
-<span class="x">function render_template($path, array $args)</span>
-<span class="x">{</span>
-<span class="x">    extract($args);</span>
-<span class="x">    ob_start();</span>
-<span class="x">    require $path;</span>
-<span class="x">    $html = ob_get_clean();</span>
+<span class="c1">// helper function to render templates</span>
+<span class="k">function</span> <span class="nf">render_template</span><span class="p">(</span><span class="nv">$path</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$args</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nb">extract</span><span class="p">(</span><span class="nv">$args</span><span class="p">);</span>
+    <span class="nb">ob_start</span><span class="p">();</span>
+    <span class="k">require</span> <span class="nv">$path</span><span class="p">;</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nb">ob_get_clean</span><span class="p">();</span>
 
-<span class="x">    return $html;</span>
-<span class="x">}</span>
+    <span class="k">return</span> <span class="nv">$html</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Ao adicionar uma pequena parte do Symfony2, a aplicação ficou mais flexível e
@@ -542,8 +544,8 @@ do Symfony, que já resolveriam esses problemas.</p>
 pra você. Aqui está um exemplo da mesma aplicação, agora feito com o Symfony2:</p>
 <div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
 <span class="c1">// src/Acme/BlogBundle/Controller/BlogController.php</span>
-
 <span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Controller</span><span class="p">;</span>
+
 <span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Controller\Controller</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">BlogController</span> <span class="k">extends</span> <span class="nx">Controller</span>
@@ -554,7 +556,7 @@ pra você. Aqui está um exemplo da mesma aplicação, agora feito com o Symfony
             <span class="o">-&gt;</span><span class="na">createQuery</span><span class="p">(</span><span class="s1">&#39;SELECT p FROM AcmeBlogBundle:Post p&#39;</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
 
-        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Post:list.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span> <span class="o">=&gt;</span> <span class="nv">$posts</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Blog:list.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span> <span class="o">=&gt;</span> <span class="nv">$posts</span><span class="p">));</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
@@ -569,7 +571,7 @@ pra você. Aqui está um exemplo da mesma aplicação, agora feito com o Symfony
             <span class="k">throw</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createNotFoundException</span><span class="p">();</span>
         <span class="p">}</span>
 
-        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Post:show.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;post&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Blog:show.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;post&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">));</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -658,7 +660,7 @@ migração do PHP puro para o Symfony2 facilitou a sua vida:</p>
 apesar do Symfony não te forçar a isso). Isso aumenta a <strong>usabilidade</strong> e permite
 que novos desenvolvedores sejam produtivos no seu projeto de uma maneira mais rápida.</li>
 <li>100% do código que você escreveu é para a <em>sua</em> aplicação. Você <strong>não precisa
-desenvolver ou manter ferramentas de baixo nível</strong> como <a class="reference internal" href="page_creation.html#autoloading-introduction-sidebar"><em>autoloading</em></a>,
+desenvolver ou manter ferramentas de baixo nível</strong> como <em class="xref std std-ref">autoloading</em>,
 <a class="reference internal" href="routing.html"><em>roteamento</em></a>, ou renderização nos <a class="reference internal" href="controller.html"><em>controllers</em></a>.</li>
 <li>O Symfony2 te dá <strong>acesso a ferramentas open source</strong> como Doctrine e os
 componentes Templating, Security, Form, Validation e Translation (só para citar
@@ -720,8 +722,8 @@ Twig. Para mais informações, veja o <a class="reference internal" href="templa
 <div class="section" id="aprenda-mais-no-cookbook">
 <h2>Aprenda mais no Cookbook<a class="headerlink" href="#aprenda-mais-no-cookbook" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference internal" href="../cookbook/templating/PHP.html"><em>How to use PHP instead of Twig for Templates</em></a></li>
-<li><a class="reference internal" href="../cookbook/controller/service.html"><em>How to define Controllers as Services</em></a></li>
+<li><tt class="xref doc docutils literal"><span class="pre">/cookbook/templating/PHP</span></tt></li>
+<li><a class="reference internal" href="../cookbook/controller/service.html"><em>Como definir Controladores como Serviços</em></a></li>
 </ul>
 </div>
 </div>
@@ -769,7 +771,7 @@ Twig. Para mais informações, veja o <a class="reference internal" href="templa
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -795,13 +797,13 @@ Twig. Para mais informações, veja o <a class="reference internal" href="templa
         <li class="right" >
           <a href="http_fundamentals.html" title="Fundamentos de Symfony e HTTP"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Livro</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

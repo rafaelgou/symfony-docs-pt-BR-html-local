@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to customize a Method Behavior without using Inheritance &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como personalizar o Comportamento do Método sem o uso de Herança &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to register a new Request Format and Mime Type" href="../request/mime_type.html" />
-    <link rel="prev" title="How to extend a Class without using Inheritance" href="class_extension.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Dispatcher de Eventos" href="index.html" />
+    <link rel="next" title="Request" href="../request/index.html" />
+    <link rel="prev" title="Como estender uma Classe sem usar Herança" href="class_extension.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../request/mime_type.html" title="How to register a new Request Format and Mime Type"
+          <a href="../request/index.html" title="Request"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="class_extension.html" title="How to extend a Class without using Inheritance"
+          <a href="class_extension.html" title="Como estender uma Classe sem usar Herança"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Dispatcher de Eventos</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,14 +52,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to-customize-a-method-behavior-without-using-inheritance">
-<span id="index-0"></span><h1>How to customize a Method Behavior without using Inheritance<a class="headerlink" href="#how-to-customize-a-method-behavior-without-using-inheritance" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="doing-something-before-or-after-a-method-call">
-<h2>Doing something before or after a Method Call<a class="headerlink" href="#doing-something-before-or-after-a-method-call" title="Permalink to this headline">¶</a></h2>
-<p>If you want to do something just before, or just after a method is called, you
-can dispatch an event respectively at the beginning or at the end of the
-method:</p>
-<div class="highlight-python"><pre>class Foo
+  <div class="section" id="como-personalizar-o-comportamento-do-metodo-sem-o-uso-de-heranca">
+<span id="index-0"></span><h1>Como personalizar o Comportamento do Método sem o uso de Herança<a class="headerlink" href="#como-personalizar-o-comportamento-do-metodo-sem-o-uso-de-heranca" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="realizar-algo-antes-ou-apos-a-chamada-de-um-metodo">
+<h2>Realizar algo antes ou após a Chamada de um Método<a class="headerlink" href="#realizar-algo-antes-ou-apos-a-chamada-de-um-metodo" title="Permalink to this headline">¶</a></h2>
+<p>Se você deseja realizar algo logo antes ou após um método ser chamado, você
+pode despachar um evento, respectivamente, no início ou no fim do
+método:</p>
+<div class="highlight-python"><div class="highlight"><pre>class Foo
 {
     // ...
 
@@ -65,37 +67,39 @@ method:</p>
     {
         // do something before the method
         $event = new FilterBeforeSendEvent($foo, $bar);
-        $this-&gt;dispatcher-&gt;dispatch('foo.pre_send', $event);
+        $this-&gt;dispatcher-&gt;dispatch(&#39;foo.pre_send&#39;, $event);
 
         // get $foo and $bar from the event, they may have been modified
         $foo = $event-&gt;getFoo();
         $bar = $event-&gt;getBar();
+
         // the real method implementation is here
-        // $ret = ...;
+        $ret = ...;
 
         // do something after the method
         $event = new FilterSendReturnValue($ret);
-        $this-&gt;dispatcher-&gt;dispatch('foo.post_send', $event);
+        $this-&gt;dispatcher-&gt;dispatch(&#39;foo.post_send&#39;, $event);
 
         return $event-&gt;getReturnValue();
     }
-}</pre>
+}
+</pre></div>
 </div>
-<p>In this example, two events are thrown: <tt class="docutils literal"><span class="pre">foo.pre_send</span></tt>, before the method is
-executed, and <tt class="docutils literal"><span class="pre">foo.post_send</span></tt> after the method is executed. Each uses a
-custom Event class to communicate information to the listeners of the two
-events. These event classes would need to be created by you and should allow,
-in this example, the variables <tt class="docutils literal"><span class="pre">$foo</span></tt>, <tt class="docutils literal"><span class="pre">$bar</span></tt> and <tt class="docutils literal"><span class="pre">$ret</span></tt> to be retrieved
-and set by the listeners.</p>
-<p>For example, assuming the <tt class="docutils literal"><span class="pre">FilterSendReturnValue</span></tt> has a <tt class="docutils literal"><span class="pre">setReturnValue</span></tt>
-method, one listener might look like this:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">public function onFooPostSend(FilterSendReturnValue $event)</span>
-<span class="x">{</span>
-<span class="x">    $ret = $event-&gt;getReturnValue();</span>
-<span class="x">    // modify the original ``$ret`` value</span>
+<p>Neste exemplo, dois eventos são lançados: <tt class="docutils literal"><span class="pre">foo.pre_send</span></tt>, antes do método ser
+executado, e <tt class="docutils literal"><span class="pre">foo.post_send</span></tt> após o método ser executado. Cada um usa uma
+classe <tt class="docutils literal"><span class="pre">Event</span></tt> personalizada para comunicar informações para os ouvintes dos dois
+eventos. Essas classes de evento teriam que ser criadas por você e, devem permitir,
+neste exemplo, que as variáveis <tt class="docutils literal"><span class="pre">$foo</span></tt>, <tt class="docutils literal"><span class="pre">$bar</span></tt> e <tt class="docutils literal"><span class="pre">$ret</span></tt> sejam recuperadas
+e definidas pelos ouvintes.</p>
+<p>Por exemplo, supondo que o <tt class="docutils literal"><span class="pre">FilterSendReturnValue</span></tt> tem um método <tt class="docutils literal"><span class="pre">setReturnValue</span></tt>,
+um ouvinte pode ter o seguinte aspecto:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">onFooPostSend</span><span class="p">(</span><span class="nx">FilterSendReturnValue</span> <span class="nv">$event</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$ret</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getReturnValue</span><span class="p">();</span>
+    <span class="c1">// modify the original ``$ret`` value</span>
 
-<span class="x">    $event-&gt;setReturnValue($ret);</span>
-<span class="x">}</span>
+    <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setReturnValue</span><span class="p">(</span><span class="nv">$ret</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -109,18 +113,18 @@ method, one listener might look like this:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">How to customize a Method Behavior without using Inheritance</a><ul>
-<li><a class="reference internal" href="#doing-something-before-or-after-a-method-call">Doing something before or after a Method Call</a></li>
+<li><a class="reference internal" href="#">Como personalizar o Comportamento do Método sem o uso de Herança</a><ul>
+<li><a class="reference internal" href="#realizar-algo-antes-ou-apos-a-chamada-de-um-metodo">Realizar algo antes ou após a Chamada de um Método</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="class_extension.html"
-                        title="previous chapter">How to extend a Class without using Inheritance</a></p>
+                        title="previous chapter">Como estender uma Classe sem usar Herança</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../request/mime_type.html"
-                        title="next chapter">How to register a new Request Format and Mime Type</a></p>
+  <p class="topless"><a href="../request/index.html"
+                        title="next chapter">Request</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/event_dispatcher/method_behavior.txt"
@@ -129,7 +133,7 @@ method, one listener might look like this:</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -150,18 +154,19 @@ method, one listener might look like this:</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../request/mime_type.html" title="How to register a new Request Format and Mime Type"
+          <a href="../request/index.html" title="Request"
              >next</a> |</li>
         <li class="right" >
-          <a href="class_extension.html" title="How to extend a Class without using Inheritance"
+          <a href="class_extension.html" title="Como estender uma Classe sem usar Herança"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Dispatcher de Eventos</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

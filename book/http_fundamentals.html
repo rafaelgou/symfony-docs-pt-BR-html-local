@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Fundamentos de Symfony e HTTP &mdash; Symfony2Docs v1 documentation</title>
+    <title>Fundamentos de Symfony e HTTP &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Livro" href="index.html" />
     <link rel="next" title="Symfony2 versus o PHP puro" href="from_flat_php_to_symfony2.html" />
     <link rel="prev" title="Livro" href="index.html" /> 
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="index.html" title="Livro"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Livro</a> &raquo;</li> 
       </ul>
     </div>  
@@ -72,7 +73,7 @@ para todos.</p>
 <p>HTTP (Hypertext Transfer Protocol, para os geeks) é uma linguagem textual que
 permite que duas máquinas se comuniquem entre si. É só isso! Por exemplo, quando
 você vai ler a última tirinha do <a class="reference external" href="http://xkcd.com/">xkcd</a>, acontece mais ou menos a seguinte conversa:</p>
-<img alt="../_images/http-xkcd1.png" class="align-center" src="../_images/http-xkcd1.png" />
+<img alt="../_images/http-xkcd.png" class="align-center" src="../_images/http-xkcd.png" />
 <p>Apesar da linguagem real ser um pouco mais formal, ainda assim ela é bastante simples.
 HTTP é o termo usado para descrever essa linguagem simples baseada em texto. Não
 importa como você desenvolva para a web, o objetivo do seu servidor <em>sempre</em> será
@@ -88,7 +89,7 @@ formato especial conhecido como HTTP. O cliente envia essa requisição para um
 servidor e, então, espera pela resposta.</p>
 <p>Veja a primeira parte da interação (a requisição) entre um navegador e o servidor
 web do xkcd:</p>
-<img alt="../_images/http-xkcd-request1.png" class="align-center" src="../_images/http-xkcd-request1.png" />
+<img alt="../_images/http-xkcd-request.png" class="align-center" src="../_images/http-xkcd-request.png" />
 <p>No linguajar do HTTP, essa requisição se parece com isso:</p>
 <div class="highlight-text"><div class="highlight"><pre>GET / HTTP/1.1
 Host: xkcd.com
@@ -109,16 +110,16 @@ requisição e definem algumas maneiras comuns de agir em relação ao recurso:<
 <col width="80%" />
 </colgroup>
 <tbody valign="top">
-<tr><td><em>GET</em></td>
+<tr class="row-odd"><td><em>GET</em></td>
 <td>Recupera o recurso do servidor</td>
 </tr>
-<tr><td><em>POST</em></td>
+<tr class="row-even"><td><em>POST</em></td>
 <td>Cria um recurso no servidor</td>
 </tr>
-<tr><td><em>PUT</em></td>
+<tr class="row-odd"><td><em>PUT</em></td>
 <td>Atualiza um recurso no servidor</td>
 </tr>
-<tr><td><em>DELETE</em></td>
+<tr class="row-even"><td><em>DELETE</em></td>
 <td>Exclui um recurso do servidor</td>
 </tr>
 </tbody>
@@ -149,7 +150,7 @@ o cliente precisa (através do URI) e o que o cliente quer fazer com ele (atrav�
 do método). Por exemplo, no caso de uma requisição GET, o servidor prepara o
 o recurso e o retorna em uma resposta HTTP. Considere a resposta do servidor web
 do xkcd:</p>
-<img alt="../_images/http-xkcd1.png" class="align-center" src="../_images/http-xkcd1.png" />
+<img alt="../_images/http-xkcd.png" class="align-center" src="../_images/http-xkcd.png" />
 <p>Traduzindo para HTTP, a resposta enviada para o navegador será algo como:</p>
 <div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
 Date: Sat, 02 Apr 2011 21:05:05 GMT
@@ -203,11 +204,11 @@ enquanto navega em um site, você pode utilizar a extensão do Firefox chamada
 <span id="index-2"></span><h2>Requisições e Respostas no PHP<a class="headerlink" href="#requisicoes-e-respostas-no-php" title="Permalink to this headline">¶</a></h2>
 <p>Como interagir com a &#8220;requisição&#8221; e criar uma &#8220;resposta&#8221; utilizando o PHP? Na
 verdade, o PHP abstrai um pouco desse processo:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">];</span>
 <span class="nv">$foo</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">];</span>
 
-<span class="nb">header</span><span class="p">(</span><span class="s1">&#39;Content-type: text/html&#39;</span><span class="p">);</span>
+<span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Content-type: text/html&#39;</span><span class="p">);</span>
 <span class="k">echo</span> <span class="s1">&#39;The URI requested is: &#39;</span><span class="o">.</span><span class="nv">$uri</span><span class="p">;</span>
 <span class="k">echo</span> <span class="s1">&#39;The value of the &quot;foo&quot; parameter is: &#39;</span><span class="o">.</span><span class="nv">$foo</span><span class="p">;</span>
 </pre></div>
@@ -234,10 +235,10 @@ The value of the &quot;foo&quot; parameter is: symfony
 <h2>Requisições e Respostas no Symfony<a class="headerlink" href="#requisicoes-e-respostas-no-symfony" title="Permalink to this headline">¶</a></h2>
 <p>O Symfony fornece uma alternativa à abordagem feita com o PHP puro, utilizando
 duas classes que permitem a interação com as requisições e respostas HTTP de uma
-maneira mais fácil. A classe <tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt>
+maneira mais fácil. A classe <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt>
 é uma simples representação orientada a objetos de uma requisição HTTP. Com ela,
 você tem todas as informações da requisição nas pontas dos dedos:</p>
-<div class="highlight-python"><pre>use Symfony\Component\HttpFoundation\Request;
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\HttpFoundation\Request;
 
 $request = Request::createFromGlobals();
 
@@ -245,14 +246,15 @@ $request = Request::createFromGlobals();
 $request-&gt;getPathInfo();
 
 // retrieve GET and POST variables respectively
-$request-&gt;query-&gt;get('foo');
-$request-&gt;request-&gt;get('bar');
+$request-&gt;query-&gt;get(&#39;foo&#39;);
+$request-&gt;request-&gt;get(&#39;bar&#39;);
 
 // retrieves an instance of UploadedFile identified by foo
-$request-&gt;files-&gt;get('foo');
+$request-&gt;files-&gt;get(&#39;foo&#39;);
 
 $request-&gt;getMethod();          // GET, POST, PUT, DELETE, HEAD
-$request-&gt;getLanguages();       // an array of languages the client accepts</pre>
+$request-&gt;getLanguages();       // an array of languages the client accepts
+</pre></div>
 </div>
 <p>Como um bônus, a classe <tt class="docutils literal"><span class="pre">Request</span></tt> faz um monte de trabalho com o qual você
 nunca precisará se preocupar. Por exemplo, o método <tt class="docutils literal"><span class="pre">isSecure()</span></tt> verifica os
@@ -261,15 +263,16 @@ utilizando uma conexão segura (<tt class="docutils literal"><span class="pre">h
 <p>O Symfony também fornece a classe <tt class="docutils literal"><span class="pre">Response</span></tt>: uma simples representação em PHP de
 uma resposta HTTP. Assim é possível que sua aplicação utilize uma interface
 orientada a objetos para construir a resposta que precisa ser enviada ao cliente:</p>
-<div class="highlight-python"><pre>use Symfony\Component\HttpFoundation\Response;
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\HttpFoundation\Response;
 $response = new Response();
 
-$response-&gt;setContent('&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;');
+$response-&gt;setContent(&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;);
 $response-&gt;setStatusCode(200);
-$response-&gt;headers-&gt;set('Content-Type', 'text/html');
+$response-&gt;headers-&gt;set(&#39;Content-Type&#39;, &#39;text/html&#39;);
 
 // prints the HTTP headers followed by the content
-$response-&gt;send();</pre>
+$response-&gt;send();
+</pre></div>
 </div>
 <p>Com tudo isso, mesmo que o Symfony não oferecesse mais nada, você já teria um kit de
 ferramentas para facilmente acessar informações sobre a requisição e uma interface
@@ -290,7 +293,7 @@ upload de arquivos.</p>
 <p>Como o próprio HTTP, os objetos <tt class="docutils literal"><span class="pre">Request</span></tt> e <tt class="docutils literal"><span class="pre">Response</span></tt> são bastante simples.
 A parte difícil de se construir uma aplicação é escrever o que acontece entre eles.
 Em outras palavras, o trabalho de verdade é escrever o código que interpreta a
-a requisição e cria a resposta.</p>
+requisição e cria a resposta.</p>
 <p>A sua aplicação provavelmente faz muitas coisas como enviar emails, tratar do
 envio de formulários, salvar coisas no banco de dados, renderizar páginas HTML e
 proteger o conteúdo com segurança. Como cuidar de tudo isso e ainda ter um código
@@ -310,7 +313,7 @@ das URLs (e se você quiser mudar o arquivo <tt class="docutils literal"><span c
 quebrar todos os seus links?) e o fato de que cada arquivo <em>deve</em> ser alterado
 manualmente para incluir um certo conjunto de arquivos essenciais de forma que a
 segurança, conexões com banco de dados e a &#8220;aparência&#8221; do site continue consistente.</p>
-<p>Uma solução muito melhor é utilizar um <a class="reference internal" href="../glossary.html#term-front-controller"><em class="xref std std-term">front controller</em></a>: um único arquivo
+<p>Uma solução muito melhor é utilizar um <em class="xref std std-term">front controller</em>: um único arquivo
 PHP que trata todas as requisições enviadas para a sua aplicação. Por exemplo:</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -318,13 +321,13 @@ PHP que trata todas as requisições enviadas para a sua aplicação. Por exempl
 <col width="50%" />
 </colgroup>
 <tbody valign="top">
-<tr><td><tt class="docutils literal"><span class="pre">/index.php</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/index.php</span></tt></td>
 <td>executa  <tt class="docutils literal"><span class="pre">index.php</span></tt></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">/index.php/contact</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">/index.php/contact</span></tt></td>
 <td>executa  <tt class="docutils literal"><span class="pre">index.php</span></tt></td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">/index.php/blog</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/index.php/blog</span></tt></td>
 <td>executa  <tt class="docutils literal"><span class="pre">index.php</span></tt></td>
 </tr>
 </tbody>
@@ -347,19 +350,19 @@ modernas fazem isso - incluindo apps como o Wordpress.</p>
 renderiza-las de uma maneira sensata? De um jeito ou de outro, você precisará
 verificar a URI requisitada e executar partes diferentes do seu código dependendo
 do seu valor. Isso pode acabar ficando feio bem rápido:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// index.php</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// index.php</span>
 
-<span class="x">$request = Request::createFromGlobals();</span>
-<span class="x">$path = $request-&gt;getPathInfo(); // the URL being requested</span>
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span> <span class="c1">// the URL being requested</span>
 
-<span class="x">if (in_array($path, array(&#39;&#39;, &#39;/&#39;)) {</span>
-<span class="x">    $response = new Response(&#39;Welcome to the homepage.&#39;);</span>
-<span class="x">} elseif ($path == &#39;/contact&#39;) {</span>
-<span class="x">    $response = new Response(&#39;Contact us&#39;);</span>
-<span class="x">} else {</span>
-<span class="x">    $response = new Response(&#39;Page not found.&#39;, 404);</span>
-<span class="x">}</span>
-<span class="x">$response-&gt;send();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$path</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Welcome to the homepage.&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$path</span> <span class="o">==</span> <span class="s1">&#39;/contact&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Contact us&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Page not found.&#39;</span><span class="p">,</span> <span class="mi">404</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
 </pre></div>
 </div>
 <p>Resolver esse problema pode ser difícil. Felizmente é <em>exatamente</em> o que o Symfony
@@ -376,7 +379,7 @@ funções controller que retornam objetos do tipo <tt class="docutils literal"><
 </div>
 <p>Cada &#8220;página&#8221; do seu site é definida no arquivo de configuração de roteamento que
 mapeia diferentes URLs para diferentes funções PHP. O trabalho de cada função,
-chamadas de <a class="reference internal" href="../glossary.html#term-controller"><em class="xref std std-term">controller</em></a>, é usar a informação da requisição - junto com
+chamadas de <em class="xref std std-term">controller</em>, é usar a informação da requisição - junto com
 diversas outras ferramentas disponíveis no Symfony - para criar e retornar um
 objeto <tt class="docutils literal"><span class="pre">Response</span></tt>. Em outras palavras, o <em>seu</em> código deve estar nas funções controller:
 lá é onde você interpreta a requisição e cria uma resposta.</p>
@@ -401,7 +404,7 @@ adicione uma entrada para <tt class="docutils literal"><span class="pre">/contac
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Esse exemplo utiliza <a class="reference internal" href="../reference/YAML.html"><em>YAML</em></a> para definir a configuração de
+<p class="last">Esse exemplo utiliza <tt class="xref doc docutils literal"><span class="pre">YAML</span></tt> para definir a configuração de
 roteamento. Essa configuração também pode ser escrita em outros formatos, tais
 como XML ou PHP.</p>
 </div>
@@ -409,13 +412,13 @@ como XML ou PHP.</p>
 controller específico será executado. Como você irá aprender no <a class="reference internal" href="routing.html"><em>capítulo sobre roteamento</em></a>,
 a string <tt class="docutils literal"><span class="pre">AcmeDemoBundle:Main:contact</span></tt> é uma sintaxe encurtada para apontar para
 o método <tt class="docutils literal"><span class="pre">contactAction</span></tt> dentro de uma classe chamada <tt class="docutils literal"><span class="pre">MainController</span></tt>:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">class MainController</span>
-<span class="x">{</span>
-<span class="x">    public function contactAction()</span>
-<span class="x">    {</span>
-<span class="x">        return new Response(&#39;&lt;h1&gt;Contact us!&lt;/h1&gt;&#39;);</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MainController</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">contactAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;&lt;h1&gt;Contact us!&lt;/h1&gt;&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Nesse exemplo extremamente simples, o controller simplesmente cria um objeto
@@ -539,7 +542,7 @@ as princpais itens padrão. Para os usuários mais avançados, o céu é o limit
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -565,13 +568,13 @@ as princpais itens padrão. Para os usuários mais avançados, o céu é o limit
         <li class="right" >
           <a href="index.html" title="Livro"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Livro</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

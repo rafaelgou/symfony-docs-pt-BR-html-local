@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Formulários &mdash; Symfony2Docs v1 documentation</title>
+    <title>Formulários &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Livro" href="index.html" />
     <link rel="next" title="Segurança" href="security.html" />
     <link rel="prev" title="Validação" href="validation.html" /> 
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="validation.html" title="Validação"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Livro</a> &raquo;</li> 
       </ul>
     </div>  
@@ -68,33 +69,33 @@ no Github.</p>
 exibir &#8220;tarefas&#8221;. Devido aos seus usuários terem que editar e criar tarefas, você precisará
 construir um formulário. Mas, antes de começar, primeiro vamos focar na classe genérica <tt class="docutils literal"><span class="pre">Task</span></tt>
 que representa e armazena os dados de uma única tarefa:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/TaskBundle/Entity/Task.php</span>
-<span class="x">namespace Acme\TaskBundle\Entity;</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/TaskBundle/Entity/Task.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\TaskBundle\Entity</span><span class="p">;</span>
 
-<span class="x">class Task</span>
-<span class="x">{</span>
-<span class="x">    protected $task;</span>
+<span class="k">class</span> <span class="nc">Task</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$task</span><span class="p">;</span>
 
-<span class="x">    protected $dueDate;</span>
+    <span class="k">protected</span> <span class="nv">$dueDate</span><span class="p">;</span>
 
-<span class="x">    public function getTask()</span>
-<span class="x">    {</span>
-<span class="x">        return $this-&gt;task;</span>
-<span class="x">    }</span>
-<span class="x">    public function setTask($task)</span>
-<span class="x">    {</span>
-<span class="x">        $this-&gt;task = $task;</span>
-<span class="x">    }</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getTask</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">task</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setTask</span><span class="p">(</span><span class="nv">$task</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">task</span> <span class="o">=</span> <span class="nv">$task</span><span class="p">;</span>
+    <span class="p">}</span>
 
-<span class="x">    public function getDueDate()</span>
-<span class="x">    {</span>
-<span class="x">        return $this-&gt;dueDate;</span>
-<span class="x">    }</span>
-<span class="x">    public function setDueDate(\DateTime $dueDate = null)</span>
-<span class="x">    {</span>
-<span class="x">        $this-&gt;dueDate = $dueDate;</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDueDate</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dueDate</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setDueDate</span><span class="p">(</span><span class="nx">\DateTime</span> <span class="nv">$dueDate</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dueDate</span> <span class="o">=</span> <span class="nv">$dueDate</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -118,7 +119,7 @@ os seus dados, e persisti-los para o banco de dados.</p>
 o formulário HTML real. No Symfony2, isto é feito através da construção de um objeto
 de formulário e, em seguida, renderizando em um template. Por ora, tudo isso pode
 ser feito dentro de um controlador:</p>
-<div class="highlight-python"><pre>// src/Acme/TaskBundle/Controller/DefaultController.php
+<div class="highlight-python"><div class="highlight"><pre>// src/Acme/TaskBundle/Controller/DefaultController.php
 namespace Acme\TaskBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -131,19 +132,20 @@ class DefaultController extends Controller
     {
         // create a task and give it some dummy data for this example
         $task = new Task();
-        $task-&gt;setTask('Write a blog post');
-        $task-&gt;setDueDate(new \DateTime('tomorrow'));
+        $task-&gt;setTask(&#39;Write a blog post&#39;);
+        $task-&gt;setDueDate(new \DateTime(&#39;tomorrow&#39;));
 
         $form = $this-&gt;createFormBuilder($task)
-            -&gt;add('task', 'text')
-            -&gt;add('dueDate', 'date')
+            -&gt;add(&#39;task&#39;, &#39;text&#39;)
+            -&gt;add(&#39;dueDate&#39;, &#39;date&#39;)
             -&gt;getForm();
 
-        return $this-&gt;render('AcmeTaskBundle:Default:new.html.twig', array(
-            'form' =&gt; $form-&gt;createView(),
+        return $this-&gt;render(&#39;AcmeTaskBundle:Default:new.html.twig&#39;, array(
+            &#39;form&#39; =&gt; $form-&gt;createView(),
         ));
     }
-}</pre>
+}
+</pre></div>
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
@@ -193,7 +195,7 @@ para o formulário:</p>
 </li>
 </ul>
 </div>
-<img alt="../_images/form-simple1.png" class="align-center" src="../_images/form-simple1.png" />
+<img alt="../_images/form-simple.png" class="align-center" src="../_images/form-simple.png" />
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Este exemplo assume que você criou uma rota chamada <tt class="docutils literal"><span class="pre">task_new</span></tt>
@@ -225,7 +227,7 @@ usar um método &#8220;isser&#8221; (por exemplo, <tt class="docutils literal"><
 propriedades de um objeto. Para que isso aconteça, os dados enviados pelo
 usuário devem ser vinculados (bound) ao formulário. Adicione as seguintes funcionalidades
 no seu controlador:</p>
-<div class="highlight-python"><pre>// ...
+<div class="highlight-python"><div class="highlight"><pre>// ...
 
 public function newAction(Request $request)
 {
@@ -233,31 +235,37 @@ public function newAction(Request $request)
     $task = new Task();
 
     $form = $this-&gt;createFormBuilder($task)
-        -&gt;add('task', 'text')
-        -&gt;add('dueDate', 'date')
+        -&gt;add(&#39;task&#39;, &#39;text&#39;)
+        -&gt;add(&#39;dueDate&#39;, &#39;date&#39;)
         -&gt;getForm();
 
-    if ($request-&gt;getMethod() == 'POST') {
-        $form-&gt;bindRequest($request);
+    if ($request-&gt;isMethod(&#39;POST&#39;)) {
+        $form-&gt;bind($request);
 
         if ($form-&gt;isValid()) {
             // perform some action, such as saving the task to the database
 
-            return $this-&gt;redirect($this-&gt;generateUrl('task_success'));
+            return $this-&gt;redirect($this-&gt;generateUrl(&#39;task_success&#39;));
         }
     }
 
     // ...
-}</pre>
+}
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1: </span>O método <tt class="docutils literal"><span class="pre">bind</span></tt> tornou-se mais flexível no Symfony 2.1. Ele aceita agora os
+dados brutos do cliente (como antes) ou um objeto Request do Symfony. Ele é
+preferido ao invés do método obsoleto <tt class="docutils literal"><span class="pre">bindRequest</span></tt>.</p>
 </div>
 <p>Agora, quando enviar o formulário, o controlador vincula (bind) ao formulário os dados enviados,
 que traduz os dados de volta as propriedades <tt class="docutils literal"><span class="pre">task</span></tt> e <tt class="docutils literal"><span class="pre">dueDate</span></tt>
-do objeto <tt class="docutils literal"><span class="pre">$task</span></tt>. Isso tudo acontece através do método <tt class="docutils literal"><span class="pre">bindRequest()</span></tt>.</p>
+do objeto <tt class="docutils literal"><span class="pre">$task</span></tt>. Isso tudo acontece através do método <tt class="docutils literal"><span class="pre">bind()</span></tt>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Assim que o <tt class="docutils literal"><span class="pre">bindRequest()</span></tt> é chamado, os dados enviados são transferidos
-imediatamente para o objeto implícito. Isso acontece independentemente de
-os dados implícitos serem realmente válidos.</p>
+<p class="last">Assim que o <tt class="docutils literal"><span class="pre">bind()</span></tt> é chamado, os dados enviados são transferidos
+imediatamente para o objeto implícito. Isso acontece independentemente dos
+dados implícitos serem realmente válidos.</p>
 </div>
 <p>Este controlador segue um padrão comum para a manipulação de formulários, e possui três
 caminhos possíveis:</p>
@@ -304,22 +312,23 @@ válido.</p>
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// Acme/TaskBundle/Entity/Task.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// Acme/TaskBundle/Entity/Task.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Task
-{
-    /**
-     * @Assert\NotBlank()
-     */
-    public $task;
+<span class="k">class</span> <span class="nc">Task</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$task</span><span class="p">;</span>
 
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Type("\DateTime")
-     */
-    protected $dueDate;
-}</pre>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     * @Assert\Type(&quot;\DateTime&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$dueDate</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- Acme/TaskBundle/Resources/config/validation.xml --&gt;</span>
@@ -337,23 +346,23 @@ class Task
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// Acme/TaskBundle/Entity/Task.php</span>
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\NotBlank;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\Type;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// Acme/TaskBundle/Entity/Task.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Type</span><span class="p">;</span>
 
-<span class="x">class Task</span>
-<span class="x">{</span>
-<span class="x">    // ...</span>
+<span class="k">class</span> <span class="nc">Task</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
 
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;task&#39;, new NotBlank());</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
 
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;dueDate&#39;, new NotBlank());</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;dueDate&#39;, new Type(&#39;\DateTime&#39;));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;dueDate&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;dueDate&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Type</span><span class="p">(</span><span class="s1">&#39;\DateTime&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -387,56 +396,68 @@ então, você pode pular esta seção.</p>
 </div>
 <p>Se o seu objeto aproveita a <a class="reference internal" href="validation.html#book-validation-validation-groups"><em>grupos de validação</em></a>,
 você precisa especificar qual(ais) grupo(s) de validação seu formulário deve usar:</p>
-<div class="highlight-python"><pre>$form = $this-&gt;createFormBuilder($users, array(
-    'validation_groups' =&gt; array('registration'),
+<div class="highlight-python"><div class="highlight"><pre>$form = $this-&gt;createFormBuilder($users, array(
+    &#39;validation_groups&#39; =&gt; array(&#39;registration&#39;),
 ))-&gt;add(...)
-;</pre>
+;
+</pre></div>
 </div>
 <p>Se você está criando <a class="reference internal" href="#book-form-creating-form-classes"><em>classes de formulário</em></a> (uma
 boa prática), então você precisa adicionar o seguinte ao método
-<tt class="docutils literal"><span class="pre">getDefaultOptions()</span></tt>:</p>
-<div class="highlight-python"><pre>public function getDefaultOptions(array $options)
+<tt class="docutils literal"><span class="pre">setDefaultOptions()</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+public function setDefaultOptions(OptionsResolverInterface $resolver)
 {
-    return array(
-        'validation_groups' =&gt; array('registration')
-    );
-}</pre>
+    $resolver-&gt;setDefaults(array(
+        &#39;validation_groups&#39; =&gt; array(&#39;registration&#39;)
+    ));
+}
+</pre></div>
 </div>
 <p>Em ambos os casos, <em>apenas</em> o grupo de validação <tt class="docutils literal"><span class="pre">registration</span></tt> será
 usado para validar o objeto implícito.</p>
 </div>
 <div class="section" id="grupos-com-base-nos-dados-submetidos">
 <h3>Grupos com base nos dados submetidos<a class="headerlink" href="#grupos-com-base-nos-dados-submetidos" title="Permalink to this headline">¶</a></h3>
-<p class="versionadded">
-<span class="versionmodified">New in version 2.1: </span>A capacidade de especificar um callback ou Closure no <tt class="docutils literal"><span class="pre">validation_groups</span></tt>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1: </span>A capacidade de especificar um callback ou Closure no <tt class="docutils literal"><span class="pre">validation_groups</span></tt>
 é novo na versão 2.1</p>
+</div>
 <p>Se você precisar de alguma lógica avançada para determinar os grupos de validação (por exemplo,
 com base nos dados submetidos), você pode definir a opção <tt class="docutils literal"><span class="pre">validation_groups</span></tt>
 para um <tt class="docutils literal"><span class="pre">array</span> <span class="pre">callback</span></tt> ou uma <tt class="docutils literal"><span class="pre">Closure</span></tt>:</p>
-<div class="highlight-python"><pre>public function getDefaultOptions(array $options)
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+public function setDefaultOptions(OptionsResolverInterface $resolver)
 {
-    return array(
-        'validation_groups' =&gt; array('Acme\\AcmeBundle\\Entity\\Client', 'determineValidationGroups'),
-    );
-}</pre>
+    $resolver-&gt;setDefaults(array(
+        &#39;validation_groups&#39; =&gt; array(&#39;Acme\\AcmeBundle\\Entity\\Client&#39;, &#39;determineValidationGroups&#39;),
+    ));
+}
+</pre></div>
 </div>
 <p>Isso irá chamar o método estático <tt class="docutils literal"><span class="pre">determineValidationGroups()</span></tt> na
 classe <tt class="docutils literal"><span class="pre">Client</span></tt> após o formulário ser vinculado (bound), mas antes da validação ser executada.
 O objeto do formulário é passado como um argumento para esse método (veja o exemplo seguinte).
 Você também pode definir toda a lógica inline usando uma Closure:</p>
-<div class="highlight-python"><pre>public function getDefaultOptions(array $options)
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+public function setDefaultOptions(OptionsResolverInterface $resolver)
 {
-    return array(
-        'validation_groups' =&gt; function(FormInterface $form) {
+    $resolver-&gt;setDefaults(array(
+        &#39;validation_groups&#39; =&gt; function(FormInterface $form) {
             $data = $form-&gt;getData();
             if (Entity\Client::TYPE_PERSON == $data-&gt;getType()) {
-                return array('person')
+                return array(&#39;person&#39;)
             } else {
-                return array('company');
+                return array(&#39;company&#39;);
             }
         },
-    );
-}</pre>
+    ));
+}
+</pre></div>
 </div>
 </div>
 </div>
@@ -444,82 +465,19 @@ Você também pode definir toda a lógica inline usando uma Closure:</p>
 <span id="book-forms-type-reference"></span><span id="index-7"></span><h2>Tipos de campos integrados (Built-in)<a class="headerlink" href="#tipos-de-campos-integrados-built-in" title="Permalink to this headline">¶</a></h2>
 <p>O Symfony vem, por padrão, com um grande grupo de tipos de campos que cobrem todos os
 os campos comuns de formulário e tipos de dados que você vai encontrar:</p>
-<div class="section" id="text-fields">
-<h3>Text Fields<a class="headerlink" href="#text-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/text.html"><em>text</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/textarea.html"><em>textarea</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/email.html"><em>email</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/integer.html"><em>integer</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/money.html"><em>money</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/number.html"><em>number</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/password.html"><em>password</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/percent.html"><em>percent</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/search.html"><em>search</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/url.html"><em>url</em></a></li>
-</ul>
-</div>
-<div class="section" id="choice-fields">
-<h3>Choice Fields<a class="headerlink" href="#choice-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/choice.html"><em>choice</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/entity.html"><em>entity</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/country.html"><em>country</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/language.html"><em>language</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/locale.html"><em>locale</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/timezone.html"><em>timezone</em></a></li>
-</ul>
-</div>
-<div class="section" id="date-and-time-fields">
-<h3>Date and Time Fields<a class="headerlink" href="#date-and-time-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/date.html"><em>date</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/datetime.html"><em>datetime</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/time.html"><em>time</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/birthday.html"><em>birthday</em></a></li>
-</ul>
-</div>
-<div class="section" id="other-fields">
-<h3>Other Fields<a class="headerlink" href="#other-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/checkbox.html"><em>checkbox</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/file.html"><em>file</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/radio.html"><em>radio</em></a></li>
-</ul>
-</div>
-<div class="section" id="field-groups">
-<h3>Field Groups<a class="headerlink" href="#field-groups" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/collection.html"><em>collection</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/repeated.html"><em>repeated</em></a></li>
-</ul>
-</div>
-<div class="section" id="hidden-fields">
-<h3>Hidden Fields<a class="headerlink" href="#hidden-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/hidden.html"><em>hidden</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/csrf.html"><em>csrf</em></a></li>
-</ul>
-</div>
-<div class="section" id="base-fields">
-<h3>Base Fields<a class="headerlink" href="#base-fields" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/forms/types/field.html"><em>field</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/form.html"><em>form</em></a></li>
-</ul>
 <p>Você também pode criar os seus próprios tipos de campo personalizados. Este tópico é abordado
-no artigo &#8220;<a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>How to Create a Custom Form Field Type</em></a>&#8221; do cookbook.</p>
-</div>
+no artigo &#8220;<a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>Como Criar um Tipo de Campo de Formulário Personalizado</em></a>&#8221; do cookbook.</p>
 <div class="section" id="opcoes-dos-tipos-de-campos">
 <span id="index-8"></span><h3>Opções dos tipos de campos<a class="headerlink" href="#opcoes-dos-tipos-de-campos" title="Permalink to this headline">¶</a></h3>
 <p>Cada tipo de campo possui um número de opções que podem ser usadas ​​para configurá-lo.
 Por exemplo, o campo <tt class="docutils literal"><span class="pre">dueDate</span></tt> é atualmente processado como 3 select
-boxes. No entanto, o <a class="reference internal" href="../reference/forms/types/date.html"><em>campo date</em></a> pode ser
+boxes. No entanto, o <tt class="xref doc docutils literal"><span class="pre">campo</span> <span class="pre">date</span></tt> pode ser
 configurado para ser renderizado como uma caixa de texto simples (onde o usuário deve
 digitar a data como uma string na caixa):</p>
-<div class="highlight-python"><pre>-&gt;add('dueDate', 'date', array('widget' =&gt; 'single_text'))</pre>
+<div class="highlight-python"><div class="highlight"><pre>-&gt;add(&#39;dueDate&#39;, &#39;date&#39;, array(&#39;widget&#39; =&gt; &#39;single_text&#39;))
+</pre></div>
 </div>
-<img alt="../_images/form-simple21.png" class="align-center" src="../_images/form-simple21.png" />
+<img alt="../_images/form-simple2.png" class="align-center" src="../_images/form-simple2.png" />
 <p>Cada tipo de campo tem um número de opções diferentes que podem ser passadas à ele.
 Muitas delas são específicas para o tipo de campo e os detalhes podem ser encontrados
 na documentação de cada tipo.</p>
@@ -547,15 +505,16 @@ já sabe um pouco sobre os seus campos. Se você permitir, o Symfony pode &#8220
 o tipo do seu campo e configurá-lo para você. Neste exemplo, o Symfony pode
 adivinhar a partir das regras de validação que o campo <tt class="docutils literal"><span class="pre">task</span></tt> é um campo <tt class="docutils literal"><span class="pre">texto</span></tt>
 normal e o campo <tt class="docutils literal"><span class="pre">dueDate</span></tt> é um campo <tt class="docutils literal"><span class="pre">data</span></tt>:</p>
-<div class="highlight-python"><pre>public function newAction()
+<div class="highlight-python"><div class="highlight"><pre>public function newAction()
 {
     $task = new Task();
 
     $form = $this-&gt;createFormBuilder($task)
-        -&gt;add('task')
-        -&gt;add('dueDate', null, array('widget' =&gt; 'single_text'))
+        -&gt;add(&#39;task&#39;)
+        -&gt;add(&#39;dueDate&#39;, null, array(&#39;widget&#39; =&gt; &#39;single_text&#39;))
         -&gt;getForm();
-}</pre>
+}
+</pre></div>
 </div>
 <p>A &#8220;adivinhação&#8221; é ativada quando você omitir o segundo argumento do método <tt class="docutils literal"><span class="pre">add()</span></tt>
 (ou se você passar <tt class="docutils literal"><span class="pre">null</span></tt> para ele). Se você passar um array de opções como o
@@ -598,7 +557,8 @@ o tipo de campo (ou seja, omitir ou passar <tt class="docutils literal"><span cl
 </div>
 <p>Se você desejar modificar um dos valores adivinhados, você pode sobrescrevê-lo
 passando a opção no array de opções do campo:</p>
-<div class="highlight-python"><pre>-&gt;add('task', null, array('min_length' =&gt; 4))</pre>
+<div class="highlight-python"><div class="highlight"><pre>-&gt;add(&#39;task&#39;, null, array(&#39;min_length&#39; =&gt; 4))
+</pre></div>
 </div>
 </div>
 </div>
@@ -759,7 +719,7 @@ renderizado:</p>
 <div class="section" id="referencia-de-funcoes-dos-templates-twig">
 <h3>Referência de funções dos templates Twig<a class="headerlink" href="#referencia-de-funcoes-dos-templates-twig" title="Permalink to this headline">¶</a></h3>
 <p>Se você está usando o Twig, uma referência completa das funções de renderização do formulário
-está disponível no <a class="reference internal" href="../reference/forms/twig_reference.html"><em>manual de referência</em></a>.
+está disponível no <tt class="xref doc docutils literal"><span class="pre">manual</span> <span class="pre">de</span> <span class="pre">referência</span></tt>.
 Leia ele para saber tudo sobre os helpers disponíveis e as opções
 que podem ser usadas ​​com cada um.</p>
 </div>
@@ -770,43 +730,43 @@ que podem ser usadas ​​com cada um.</p>
 No entanto, uma prática melhor é construir o formulário separadamente, em uma classe PHP independente,
 que poderá, então, ser reutilizada em qualquer lugar na sua aplicação. Crie uma nova classe
 que vai abrigar a lógica da construção do formulário de tarefas:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/TaskBundle/Form/Type/TaskType.php</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/TaskBundle/Form/Type/TaskType.php</span>
 
-<span class="x">namespace Acme\TaskBundle\Form\Type;</span>
+<span class="k">namespace</span> <span class="nx">Acme\TaskBundle\Form\Type</span><span class="p">;</span>
 
-<span class="x">use Symfony\Component\Form\AbstractType;</span>
-<span class="x">use Symfony\Component\Form\FormBuilder;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilderInterface</span><span class="p">;</span>
 
-<span class="x">class TaskType extends AbstractType</span>
-<span class="x">{</span>
-<span class="x">    public function buildForm(FormBuilder $builder, array $options)</span>
-<span class="x">    {</span>
-<span class="x">        $builder-&gt;add(&#39;task&#39;);</span>
-<span class="x">        $builder-&gt;add(&#39;dueDate&#39;, null, array(&#39;widget&#39; =&gt; &#39;single_text&#39;));</span>
-<span class="x">    }</span>
+<span class="k">class</span> <span class="nc">TaskType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilderInterface</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;dueDate&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;single_text&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
 
-<span class="x">    public function getName()</span>
-<span class="x">    {</span>
-<span class="x">        return &#39;task&#39;;</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;task&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Esta nova classe contém todas as orientações necessárias para criar o formulário de tarefas
 (Note que o método <tt class="docutils literal"><span class="pre">getName()</span></tt> deve retornar um identificador exclusivo para esse
 &#8220;tipo&#8221; do formulário). Ele pode ser usado para construir rapidamente um objeto de formulário no controlador:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/TaskBundle/Controller/DefaultController.php</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/TaskBundle/Controller/DefaultController.php</span>
 
-<span class="x">// add this new use statement at the top of the class</span>
-<span class="x">use Acme\TaskBundle\Form\Type\TaskType;</span>
+<span class="c1">// add this new use statement at the top of the class</span>
+<span class="k">use</span> <span class="nx">Acme\TaskBundle\Form\Type\TaskType</span><span class="p">;</span>
 
-<span class="x">public function newAction()</span>
-<span class="x">{</span>
-<span class="x">    $task = // ...</span>
-<span class="x">    $form = $this-&gt;createForm(new TaskType(), $task);</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$task</span> <span class="o">=</span> <span class="c1">// ...</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">TaskType</span><span class="p">(),</span> <span class="nv">$task</span><span class="p">);</span>
 
-<span class="x">    // ...</span>
-<span class="x">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Colocando a lógica do formulário em sua própria classe significa que o formulário pode ser facilmente
@@ -821,12 +781,39 @@ com base no objeto passado no segundo argumento para o <tt class="docutils liter
 não será suficiente. Então, embora nem sempre necessário, é geralmente uma
 boa idéia especificar explicitamente a opção <tt class="docutils literal"><span class="pre">data_class</span></tt> adicionando
 o seguinte à sua classe type de formulário:</p>
-<div class="last highlight-python"><pre>public function getDefaultOptions(array $options)
+<div class="last highlight-python"><div class="highlight"><pre>use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+public function setDefaultOptions(OptionsResolverInterface $resolver)
 {
-    return array(
-        'data_class' =&gt; 'Acme\TaskBundle\Entity\Task',
-    );
-}</pre>
+    $resolver-&gt;setDefaults(array(
+        &#39;data_class&#39; =&gt; &#39;Acme\TaskBundle\Entity\Task&#39;,
+    ));
+}
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Ao mapear formulários para objetos, todos os campos são mapeados. Qualquer
+campo do formulário que não existe no objeto mapeado irá fazer com que uma
+exceção seja gerada.</p>
+<p>Nos casos em que você precisa de campos extras na formulário (por exemplo: um
+checkbox &#8220;você concorda com os termos&#8221;) que não será mapeado para o objeto implícito,
+você precisa definir a opção property_path como <tt class="docutils literal"><span class="pre">false</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\Form\FormBuilderInterface;
+
+public function buildForm(FormBuilderInterface $builder, array $options)
+{
+    $builder-&gt;add(&#39;task&#39;);
+    $builder-&gt;add(&#39;dueDate&#39;, null, array(&#39;property_path&#39; =&gt; false));
+}
+</pre></div>
+</div>
+<p>Além disso, se houver quaiquer campos do formulário que não estão incluídos nos
+dados submetidos, esses campos serão definidos explicitamente como <tt class="docutils literal"><span class="pre">null</span></tt>.</p>
+<p>Os dados do campo podem ser acessados em um controlador com:</p>
+<div class="last highlight-python"><div class="highlight"><pre>$form-&gt;get(&#39;dueDate&#39;)-&gt;getData();
+</pre></div>
 </div>
 </div>
 </div>
@@ -839,17 +826,19 @@ não relacionado ao tópico de formulários. Mas, se você configurou a classe <
 para ser persistida através do Doctrine (ou seja, você adicionou
 <a class="reference internal" href="doctrine.html#book-doctrine-adding-mapping"><em>metadados de mapeamento</em></a> à ele), então, a persistência
 após a submissão do formulário pode ser feita quando o formulário é válido:</p>
-<div class="highlight-python"><pre>if ($form-&gt;isValid()) {
-    $em = $this-&gt;getDoctrine()-&gt;getEntityManager();
+<div class="highlight-python"><div class="highlight"><pre>if ($form-&gt;isValid()) {
+    $em = $this-&gt;getDoctrine()-&gt;getManager();
     $em-&gt;persist($task);
     $em-&gt;flush();
 
-    return $this-&gt;redirect($this-&gt;generateUrl('task_success'));
-}</pre>
+    return $this-&gt;redirect($this-&gt;generateUrl(&#39;task_success&#39;));
+}
+</pre></div>
 </div>
 <p>Se, por algum motivo, você não tem acesso ao seu objeto <tt class="docutils literal"><span class="pre">$task</span></tt> original,
 você pode buscá-lo a partir do formulário:</p>
-<div class="highlight-python"><pre>$task = $form-&gt;getData();</pre>
+<div class="highlight-python"><div class="highlight"><pre>$task = $form-&gt;getData();
+</pre></div>
 </div>
 <p>Para mais informações, consulte o <a class="reference internal" href="doctrine.html"><em>capítulo Doctrine ORM</em></a>.</p>
 <p>A chave para entender é que, quando o formulário é vinculado (bound), os dados submetidos
@@ -867,7 +856,7 @@ um objeto <tt class="docutils literal"><span class="pre">User</span></tt>, bem c
 <h3>Embutindo um único objeto<a class="headerlink" href="#embutindo-um-unico-objeto" title="Permalink to this headline">¶</a></h3>
 <p>Suponha que cada <tt class="docutils literal"><span class="pre">Task</span></tt> pertence a um simples objeto <tt class="docutils literal"><span class="pre">Category</span></tt>. Inicie,
 é claro, criando o objeto <tt class="docutils literal"><span class="pre">Category</span></tt>:</p>
-<div class="highlight-python"><pre>// src/Acme/TaskBundle/Entity/Category.php
+<div class="highlight-python"><div class="highlight"><pre>// src/Acme/TaskBundle/Entity/Category.php
 namespace Acme\TaskBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
@@ -878,17 +867,18 @@ class Category
      * @Assert\NotBlank()
      */
     public $name;
-}</pre>
+}
+</pre></div>
 </div>
 <p>Em seguida, adicione uma nova propriedade <tt class="docutils literal"><span class="pre">category</span></tt> na classe <tt class="docutils literal"><span class="pre">Task</span></tt>:</p>
-<div class="highlight-python"><pre>// ...
+<div class="highlight-python"><div class="highlight"><pre>// ...
 
 class Task
 {
     // ...
 
     /**
-     * @Assert\Type(type="Acme\TaskBundle\Entity\Category")
+     * @Assert\Type(type=&quot;Acme\TaskBundle\Entity\Category&quot;)
      */
     protected $category;
 
@@ -903,50 +893,66 @@ class Task
     {
         $this-&gt;category = $category;
     }
-}</pre>
+}
+</pre></div>
 </div>
 <p>Agora que a sua aplicação foi atualizada para refletir as novas exigências,
 crie uma classe de formulário para que o objeto <tt class="docutils literal"><span class="pre">Category</span></tt> possa ser modificado pelo usuário:</p>
-<div class="highlight-python"><pre>// src/Acme/TaskBundle/Form/Type/CategoryType.php
+<div class="highlight-python"><div class="highlight"><pre>// src/Acme/TaskBundle/Form/Type/CategoryType.php
 namespace Acme\TaskBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CategoryType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder-&gt;add('name');
+        $builder-&gt;add(&#39;name&#39;);
     }
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' =&gt; 'Acme\TaskBundle\Entity\Category',
-        );
+        $resolver-&gt;setDefaults(array(
+            &#39;data_class&#39; =&gt; &#39;Acme\TaskBundle\Entity\Category&#39;,
+        ));
     }
 
     public function getName()
     {
-        return 'category';
+        return &#39;category&#39;;
     }
-}</pre>
+}
+</pre></div>
 </div>
 <p>O objetivo final é permitir que a <tt class="docutils literal"><span class="pre">Category</span></tt> de uma <tt class="docutils literal"><span class="pre">Task</span></tt> possa ser modificada direitamente
 dentro do próprio formulário da tarefa. Para fazer isso, adicione um campo <tt class="docutils literal"><span class="pre">category</span></tt>
 ao objeto <tt class="docutils literal"><span class="pre">TaskType</span></tt> cujo tipo é uma instância da nova classe
 <tt class="docutils literal"><span class="pre">CategoryType</span></tt>:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">public function buildForm(FormBuilder $builder, array $options)</span>
-<span class="x">{</span>
-<span class="x">    // ...</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilderInterface</span><span class="p">;</span>
 
-<span class="x">    $builder-&gt;add(&#39;category&#39;, new CategoryType());</span>
-<span class="x">}</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilderInterface</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">CategoryType</span><span class="p">());</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Os campos do <tt class="docutils literal"><span class="pre">CategoryType</span></tt> podem agora ser renderizados juntamente com os campos da
-classe <tt class="docutils literal"><span class="pre">TaskType</span></tt>. Renderize os campos <tt class="docutils literal"><span class="pre">Category</span></tt> da mesma forma
+classe <tt class="docutils literal"><span class="pre">TaskType</span></tt>. Para ativar a validação no CategoryType, adicione
+a opção <tt class="docutils literal"><span class="pre">cascade_validation</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>public function setDefaultOptions(OptionsResolverInterface $resolver)
+{
+    $resolver-&gt;setDefaults(array(
+        &#39;data_class&#39; =&gt; &#39;Acme\TaskBundle\Entity\Category&#39;,
+        &#39;cascade_validation&#39; =&gt; true,
+    ));
+}
+</pre></div>
+</div>
+<p>Renderize os campos <tt class="docutils literal"><span class="pre">Category</span></tt> da mesma forma
 que os campos originais da <tt class="docutils literal"><span class="pre">Task</span></tt>:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -987,7 +993,7 @@ e pode ser persistida no banco de dados ou usada como você precisar.</p>
 <p>Você também pode embutir uma coleção de formulários em um formulário (imagine um formulário
 <tt class="docutils literal"><span class="pre">Category</span></tt> com muitos sub-formulários <tt class="docutils literal"><span class="pre">Product</span></tt>). Isto é feito usando o tipo de
 campo <tt class="docutils literal"><span class="pre">collection</span></tt>.</p>
-<p>Para mais informações consulte no &#8220;<a class="reference internal" href="../cookbook/form/form_collections.html"><em>How to Embed a Collection of Forms</em></a>&#8221;
+<p>Para mais informações consulte no &#8220;<a class="reference internal" href="../cookbook/form/form_collections.html"><em>Como embutir uma Coleção de Formulários</em></a>&#8221;
 e na <em class="xref std std-ref">collection</em> referência dos tipos de campo.</p>
 </div>
 </div>
@@ -1041,18 +1047,20 @@ da função <tt class="docutils literal"><span class="pre">form_row</span></tt>.
 renderiza o formulário:</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>{# src/Acme/TaskBundle/Resources/views/Default/new.html.twig #}
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>{# src/Acme/TaskBundle/Resources/views/Default/new.html.twig #}
 
-{% form_theme form 'AcmeTaskBundle:Form:fields.html.twig' %}
+{% form_theme form &#39;AcmeTaskBundle:Form:fields.html.twig&#39; %}
 
-&lt;form ...&gt;</pre>
+&lt;form ...&gt;
+</pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-html+php"><pre>&lt;!-- src/Acme/TaskBundle/Resources/views/Default/new.html.php --&gt;
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre>&lt;!-- src/Acme/TaskBundle/Resources/views/Default/new.html.php --&gt;
 
-&lt;?php $view['form']-&gt;setTheme($form, array('AcmeTaskBundle:Form')) ?&gt;
+&lt;?php $view[&#39;form&#39;]-&gt;setTheme($form, array(&#39;AcmeTaskBundle:Form&#39;)) ?&gt;
 
-&lt;form ...&gt;</pre>
+&lt;form ...&gt;
+</pre></div>
 </div>
 </li>
 </ul>
@@ -1065,7 +1073,19 @@ que vem com o Symfony).</p>
 <p>Para personalizar qualquer parte de um formulário, você só precisa substituir o fragmento
 apropriado. Saber exatamente qual bloco ou arquivo deve-se substituir é o tema da
 próxima seção.</p>
-<p>Para uma discussão mais extensiva, consulte <a class="reference internal" href="../cookbook/form/form_customization.html"><em>How to customize Form Rendering</em></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1: </span>Foi introduzida uma sintaxe alternativa do Twig para <tt class="docutils literal"><span class="pre">form_theme</span></tt> no 2.1. Ela aceita
+qualquer expressão Twig válida (a diferença mais notável está no uso de um array quando
+utilizar vários temas).</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/TaskBundle/Resources/views/Default/new.html.twig #}</span>
+
+<span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="k">with</span> <span class="s1">&#39;AcmeTaskBundle:Form:fields.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="k">with</span> <span class="o">[</span><span class="s1">&#39;AcmeTaskBundle:Form:fields.html.twig&#39;</span><span class="o">,</span> <span class="s1">&#39;AcmeTaskBundle:Form:fields2.html.twig&#39;</span><span class="o">]</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<p>Para uma discussão mais extensiva, consulte <a class="reference internal" href="../cookbook/form/form_customization.html"><em>Como personalizar a Renderização de Formulários</em></a>.</p>
 <div class="section" id="nomeando-os-fragmentos-do-formulario">
 <span id="form-template-blocks"></span><span id="index-17"></span><h3>Nomeando os fragmentos do formulário<a class="headerlink" href="#nomeando-os-fragmentos-do-formulario" title="Permalink to this headline">¶</a></h3>
 <p>No Symfony, cada parte de um formulário que é renderizada - elementos de formulário HTML, erros,
@@ -1096,19 +1116,19 @@ renderizado (Ex., <tt class="docutils literal"><span class="pre">label</span></t
 <col width="61%" />
 </colgroup>
 <tbody valign="top">
-<tr><td><tt class="docutils literal"><span class="pre">label</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">label</span></tt></td>
 <td>(Ex. <tt class="docutils literal"><span class="pre">field_label</span></tt>)</td>
 <td>renderiza label do campo</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">widget</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">widget</span></tt></td>
 <td>(Ex. <tt class="docutils literal"><span class="pre">field_widget</span></tt>)</td>
 <td>renderiza a representação HTML do campo</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">errors</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">errors</span></tt></td>
 <td>(Ex. <tt class="docutils literal"><span class="pre">field_errors</span></tt>)</td>
 <td>renderiza os errors do campo</td>
 </tr>
-<tr><td><tt class="docutils literal"><span class="pre">row</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">row</span></tt></td>
 <td>(Ex. <tt class="docutils literal"><span class="pre">field_row</span></tt>)</td>
 <td>renderiza a linha inteira do campo (label, widget e erros)</td>
 </tr>
@@ -1165,24 +1185,25 @@ da aplicação:</p>
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 
 &lt;twig:config ...&gt;
         &lt;twig:form&gt;
             &lt;resource&gt;AcmeTaskBundle:Form:fields.html.twig&lt;/resource&gt;
         &lt;/twig:form&gt;
         &lt;!-- ... --&gt;
-&lt;/twig:config&gt;</pre>
+&lt;/twig:config&gt;
+</pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
 
-<span class="x">$container-&gt;loadFromExtension(&#39;twig&#39;, array(</span>
-<span class="x">    &#39;form&#39; =&gt; array(&#39;resources&#39; =&gt; array(</span>
-<span class="x">        &#39;AcmeTaskBundle:Form:fields.html.twig&#39;,</span>
-<span class="x">     ))</span>
-<span class="x">    // ...</span>
-<span class="x">));</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;AcmeTaskBundle:Form:fields.html.twig&#39;</span><span class="p">,</span>
+     <span class="p">))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -1235,7 +1256,7 @@ aplicação:</p>
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 
 &lt;framework:config ...&gt;
     &lt;framework:templating&gt;
@@ -1244,18 +1265,19 @@ aplicação:</p>
         &lt;/framework:form&gt;
     &lt;/framework:templating&gt;
     &lt;!-- ... --&gt;
-&lt;/framework:config&gt;</pre>
+&lt;/framework:config&gt;
+</pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
 
-<span class="x">$container-&gt;loadFromExtension(&#39;framework&#39;, array(</span>
-<span class="x">    &#39;templating&#39; =&gt; array(&#39;form&#39; =&gt;</span>
-<span class="x">        array(&#39;resources&#39; =&gt; array(</span>
-<span class="x">            &#39;AcmeTaskBundle:Form&#39;,</span>
-<span class="x">     )))</span>
-<span class="x">    // ...</span>
-<span class="x">));</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;templating&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeTaskBundle:Form&#39;</span><span class="p">,</span>
+     <span class="p">)))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -1284,23 +1306,26 @@ O Symfony automaticamente valida a presença e exatidão deste token.</p>
 se você incluir a função <tt class="docutils literal"><span class="pre">form_rest()</span></tt> em seu template, que garante
 a saída de todos os campos não-renderizados.</p>
 <p>O token CSRF pode ser personalizado formulário por formulário. Por exemplo:</p>
-<div class="highlight-python"><pre>class TaskType extends AbstractType
+<div class="highlight-python"><div class="highlight"><pre>use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class TaskType extends AbstractType
 {
     // ...
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class'      =&gt; 'Acme\TaskBundle\Entity\Task',
-            'csrf_protection' =&gt; true,
-            'csrf_field_name' =&gt; '_token',
+        $resolver-&gt;setDefaults(array(
+            &#39;data_class&#39;      =&gt; &#39;Acme\TaskBundle\Entity\Task&#39;,
+            &#39;csrf_protection&#39; =&gt; true,
+            &#39;csrf_field_name&#39; =&gt; &#39;_token&#39;,
             // a unique key to help generate the secret token
-            'intention'       =&gt; 'task_item',
-        );
+            &#39;intention&#39;       =&gt; &#39;task_item&#39;,
+        ));
     }
 
     // ...
-}</pre>
+}
+</pre></div>
 </div>
 <p>Para desativar a proteção CSRF, defina a opção <tt class="docutils literal"><span class="pre">csrf_protection</span></tt> para false.
 As personalizações também podem ser feitas globalmente em seu projeto. Para mais informações
@@ -1317,34 +1342,35 @@ token gerado, tornando-o diferente para cada formulário.</p>
 <p>Na maioria dos casos, um formulário é vinculado a um objeto, e os campos do formulário obtêm
 e armazenam seus dados nas propriedades desse objeto. Isto foi exatamente o que
 você viu até agora neste capítulo com a classe <cite>Task</cite>.</p>
-<p>Mas às vezes, você pode desejar apenas utilizar um formulário sem uma classe, e receber
+<p>Mas, às vezes, você pode desejar apenas utilizar um formulário sem uma classe, e receber
 um array dos dados submetidos. Isso é realmente muito fácil:</p>
-<div class="highlight-python"><pre>// Certifique-se que você importou o namespace Request acima da classe
+<div class="highlight-python"><div class="highlight"><pre>// Certifique-se que você importou o namespace Request acima da classe
 use Symfony\Component\HttpFoundation\Request
 // ...
 
 public function contactAction(Request $request)
 {
-    $defaultData = array('message' =&gt; 'Type your message here');
+    $defaultData = array(&#39;message&#39; =&gt; &#39;Type your message here&#39;);
     $form = $this-&gt;createFormBuilder($defaultData)
-        -&gt;add('name', 'text')
-        -&gt;add('email', 'email')
-        -&gt;add('message', 'textarea')
+        -&gt;add(&#39;name&#39;, &#39;text&#39;)
+        -&gt;add(&#39;email&#39;, &#39;email&#39;)
+        -&gt;add(&#39;message&#39;, &#39;textarea&#39;)
         -&gt;getForm();
 
-        if ($request-&gt;getMethod() == 'POST') {
-            $form-&gt;bindRequest($request);
+        if ($request-&gt;isMethod(&#39;POST&#39;)) {
+            $form-&gt;bind($request);
 
-            // data is an array with "name", "email", and "message" keys
+            // data is an array with &quot;name&quot;, &quot;email&quot;, and &quot;message&quot; keys
             $data = $form-&gt;getData();
         }
 
     // ... render the form
-}</pre>
+}
+</pre></div>
 </div>
 <p>Por padrão, um formulário assume que você deseja trabalhar com arrays de
-dados, em vez de um objeto. Há exatamente duas maneiras que você pode mudar
-esse comportamento e amarrar o formulário à um objeto, em vez disso:</p>
+dados, em vez de um objeto. Há exatamente duas maneiras em que você pode mudar
+esse comportamento e amarrar o formulário à um objeto:</p>
 <ol class="arabic simple">
 <li>Passar um objeto ao criar o formulário (como o primeiro argumento para <tt class="docutils literal"><span class="pre">createFormBuilder</span></tt>
 ou o segundo argumento para <tt class="docutils literal"><span class="pre">createForm</span></tt>);</li>
@@ -1358,7 +1384,7 @@ um array.</p>
 <p class="first admonition-title">Tip</p>
 <p>Você também pode acessar os valores POST (neste caso, &#8220;name&#8221;) diretamente através
 do objeto do pedido (<tt class="docutils literal"><span class="pre">request</span></tt>), desta forma:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">$this-&gt;get(&#39;request&#39;)-&gt;request-&gt;get(&#39;name&#39;);</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p class="last">Esteja ciente, no entanto, que, na maioria dos casos, usar o método getData() é
@@ -1374,30 +1400,32 @@ formulário?</p>
 <p>A resposta é configurar as <em>constraints</em> você mesmo, e passá-las para o seu
 formulário. A abordagem global é explicada um pouco mais no <a class="reference internal" href="validation.html#book-validation-raw-values"><em>validation chapter</em></a>,
 mas aqui está um pequeno exemplo:</p>
-<div class="highlight-python"><pre>// import the namespaces above your controller class
+<div class="highlight-python"><div class="highlight"><pre>// import the namespaces above your controller class
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\MinLength;
 use Symfony\Component\Validator\Constraints\Collection;
 
 $collectionConstraint = new Collection(array(
-    'name' =&gt; new MinLength(5),
-    'email' =&gt; new Email(array('message' =&gt; 'Invalid email address')),
+    &#39;name&#39; =&gt; new MinLength(5),
+    &#39;email&#39; =&gt; new Email(array(&#39;message&#39; =&gt; &#39;Invalid email address&#39;)),
 ));
 
 // create a form, no default values, pass in the constraint option
 $form = $this-&gt;createFormBuilder(null, array(
-    'validation_constraint' =&gt; $collectionConstraint,
-))-&gt;add('email', 'email')
+    &#39;validation_constraint&#39; =&gt; $collectionConstraint,
+))-&gt;add(&#39;email&#39;, &#39;email&#39;)
     // ...
-;</pre>
+;
+</pre></div>
 </div>
-<p>Agora, quando você chamar <cite>$form-&gt;isValid()</cite>, a configuração de <em>constraints</em> aqui será executada
+<p>Agora, quando você chamar <cite>$form-&gt;bind($request)</cite>, a configuração de <em>constraints</em> aqui será executada
 em relação aos dados do seu formulário. Se você estiver usando uma classe de formulário, sobrescreva
-o método <tt class="docutils literal"><span class="pre">getDefaultOptions</span></tt> para especificar a opção:</p>
-<div class="highlight-python"><pre>namespace Acme\TaskBundle\Form\Type;
+o método <tt class="docutils literal"><span class="pre">setDefaultOptions</span></tt> para especificar a opção:</p>
+<div class="highlight-python"><div class="highlight"><pre>namespace Acme\TaskBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\MinLength;
 use Symfony\Component\Validator\Constraints\Collection;
@@ -1406,16 +1434,19 @@ class ContactType extends AbstractType
 {
     // ...
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $collectionConstraint = new Collection(array(
-            'name' =&gt; new MinLength(5),
-            'email' =&gt; new Email(array('message' =&gt; 'Invalid email address')),
+            &#39;name&#39; =&gt; new MinLength(5),
+            &#39;email&#39; =&gt; new Email(array(&#39;message&#39; =&gt; &#39;Invalid email address&#39;)),
         ));
 
-        $options['validation_constraint'] = $collectionConstraint;
+        $resolver-&gt;setDefaults(array(
+            &#39;validation_constraint&#39; =&gt; $collectionConstraint
+        ));
     }
-}</pre>
+}
+</pre></div>
 </div>
 <p>Agora, você tem a flexibilidade de criar formulários - com validação - que retorna
 um array de dados, em vez de um objeto. Na maioria dos casos, é melhor - e
@@ -1442,12 +1473,12 @@ inclui exemplos de como usar cada tipo de campo e suas opções.</p>
 <div class="section" id="aprenda-mais-no-cookbook">
 <h2>Aprenda mais no Cookbook<a class="headerlink" href="#aprenda-mais-no-cookbook" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference internal" href="../cookbook/doctrine/file_uploads.html"><em>How to handle File Uploads with Doctrine</em></a></li>
-<li><a class="reference internal" href="../reference/forms/types/file.html"><em>File Field Reference</em></a></li>
+<li><a class="reference internal" href="../cookbook/doctrine/file_uploads.html"><em>Como Manipular o Upload de Arquivos com o Doctrine</em></a></li>
+<li><tt class="xref doc docutils literal"><span class="pre">File</span> <span class="pre">Field</span> <span class="pre">Reference</span></tt></li>
 <li><a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>Creating Custom Field Types</em></a></li>
-<li><a class="reference internal" href="../cookbook/form/form_customization.html"><em>How to customize Form Rendering</em></a></li>
-<li><a class="reference internal" href="../cookbook/form/dynamic_form_generation.html"><em>How to Dynamically Generate Forms Using Form Events</em></a></li>
-<li><a class="reference internal" href="../cookbook/form/data_transformers.html"><em>Using Data Transformers</em></a></li>
+<li><a class="reference internal" href="../cookbook/form/form_customization.html"><em>Como personalizar a Renderização de Formulários</em></a></li>
+<li><tt class="xref doc docutils literal"><span class="pre">/cookbook/form/dynamic_form_generation</span></tt></li>
+<li><a class="reference internal" href="../cookbook/form/data_transformers.html"><em>Como usar os Transformadores de Dados</em></a></li>
 </ul>
 </div>
 </div>
@@ -1473,13 +1504,6 @@ inclui exemplos de como usar cada tipo de campo e suas opções.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#tipos-de-campos-integrados-built-in">Tipos de campos integrados (Built-in)</a><ul>
-<li><a class="reference internal" href="#text-fields">Text Fields</a></li>
-<li><a class="reference internal" href="#choice-fields">Choice Fields</a></li>
-<li><a class="reference internal" href="#date-and-time-fields">Date and Time Fields</a></li>
-<li><a class="reference internal" href="#other-fields">Other Fields</a></li>
-<li><a class="reference internal" href="#field-groups">Field Groups</a></li>
-<li><a class="reference internal" href="#hidden-fields">Hidden Fields</a></li>
-<li><a class="reference internal" href="#base-fields">Base Fields</a></li>
 <li><a class="reference internal" href="#opcoes-dos-tipos-de-campos">Opções dos tipos de campos</a></li>
 </ul>
 </li>
@@ -1534,7 +1558,7 @@ inclui exemplos de como usar cada tipo de campo e suas opções.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -1560,13 +1584,13 @@ inclui exemplos de como usar cada tipo de campo e suas opções.</p>
         <li class="right" >
           <a href="validation.html" title="Validação"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Livro</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

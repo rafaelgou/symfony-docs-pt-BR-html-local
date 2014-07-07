@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Utilizando variáveis em todas templates (Variáveis globais) &mdash; Symfony2Docs v1 documentation</title>
+    <title>Utilizando variáveis em todas templates (Variáveis globais) &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to use PHP instead of Twig for Templates" href="PHP.html" />
-    <link rel="prev" title="How to use Varnish to speed up my Website" href="../cache/varnish.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Templating" href="index.html" />
+    <link rel="next" title="Log" href="../logging/index.html" />
+    <link rel="prev" title="Templating" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="PHP.html" title="How to use PHP instead of Twig for Templates"
+          <a href="../logging/index.html" title="Log"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../cache/varnish.html" title="How to use Varnish to speed up my Website"
+          <a href="index.html" title="Templating"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Templating</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -66,23 +68,25 @@ da seguinte forma.</p>
 <div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Our google tracking code is: <span class="cp">{{</span> <span class="nv">ga_tracking</span> <span class="cp">}}</span> <span class="nt">&lt;/p&gt;</span>
 </pre></div>
 </div>
-<p>É fácil! Você também pode utilizar do sistema de parâmetros (<a class="reference internal" href="../../book/service_container.html#book-service-container-parameters"><em>Service Parameters</em></a>),
+<p>É fácil! Você também pode utilizar do sistema de parâmetros (<a class="reference internal" href="../../book/service_container.html#book-service-container-parameters"><em>Parâmetros do Serviço</em></a>),
 que permite você isolar e reutilizar o valor como a seguir.</p>
-<div class="highlight-ini"><pre>; app/config/parameters.yml
+<div class="highlight-ini"><div class="highlight"><pre>; app/config/parameters.yml
 [parameters]
-    ga_tracking: UA-xxxxx-x</pre>
+    ga_tracking: UA-xxxxx-x
+</pre></div>
 </div>
-<div class="highlight-yaml"><pre># app/config/config.yml
+<div class="highlight-yaml"><div class="highlight"><pre># app/config/config.yml
 twig:
     globals:
-        ga_tracking: %ga_tracking%</pre>
+        ga_tracking: %ga_tracking%
+</pre></div>
 </div>
 <p>A mesma variável está disponível exatamente como antes.</p>
 <div class="section" id="variaveis-globais-mais-complexas">
 <h2>Variáveis globais mais complexas<a class="headerlink" href="#variaveis-globais-mais-complexas" title="Permalink to this headline">¶</a></h2>
 <p>Se a variável global que deseja definir é mais complexa, como um objeto por exemplo,
 então você não poderá utilizar o método acima. Ao invés disso, precisa criar uma
-extensão Twig (<a class="reference internal" href="../../reference/dic_tags.html#reference-dic-tags-twig-extension"><em>Twig Extension</em></a>) e retornar
+extensão Twig (<em class="xref std std-ref">Twig Extension</em>) e retornar
 a variável global como uma das entradas no método <tt class="docutils literal"><span class="pre">getGlobals</span></tt>.</p>
 </div>
 </div>
@@ -102,11 +106,11 @@ a variável global como uma das entradas no método <tt class="docutils literal"
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../cache/varnish.html"
-                        title="previous chapter">How to use Varnish to speed up my Website</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Templating</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="PHP.html"
-                        title="next chapter">How to use PHP instead of Twig for Templates</a></p>
+  <p class="topless"><a href="../logging/index.html"
+                        title="next chapter">Log</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/templating/global_variables.txt"
@@ -115,7 +119,7 @@ a variável global como uma das entradas no método <tt class="docutils literal"
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -136,18 +140,19 @@ a variável global como uma das entradas no método <tt class="docutils literal"
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="PHP.html" title="How to use PHP instead of Twig for Templates"
+          <a href="../logging/index.html" title="Log"
              >next</a> |</li>
         <li class="right" >
-          <a href="../cache/varnish.html" title="How to use Varnish to speed up my Website"
+          <a href="index.html" title="Templating"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Templating</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

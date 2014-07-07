@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Como forçar as rotas a usar sempre HTTPS ou HTTP &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como forçar as rotas a usar sempre HTTPS ou HTTP &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to allow a “/” character in a route parameter" href="slash_in_parameter.html" />
-    <link rel="prev" title="How to define Controllers as Services" href="../controller/service.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Roteamento" href="index.html" />
+    <link rel="next" title="Como permitir um caractere “/” em um parâmetro de rota" href="slash_in_parameter.html" />
+    <link rel="prev" title="Roteamento" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="slash_in_parameter.html" title="How to allow a “/” character in a route parameter"
+          <a href="slash_in_parameter.html" title="Como permitir um caractere “/” em um parâmetro de rota"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../controller/service.html" title="How to define Controllers as Services"
+          <a href="index.html" title="Roteamento"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Roteamento</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -79,17 +81,17 @@ o esquema URI através da condição <tt class="docutils literal"><span class="p
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">use Symfony\Component\Routing\RouteCollection;</span>
-<span class="x">use Symfony\Component\Routing\Route;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Route</span><span class="p">;</span>
 
-<span class="x">$collection = new RouteCollection();</span>
-<span class="x">$collection-&gt;add(&#39;secure&#39;, new Route(&#39;/secure&#39;, array(</span>
-<span class="x">    &#39;_controller&#39; =&gt; &#39;AcmeDemoBundle:Main:secure&#39;,</span>
-<span class="x">), array(</span>
-<span class="x">    &#39;_scheme&#39; =&gt; &#39;https&#39;,</span>
-<span class="x">)));</span>
+<span class="nv">$collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RouteCollection</span><span class="p">();</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;secure&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Route</span><span class="p">(</span><span class="s1">&#39;/secure&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;_controller&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;AcmeDemoBundle:Main:secure&#39;</span><span class="p">,</span>
+<span class="p">),</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;_scheme&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;https&#39;</span><span class="p">,</span>
+<span class="p">)));</span>
 
-<span class="x">return $collection;</span>
+<span class="k">return</span> <span class="nv">$collection</span><span class="p">;</span>
 </pre></div>
 </div>
 </li>
@@ -128,11 +130,11 @@ você quiser proteger URLs definidas em um bundle de terceiros.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../controller/service.html"
-                        title="previous chapter">How to define Controllers as Services</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Roteamento</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="slash_in_parameter.html"
-                        title="next chapter">How to allow a &#8220;/&#8221; character in a route parameter</a></p>
+                        title="next chapter">Como permitir um caractere &#8220;/&#8221; em um parâmetro de rota</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/routing/scheme.txt"
@@ -141,7 +143,7 @@ você quiser proteger URLs definidas em um bundle de terceiros.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -162,18 +164,19 @@ você quiser proteger URLs definidas em um bundle de terceiros.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="slash_in_parameter.html" title="How to allow a “/” character in a route parameter"
+          <a href="slash_in_parameter.html" title="Como permitir um caractere “/” em um parâmetro de rota"
              >next</a> |</li>
         <li class="right" >
-          <a href="../controller/service.html" title="How to define Controllers as Services"
+          <a href="index.html" title="Roteamento"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Roteamento</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

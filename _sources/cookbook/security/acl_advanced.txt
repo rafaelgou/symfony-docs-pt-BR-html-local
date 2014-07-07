@@ -1,189 +1,188 @@
-.. index::
-   single: Security; Advanced ACL concepts
+﻿.. index::
+   single: Segurança; Conceitos Avançados de ACL
 
-Advanced ACL Concepts
-=====================
+Como usar Conceitos Avançados de ACL
+====================================
 
-The aim of this chapter is to give a more in-depth view of the ACL system, and
-also explain some of the design decisions behind it.
+O objetivo deste capítulo é fornecer uma visão mais aprofundada do sistema de ACL, e
+também explicar algumas das decisões de projeto por trás dele.
 
-Design Concepts
----------------
+Conceitos de Projeto
+--------------------
 
-Symfony2's object instance security capabilities are based on the concept of
-an Access Control List. Every domain object **instance** has its own ACL. The
-ACL instance holds a detailed list of Access Control Entries (ACEs) which are
-used to make access decisions. Symfony2's ACL system focuses on two main
-objectives:
+Os recursos de uma instância do objeto de segurança do Symfony2 tem base no conceito de uma
+Lista de Controle de Acesso (ACL). Cada **instância** do objeto de domínio tem a sua própria ACL. A
+instância ACL contém uma lista detalhada de Entradas de Controle de Acesso (ACEs), que são
+usadas para tomar decisões de acesso. O sistema ACL do Symfony2 concentra-se em dois objetivos
+principais:
 
-- providing a way to efficiently retrieve a large amount of ACLs/ACEs for your
-  domain objects, and to modify them;
-- providing a way to easily make decisions of whether a person is allowed to
-  perform an action on a domain object or not.
+- fornecer uma maneira de recuperar uma grande quantidade de ACLs/ACEs de forma eficiente
+  para os seus objetos de domínio e para modificá-los;
+- fornecer uma maneira de tomar decisões facilmente para saber se uma pessoa está autorizada a
+  executar uma ação em um objeto de domínio ou não.
 
-As indicated by the first point, one of the main capabilities of Symfony2's
-ACL system is a high-performance way of retrieving ACLs/ACEs. This is
-extremely important since each ACL might have several ACEs, and inherit from
-another ACL in a tree-like fashion. Therefore, we specifically do not leverage
-any ORM, but the default implementation interacts with your connection
-directly using Doctrine's DBAL.
+Conforme indicado no primeiro ponto, uma das principais capacidades do sistema ACL do
+Symfony2 é uma forma de recuperar ACLs/ACEs com alto desempenho. Isto é
+extremamente importante, pois cada ACL pode ter várias ACEs, e herdam
+de outra ACL em forma de árvore. Portanto, nenhum ORM é utilizado, em vez disso,
+a implementação padrão interage com a sua conexão diretamente usando o DBAL do
+Doctrine.
 
-Object Identities
-~~~~~~~~~~~~~~~~~
+Identidades de Objeto
+~~~~~~~~~~~~~~~~~~~~~
 
-The ACL system is completely decoupled from your domain objects. They don't
-even have to be stored in the same database, or on the same server. In order
-to achieve this decoupling, in the ACL system your objects are represented
-through object identity objects. Everytime, you want to retrieve the ACL for a
-domain object, the ACL system will first create an object identity from your
-domain object, and then pass this object identity to the ACL provider for
-further processing.
-
-
-Security Identities
-~~~~~~~~~~~~~~~~~~~
-
-This is analog to the object identity, but represents a user, or a role in
-your application. Each role, or user has its own security identity.
+O sistema de ACL é completamente desacoplado de seus objetos de domínio. Eles não
+tem que ser armazenados na mesma base de dados, ou no mesmo servidor. De forma
+a atingir esse desacoplamento, os seus objetos, no sistema ACL, são representados
+através de objetos de identidade de objeto. Toda vez que você deseja recuperar a ACL para um
+objeto de domínio, o sistema de ACL vai primeiro criar uma identidade de objeto do seu
+objeto de domínio e, em seguida, passar essa identidade de objeto ao provedor ACL para
+processamento adicional.
 
 
-Database Table Structure
-------------------------
+Identidades de Segurança
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-The default implementation uses five database tables as listed below. The
-tables are ordered from least rows to most rows in a typical application:
-
-- *acl_security_identities*: This table records all security identities (SID)
-  which hold ACEs. The default implementation ships with two security
-  identities: ``RoleSecurityIdentity``, and ``UserSecurityIdentity``
-- *acl_classes*: This table maps class names to a unique id which can be
-  referenced from other tables.
-- *acl_object_identities*: Each row in this table represents a single domain
-  object instance.
-- *acl_object_identity_ancestors*: This table allows us to determine all the
-  ancestors of an ACL in a very efficient way.
-- *acl_entries*: This table contains all ACEs. This is typically the table
-  with the most rows. It can contain tens of millions without significantly
-  impacting performance.
+Isto é análogo à identidade de objeto, mas representa um usuário ou um papel em
+sua aplicação. Cada papel ou usuário tem a sua própria identidade de segurança.
 
 
-Scope of Access Control Entries
--------------------------------
+Estrutura da Tabela de Banco de Dados
+-------------------------------------
 
-Access control entries can have different scopes in which they apply. In
-Symfony2, we have basically two different scopes:
+A implementação padrão usa cinco tabelas de banco de dados, conforme listado abaixo. Em uma aplicação típica,
+as tabelas são ordenadas da com menos linhas para a com mais linhas:
 
-- Class-Scope: These entries apply to all objects with the same class.
-- Object-Scope: This was the scope we solely used in the previous chapter, and
-  it only applies to one specific object.
+- *acl_security_identities*: Esta tabela registra todas as identidades de segurança (SID)
+  que detêm ACEs. A implementação padrão vem com duas identidades de
+  segurança: ``RoleSecurityIdentity`` e ``UserSecurityIdentity``
+- *acl_classes*: Esta classe mapeia nomes de classes para um ID único, que pode ser
+  referenciado a partir de outras tabelas.
+- *acl_object_identities*: Cada linha nessa tabela representa um único domínio
+  de instância de objeto.
+- *acl_object_identity_ancestors*: Esta tabela permite que todos os ancestrais de
+  uma ACL, possam ser determinados de uma maneira muito eficiente.
+- *acl_entries*: Esta tabela contém todas as ACEs. Essa é tipicamente a tabela
+  com o maior número de linhas. Ela pode conter dezenas de milhões sem afetar
+  significativamente o desempenho.
 
-Sometimes, you will find the need to apply an ACE only to a specific field of
-the object. Let's say you want the ID only to be viewable by an administrator,
-but not by your customer service. To solve this common problem, we have added
-two more sub-scopes:
 
-- Class-Field-Scope: These entries apply to all objects with the same class,
-  but only to a specific field of the objects.
-- Object-Field-Scope: These entries apply to a specific object, and only to a
-  specific field of that object.
+Escopo das Entradas de Controle de Acesso
+-----------------------------------------
 
-Pre-Authorization Decisions
+Entradas de controle de acesso podem ter escopos diferentes nos quais se aplicam. No
+Symfony2, existem basicamente dois escopos diferentes:
+
+- Class-Scope: Essas entradas se aplicam a todos os objetos com a mesma classe.
+- Object-Scope: Este foi o escopo utilizado unicamente no capítulo anterior, e
+  ele só se aplica a um objeto específico.
+
+Às vezes, você vai encontrar a necessidade de aplicar uma ACE apenas a um campo específico do
+objeto. Vamos dizer que você quer que o ID somente seja visualizado por um administrador,
+mas não por seu serviço do cliente. Para resolver este problema comum, mais dois sub-escopos
+foram adicionados:
+
+- Classe-Field-Scope: Essas entradas se aplicam a todos os objetos com a mesma classe,
+  mas apenas a um campo específico dos objetos.
+- Object-Field-Scope: Essas entradas se aplicam a um objeto específico, e apenas a um
+  campo específico do objeto.
+
+Decisões de Pré-Autorização
 ---------------------------
 
-For pre-authorization decisions, that is decisions before any method, or
-secure action is invoked, we rely on the proven AccessDecisionManager service
-that is also used for reaching authorization decisions based on roles. Just
-like roles, the ACL system adds several new attributes which may be used to
-check for different permissions.
+Para as decisões de pré-autorização, que são as decisões tomadas antes de qualquer método seguro (ou
+ação segura) ser invocado, o serviço AccessDecisionManager é usado.
+O AccessDecisionManager também é usado para tomar decisões de autorização com base
+em papéis. Assim como os papéis, o sistema de ACL adiciona vários atributos novos que podem ser
+utilizados para verificar se há permissões diferentes.
 
-Built-in Permission Map
-~~~~~~~~~~~~~~~~~~~~~~~
+Mapa de Permissão Integrado
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-+------------------+----------------------------+-----------------------------+
-| Attribute        | Intended Meaning           | Integer Bitmasks            |
-+==================+============================+=============================+
-| VIEW             | Whether someone is allowed | VIEW, CREATE, EDIT,         |
-|                  | to view the domain object. | OPERATOR, MASTER, or OWNER  |
-+------------------+----------------------------+-----------------------------+
-| CREATE           | Whether someone is allowed | EDIT, OPERATOR, MASTER,     |
-|                  | to create the domain       | or OWNER                    |
-|                  | object.                    |                             |
-+------------------+----------------------------+-----------------------------+
-| EDIT             | Whether someone is allowed | EDIT, OPERATOR, MASTER,     |
-|                  | to make changes to the     | or OWNER                    |
-|                  | domain object.             |                             |
-+------------------+----------------------------+-----------------------------+
-| DELETE           | Whether someone is allowed | DELETE, OPERATOR, MASTER,   |
-|                  | to delete the domain       | or OWNER                    |
-|                  | object.                    |                             |
-+------------------+----------------------------+-----------------------------+
-| UNDELETE         | Whether someone is allowed | UNDELETE, OPERATOR, MASTER, |
-|                  | to restore a previously    | or OWNER                    |
-|                  | deleted domain object.     |                             |
-+------------------+----------------------------+-----------------------------+
-| OPERATOR         | Whether someone is allowed | OPERATOR, MASTER, or OWNER  |
-|                  | to perform all of the above|                             |
-|                  | actions.                   |                             |
-+------------------+----------------------------+-----------------------------+
-| MASTER           | Whether someone is allowed | MASTER, or OWNER            |
-|                  | to perform all of the above|                             |
-|                  | actions, and in addition is|                             |
-|                  | allowed to grant           |                             |
-|                  | any of the above           |                             |
-|                  | permissions to others.     |                             |
-+------------------+----------------------------+-----------------------------+
-| OWNER            | Whether someone owns the   | OWNER                       |
-|                  | domain object. An owner can|                             |
-|                  | perform any of the above   |                             |
-|                  | actions *and* grant master |                             |
-|                  | and owner permissions.     |                             |
-+------------------+----------------------------+-----------------------------+
++------------------+-------------------------------+-----------------------------+
+| Atributo         | Significado Pretendido        | Bitmasks Inteiras           |
++==================+===============================+=============================+
+| VIEW             | Se alguém tem permissão       | VIEW, EDIT, OPERATOR,       |
+|                  | para ver o objeto de domínio. | MASTER ou OWNER             |
++------------------+-------------------------------+-----------------------------+
+| EDIT             | Se alguém tem permissão       | EDIT, OPERATOR, MASTER      |
+|                  | para fazer alterações no      | ou OWNER                    |
+|                  | objeto de domínio.            |                             |
++------------------+-------------------------------+-----------------------------+
+| CREATE           | Se alguém tem permissão       | CREATE, OPERATOR, MASTER    |
+|                  | para criar o objeto de        | ou OWNER                    |
+|                  | domínio.                      |                             |
++------------------+-------------------------------+-----------------------------+
+| DELETE           | Se alguém tem permissão       | DELETE, OPERATOR, MASTER    |
+|                  | excluir o objeto de           | ou OWNER                    |
+|                  | domínio.                      |                             |
++------------------+-------------------------------+-----------------------------+
+| UNDELETE         | Se alguém tem permissão para  | UNDELETE, OPERATOR, MASTER  |
+|                  | restaurar o objeto de domínio | ou OWNER                    |
+|                  | anteriormente excluído.       |                             |
++------------------+-------------------------------+-----------------------------+
+| OPERATOR         | Se alguém tem permissão       | OPERATOR, MASTER ou OWNER   |
+|                  | para executar todas as ações  |                             |
+|                  | acima.                        |                             |
++------------------+-------------------------------+-----------------------------+
+| MASTER           | Se alguém tem permissão       | MASTER ou OWNER             |
+|                  | para executar todas as ações  |                             |
+|                  | acima, e além disso é         |                             |
+|                  | autorizada a conceder         |                             |
+|                  | qualuqer uma das permissões   |                             |
+|                  | acima para outros.            |                             |
++------------------+-------------------------------+-----------------------------+
+| OWNER            | Se alguém é dono do objeto    | OWNER                       |
+|                  | de domínio. Um dono pode      |                             |
+|                  | executar qualquer uma das     |                             |
+|                  | ações acima *e* conceder      |                             |
+|                  | permissões master e owner     |                             |
++------------------+-------------------------------+-----------------------------+
 
-Permission Attributes vs. Permission Bitmasks
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Atributos de Permissão vs Bitmasks de Permissão
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Attributes are used by the AccessDecisionManager, just like roles are
-attributes used by the AccessDecisionManager. Often, these attributes
-represent in fact an aggregate of integer bitmasks. Integer bitmasks on the
-other hand, are used by the ACL system internally to efficiently store your
-users' permissions in the database, and perform access checks using extremely
-fast bitmask operations.
+Os atributos são usados ​​pelo AccessDecisionManager, assim como papéis. Muitas vezes, estes
+atributos representam, de fato, um agregado de bitmasks inteiros. Bitmasks inteiros por outro
+lado, são utilizados internamente pelo sistema de ACL para armazenar de forma eficiente suas
+permissões de usuário no banco de dados e executar verificações de acesso usando
+operações bitmask extremamente rápidas.
 
-Extensibility
-~~~~~~~~~~~~~
+Extensibilidade
+~~~~~~~~~~~~~~~
 
-The above permission map is by no means static, and theoretically could be
-completely replaced at will. However, it should cover most problems you
-encounter, and for interoperability with other bundles, we encourage you to
-stick to the meaning we have envisaged for them.
+O mapa de permissão acima não é de forma alguma estático, e teoricamente poderia ser
+completamente substituído. No entanto, ele deve cobrir a maioria dos problemas que
+você encontra e para a interoperabilidade com outros bundles, você é incentivado a
+manter o significado previsto por eles.
 
-Post Authorization Decisions
-----------------------------
+Decisões Pós-Autorização
+------------------------
 
-Post authorization decisions are made after a secure method has been invoked,
-and typically involve the domain object which is returned by such a method.
-After invocation providers also allow to modify, or filter the domain object
-before it is returned.
+Decisões pós-autorização são feitas depois de um método seguro ter sido invocado,
+e normalmente envolvem o objeto de domínio que é retornado por esse método.
+Após a invocação de providers, também é permitido modificar ou filtrar o objeto de domínio
+antes de ser devolvido.
 
-Due to current limitations of the PHP language, there are no
-post-authorization capabilities build into the core Security component.
-However, there is an experimental JMSSecurityExtraBundle_ which adds these
-capabilities. See its documentation for further information on how this is
-accomplished.
+Devido às limitações atuais da linguagem PHP, não existem
+recursos de pós-autorização integrados no componente de segurança.
+No entanto, existe um JMSSecurityExtraBundle_ experimental que adiciona
+esses recursos. Consulte a documentação para obter mais informações sobre a
+forma como isso é feito.
 
-Process for Reaching Authorization Decisions
---------------------------------------------
+Processo para Tomar Decisões de Autorização
+-------------------------------------------
 
-The ACL class provides two methods for determining whether a security identity
-has the required bitmasks, ``isGranted`` and ``isFieldGranted``. When the ACL
-receives an authorization request through one of these methods, it delegates
-this request to an implementation of PermissionGrantingStrategy. This allows
-you to replace the way access decisions are reached without actually modifying
-the ACL class itself.
+A classe ACL fornece dois métodos para determinar se uma identidade de segurança
+tem as bitmasks necessárias, ``isGranted`` e ``isFieldGranted``. Quando a ACL
+recebe um pedido de autorização através de um desses métodos, ela delega
+esse pedido para uma implementação de PermissionGrantingStrategy. Isso permite
+a substituição da forma como as decisões de acesso são tomadas sem modificar
+a própria classe ACL.
 
-The PermissionGrantingStrategy first checks all your object-scope ACEs if none
-is applicable, the class-scope ACEs will be checked, if none is applicable,
-then the process will be repeated with the ACEs of the parent ACL. If no
-parent ACL exists, an exception will be thrown.
+O PermissionGrantingStrategy primeiro verifica todos os seus ACEs object-scope, se nenhum
+for aplicável, as ACEs class-scope serão verificadas, se nenhuma for aplicável,
+em seguida, o processo vai ser repetido com as ACEs da ACL pai. Se não
+existe nenhuma ACL pai, uma exceção será lançada.
 
 .. _JMSSecurityExtraBundle: https://github.com/schmittjoh/JMSSecurityExtraBundle

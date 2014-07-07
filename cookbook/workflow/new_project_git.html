@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Como Criar e Armazenar um Projeto Symfony2 no git &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como Criar e Armazenar um Projeto Symfony2 no git &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to customize Error Pages" href="../controller/error_pages.html" />
-    <link rel="prev" title="Cookbook" href="../index.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Workflow" href="index.html" />
+    <link rel="next" title="Controlador" href="../controller/index.html" />
+    <link rel="prev" title="Workflow" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../controller/error_pages.html" title="How to customize Error Pages"
+          <a href="../controller/index.html" title="Controlador"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Cookbook"
+          <a href="index.html" title="Workflow"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Workflow</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,7 +59,7 @@
 <p class="last">Embora este artigo seja especificamente sobre git, os mesmos princípios genéricos
 aplicam-se caso você estiver armazenando o seu projeto no Subversion.</p>
 </div>
-<p>Uma vez que você leu <a class="reference internal" href="../../book/page_creation.html"><em>Creating Pages in Symfony2</em></a> e familiarizou-se com
+<p>Uma vez que você leu <tt class="xref doc docutils literal"><span class="pre">/book/page_creation</span></tt> e familiarizou-se com
 o Symfony, já está, sem dúvida, pronto para começar o seu próprio projeto. Neste artigo
 do cookbook, você aprenderá a melhor maneira de iniciar um novo projeto Symfony2
 que será armazenado usando o sistema gerenciador de controle de versão <a class="reference external" href="http://git-scm.com/">git</a>.</p>
@@ -72,7 +74,7 @@ git local:</p>
 a sua nova estrutura do projeto, arquivos de configuração, etc. Renomeie-o como desejar.</p>
 </li>
 <li><p class="first">Crie um novo arquivo chamado <tt class="docutils literal"><span class="pre">.gitignore</span></tt> no raiz de seu novo projeto
-(Ex.: junto com o arquivo <tt class="docutils literal"><span class="pre">deps</span></tt>) e cole o conteúdo seguinte nele. Os arquivos
+(Ex.: junto com o arquivo <tt class="docutils literal"><span class="pre">composer.json</span></tt>) e cole o conteúdo seguinte nele. Os arquivos
 correspondentes a estes padrões serão ignorados pelo git:</p>
 <blockquote>
 <div><div class="highlight-text"><div class="highlight"><pre>/web/bundles/
@@ -112,18 +114,14 @@ novos desenvolvedores podem, rapidamente, clonar o projeto, copiar este arquivo 
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">Finalmente, baixe todas as bibliotecas vendor de terceiros:</p>
-<blockquote>
-<div><div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php bin/vendors install
-</pre></div>
-</div>
-</div></blockquote>
+<li><p class="first">Finalmente, baixe todas as bibliotecas vendor de terceiros executando
+o composer. Para detalhes, veja <a class="reference internal" href="../../book/installation.html#installation-updating-vendors"><em>Atualizando os Vendors</em></a>.</p>
 </li>
 </ol>
 <p>Neste ponto, você tem um projeto Symfony2 totalmente funcional que está corretamente
 comitado com o git. Você pode iniciar imediatamente o desenvolvimento, comitando as novas
 alterações em seu repositório git.</p>
-<p>Você pode continuar acompanhando o capítulo <a class="reference internal" href="../../book/page_creation.html"><em>Creating Pages in Symfony2</em></a>
+<p>Você pode continuar acompanhando o capítulo <tt class="xref doc docutils literal"><span class="pre">/book/page_creation</span></tt>
 para saber mais sobre como configurar e desenvolver dentro da sua aplicação.</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
@@ -169,11 +167,12 @@ para armazenar os identificadores git SHA apropriados no arquivo deps.lock.</p>
 </div>
 <div class="section" id="vendors-e-sub-modulos">
 <h3>Vendors e sub-módulos<a class="headerlink" href="#vendors-e-sub-modulos" title="Permalink to this headline">¶</a></h3>
-<p>Em vez de usar o sistema <tt class="docutils literal"><span class="pre">deps</span></tt> e <tt class="docutils literal"><span class="pre">bin/vendors</span></tt> para gerenciar suas blibliotecas vendor,
-você pode optar por usar o <a class="reference external" href="http://book.git-scm.com/5_submodules.html">git submodules</a> nativo. Não há
-nada de errado com esta abordagem, embora o sistema <tt class="docutils literal"><span class="pre">deps</span></tt> é a forma oficial
-de resolver este problema e o <tt class="docutils literal"><span class="pre">git</span> <span class="pre">submodules</span></tt> pode ser difícil trabalhar
-às vezes.</p>
+<p>Em vez de usar o sistema <tt class="docutils literal"><span class="pre">composer.json</span></tt> para gerenciar suas bibliotecas vendor,
+você pode optar por usar o <a class="reference external" href="http://book.git-scm.com/5_submodules.html">git submodules</a> nativo. Não há nada de errado com
+esta abordagem, embora o sistema <tt class="docutils literal"><span class="pre">composer.json</span></tt> é a forma oficial
+de resolver este problema e provavelmente mais fácil de lidar. Ao contrário
+do <tt class="docutils literal"><span class="pre">git</span> <span class="pre">submodules</span></tt>, o <tt class="docutils literal"><span class="pre">Composer</span></tt> é esperto o suficiente para calcular
+quais bibliotecas dependem de outras bibliotecas.</p>
 </div>
 </div>
 <div class="section" id="armazenando-o-seu-projeto-em-um-servidor-remoto">
@@ -211,11 +210,11 @@ neste gerenciamento é a <a class="reference external" href="https://github.com/
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">Cookbook</a></p>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Workflow</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../controller/error_pages.html"
-                        title="next chapter">How to customize Error Pages</a></p>
+  <p class="topless"><a href="../controller/index.html"
+                        title="next chapter">Controlador</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/workflow/new_project_git.txt"
@@ -224,7 +223,7 @@ neste gerenciamento é a <a class="reference external" href="https://github.com/
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -245,18 +244,19 @@ neste gerenciamento é a <a class="reference external" href="https://github.com/
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../controller/error_pages.html" title="How to customize Error Pages"
+          <a href="../controller/index.html" title="Controlador"
              >next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Cookbook"
+          <a href="index.html" title="Workflow"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Workflow</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

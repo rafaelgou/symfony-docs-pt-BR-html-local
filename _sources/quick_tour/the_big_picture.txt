@@ -1,31 +1,32 @@
-The Big Picture
-===============
+Panorama Geral
+==============
 
-Start using Symfony2 in 10 minutes! This chapter will walk you through some
-of the most important concepts behind Symfony2 and explain how you can get
-started quickly by showing you a simple project in action.
+Comece a usar o Symfony2 em 10 minutos! Este capítulo irá orientá-lo através de alguns
+dos conceitos mais importantes por trás do Symfony2 e explicar como você poderá
+iniciar rapidamente, mostrando-lhe um projeto simples em ação.
 
-If you've used a web framework before, you should feel right at home with
-Symfony2. If not, welcome to a whole new way of developing web applications!
+Se você já usou um framework web antes, você deve se sentir em casa com
+o Symfony2. Se não, bem-vindo à uma nova forma de desenvolver aplicações web!
 
 .. tip::
 
-    Want to learn why and when you need to use a framework? Read the "`Symfony
-    in 5 minutes`_" document.
+    Quer saber por que e quando você precisa usar um framework? Leia o documento "`Symfony
+    em 5 minutos`_" .
 
-Downloading Symfony2
---------------------
+Baixando o Symfony2
+-------------------
 
-First, check that you have installed and configured a Web server (such as
-Apache) with PHP 5.3.2 or higher.
+Primeiro, verifique se você tem um servidor web instalado e configurado (como
+o Apache) com a versão mais recente possível do PHP (é recomendado o PHP 5.3.8 ou 
+mais recente).
 
-Ready? Start by downloading the "`Symfony2 Standard Edition`_", a Symfony
-:term:`distribution` that is preconfigured for the most common use cases and
-also contains some code that demonstrates how to use Symfony2 (get the archive
-with the *vendors* included to get started even faster).
+Pronto? Comece fazendo o download da "`Edição Standard do Symfony2`_", uma :term:`distribuição`
+do Symfony que é pré-configurada para os casos de uso mais comuns e
+contém também um código que demonstra como usar Symfony2 (obtenha o arquivo
+com os *vendors* incluídos para começar ainda mais rápido).
 
-After unpacking the archive under your web server root directory, you should
-have a ``Symfony/`` directory that looks like this:
+Após descompactar o arquivo no seu diretório raiz do servidor web, você deve
+ter um diretório ``Symfony/`` parecido com o seguinte:
 
 .. code-block:: text
 
@@ -53,86 +54,120 @@ have a ``Symfony/`` directory that looks like this:
 
 .. note::
 
-    If you downloaded the Standard Edition *without vendors*, simply run the
-    following command to download all of the vendor libraries:
+    Se você está familiarizado com o Composer, poderá executar o seguinte comando
+    em vez de baixar o arquivo:
 
     .. code-block:: bash
 
-        php bin/vendors install
+        $ composer.phar create-project symfony/framework-standard-edition path/to/install 2.1.x-dev
 
-Checking the Configuration
+        # remove the Git history
+        $ rm -rf .git
+
+        Para uma versão exata, substitua `2.1.x-dev` com a versão mais recente do Symfony
+        (Ex. 2.1.1). Para detalhes, veja a `Página de Instalação do Symfony`_
+
+.. tip::
+
+    Se você tem o PHP 5.4, é possível usar o servidor web integrado:
+
+    .. code-block:: bash
+
+        # check your PHP CLI configuration
+        $ php ./app/check.php
+
+        # run the built-in web server
+        $ php ./app/console server:run
+
+    Então, a URL para a sua aplicação será "http://localhost:8000/app_dev.php"
+
+    O servidor integrado deve ser usado apenas para fins de desenvolvimento, mas
+    pode ajudá-lo a iniciar o seu projeto de forma rápida e fácil.
+
+Verificando a configuração
 --------------------------
 
-Symfony2 comes with a visual server configuration tester to help avoid some
-headaches that come from Web server or PHP misconfiguration. Use the following
-URL to see the diagnostics for your machine:
+O Symfony2 vem com uma interface visual para teste da configuração do servidor que ajuda a evitar 
+algumas dores de cabeça que originam da má configuração do servidor Web ou do PHP. Use a seguinte
+URL para ver o diagnóstico para a sua máquina:
 
 .. code-block:: text
 
-    http://localhost/Symfony/web/config.php
+    http://localhost/config.php
 
-If there are any outstanding issues listed, correct them. You might also tweak
-your configuration by following any given recommendations. When everything is
-fine, click on "*Bypass configuration and go to the Welcome page*" to request
-your first "real" Symfony2 webpage:
+.. note::
+
+    Todos as URLs de exemplo assumem que você baixou e descompactou o Symfony
+    diretamente no diretório raiz web do seu servidor web. Se você seguiu as instruções
+    acima e descompactou o diretório `Symfony` em seu raiz web, então, adicione
+    `/Symfony/web` após `localhost` em todas as URLs:
+
+    .. code-block:: text
+
+        http://localhost/Symfony/web/config.php
+
+Se houver quaisquer questões pendentes informadas, corrija-as. Você também pode 
+ajustar a sua configuração, seguindo todas as recomendações. Quando tudo estiver
+certo, clique em "*Bypass configuration and go to the Welcome page*" para solicitar
+a sua primeira página "real" do Symfony2:
 
 .. code-block:: text
 
-    http://localhost/Symfony/web/app_dev.php/
+    http://localhost/app_dev.php/
 
-Symfony2 should welcome and congratulate you for your hard work so far!
+O Symfony2 lhe dá as boas vindas e parabeniza-o por seu trabalho até agora!
 
 .. image:: /images/quick_tour/welcome.jpg
    :align: center
 
-Understanding the Fundamentals
-------------------------------
+Compreendendo os Fundamentos
+----------------------------
 
-One of the main goals of a framework is to ensure `Separation of Concerns`_.
-This keeps your code organized and allows your application to evolve easily
-over time by avoiding the mixing of database calls, HTML tags, and business
-logic in the same script. To achieve this goal with Symfony, you'll first
-need to learn a few fundamental concepts and terms.
+Um dos objetivos principais de um framework é garantir a `Separação de Responsabilidades`_.
+Isso mantém o seu código organizado e permite que a sua aplicação evolua facilmente ao longo 
+do tempo, evitando a mistura de chamadas ao banco de dados, de tags HTML e de lógica de 
+negócios no mesmo script. Para atingir este objetivo com o Symfony, primeiro você
+precisa aprender alguns conceitos e termos fundamentais.
 
 .. tip::
 
-    Want proof that using a framework is better than mixing everything
-    in the same script? Read the ":doc:`/book/from_flat_php_to_symfony2`"
-    chapter of the book.
+    Quer uma prova de que o uso de um framework é melhor do que misturar tudo
+    no mesmo script? Leia o capítulo ":doc:`/book/from_flat_php_to_symfony2`"
+    do livro.
 
-The distribution comes with some sample code that you can use to learn more
-about the main Symfony2 concepts. Go to the following URL to be greeted by
-Symfony2 (replace *Fabien* with your first name):
+A distribuição vem com um código de exemplo que você pode usar para aprender mais sobre 
+os principais conceitos do Symfony2. Vá para a seguinte URL para ser cumprimentado pelo
+Symfony2 (substitua *Fabien* pelo seu primeiro nome):
 
 .. code-block:: text
 
-    http://localhost/Symfony/web/app_dev.php/demo/hello/Fabien
+    http://localhost/app_dev.php/demo/hello/Fabien
 
 .. image:: /images/quick_tour/hello_fabien.png
    :align: center
 
-What's going on here? Let's dissect the URL:
+O que está acontecendo aqui? Vamos dissecar a URL:
 
-* ``app_dev.php``: This is a :term:`front controller`. It is the unique entry
-  point of the application and it responds to all user requests;
+* ``app_dev.php``: Este é o :term:`front controller`. É o único ponto de entrada
+  da aplicação e responde à todas as solicitações dos usuários;
 
-* ``/demo/hello/Fabien``: This is the *virtual path* to the resource the user
-  wants to access.
+* ``/demo/hello/Fabien``: Este é o *caminho virtual* para o recurso que o usuário
+  quer acessar.
 
-Your responsibility as a developer is to write the code that maps the user's
-*request* (``/demo/hello/Fabien``) to the *resource* associated with it
-(the ``Hello Fabien!`` HTML page).
+Sua responsabilidade como desenvolvedor é escrever o código que mapeia a *solicitação* 
+do usuário (``/demo/hello/Fabien``) para o *recurso* associado à ela
+(a página HTML ``Hello Fabien!``).
 
-Routing
-~~~~~~~
+Roteamento
+~~~~~~~~~~
 
-Symfony2 routes the request to the code that handles it by trying to match the
-requested URL against some configured patterns. By default, these patterns
-(called routes) are defined in the ``app/config/routing.yml`` configuration
-file. When you're in the ``dev`` :ref:`environment<quick-tour-big-picture-environments>` -
-indicated by the app_**dev**.php front controller - the ``app/config/routing_dev.yml``
-configuration file is also loaded. In the Standard Edition, the routes to
-these "demo" pages are placed in that file:
+O Symfony2 encaminha a solicitação para o código que lida com ela, tentando corresponder a
+URL solicitada contra alguns padrões configurados. Por predefinição, esses padrões
+(chamados de rotas) são definidos no arquivo de configuração ``app/config/routing.yml``.
+Quando você está no :ref:`ambiente<quick-tour-big-picture-environments>` ``dev`` - 
+indicado pelo front controller app_**dev**.php - o arquivo de configuração
+``app/config/routing_dev.yml`` também é carregado. Na Edição Standard, as rotas para
+estas páginas "demo" são colocadas no arquivo:
 
 .. code-block:: yaml
 
@@ -148,29 +183,29 @@ these "demo" pages are placed in that file:
 
     # ...
 
-The first three lines (after the comment) define the code that is executed
-when the user requests the "``/``" resource (i.e. the welcome page you saw
-earlier). When requested, the ``AcmeDemoBundle:Welcome:index`` controller
-will be executed. In the next section, you'll learn exactly what that means.
+As três primeiras linhas (após o comentário) definem o código que é executado
+quando o usuário solicita o recurso "``/``" (ou seja, a página de boas-vindas que você viu
+anterioremente). Quando solicitado, o controlador ``AcmeDemoBundle:Welcome:index``
+será executado. Na próxima seção, você vai aprender exatamente o que isso significa.
 
 .. tip::
 
-    The Symfony2 Standard Edition uses `YAML`_ for its configuration files,
-    but Symfony2 also supports XML, PHP, and annotations natively. The
-    different formats are compatible and may be used interchangeably within an
-    application. Also, the performance of your application does not depend on
-    the configuration format you choose as everything is cached on the very
-    first request.
+    A Edição Standard do Symfony2 usa `YAML`_ para seus arquivos de configuração,
+    mas o Symfony2 também suporta XML, PHP e anotações nativamente. Os diferentes 
+    formatos são compatíveis e podem ser utilizados alternadamente dentro de uma
+    aplicação. Além disso, o desempenho de sua aplicação não depende do
+    formato de configuração que você escolher, pois tudo é armazenado em cache na
+    primeira solicitação.
 
-Controllers
-~~~~~~~~~~~
+Controladores
+~~~~~~~~~~~~~
 
-A controller is a fancy name for a PHP function or method that handles incoming
-*requests* and returns *responses* (often HTML code). Instead of using the
-PHP global variables and functions (like ``$_GET`` or ``header()``) to manage
-these HTTP messages, Symfony uses objects: :class:`Symfony\\Component\\HttpFoundation\\Request`
-and :class:`Symfony\\Component\\HttpFoundation\\Response`. The simplest possible
-controller might create the response by hand, based on the request::
+Controlador é um nome fantasia para uma função ou método PHP que manipula as *solicitações* 
+de entrada e retorna *respostas* (código HTML, na maioria das vezes). Em vez de usar as 
+variáveis ​​globais e funções do PHP (como ``$_GET`` ou ``header()``) para gerenciar
+essas mensagens HTTP, o Symfony usa objetos: :class:`Symfony\\Component\\HttpFoundation\\Request`
+e :class:`Symfony\\Component\\HttpFoundation\\Response`. O controlador mais simples possível
+pode criar a resposta manualmente, com base na solicitação::
 
     use Symfony\Component\HttpFoundation\Response;
 
@@ -180,15 +215,15 @@ controller might create the response by hand, based on the request::
 
 .. note::
 
-    Symfony2 embraces the HTTP Specification, which are the rules that govern
-    all communication on the Web. Read the ":doc:`/book/http_fundamentals`"
-    chapter of the book to learn more about this and the added power that
-    this brings.
+    O Symfony2 engloba a Especificação HTTP, que são as regras que regem
+    toda a comunicação na Web. Leia o capítulo ":doc:`/book/http_fundamentals`"
+    do livro para aprender mais sobre ela e o poder que
+    isso acrescenta.
 
-Symfony2 chooses the controller based on the ``_controller`` value from the
-routing configuration: ``AcmeDemoBundle:Welcome:index``. This string is the
-controller *logical name*, and it references the ``indexAction`` method from
-the ``Acme\DemoBundle\Controller\WelcomeController`` class::
+O Symfony2 escolhe o controlador com base no valor ``_controller`` da
+configuração de roteamento: ``AcmeDemoBundle:Welcome:index``. Esta string é o
+*nome lógico* do controlador, e ela referencia o método ``indexAction`` da
+classe ``Acme\DemoBundle\Controller\WelcomeController``::
 
     // src/Acme/DemoBundle/Controller/WelcomeController.php
     namespace Acme\DemoBundle\Controller;
@@ -205,18 +240,18 @@ the ``Acme\DemoBundle\Controller\WelcomeController`` class::
 
 .. tip::
 
-    You could have used the full class and method name - 
-    ``Acme\DemoBundle\Controller\WelcomeController::indexAction`` - for the
-    ``_controller`` value. But if you follow some simple conventions, the
-    logical name is shorter and allows for more flexibility.
+    Você poderia ter usado o nome completo da classe e do método - 
+    ``Acme\DemoBundle\Controller\WelcomeController::indexAction`` - para o
+    valor ``_controller``. Mas, se você seguir algumas convenções simples, o
+    nome lógico é menor e permite mais flexibilidade.
 
-The ``WelcomeController`` class extends the built-in ``Controller`` class,
-which provides useful shortcut methods, like the
+A classe ``WelcomeController`` estende a classe nativa ``Controller``,
+que fornece métodos de atalho úteis, tal como o método 
 :method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::render`
-method that loads and renders a template
-(``AcmeDemoBundle:Welcome:index.html.twig``). The returned value is a Response
-object populated with the rendered content. So, if the needs arise, the
-Response can be tweaked before it is sent to the browser::
+que carrega e renderiza um template (``AcmeDemoBundle:Welcome:index.html.twig``). 
+O valor retornado é um objeto Response populado com o conteúdo processado. 
+Assim, se as necessidades surgirem, o Response pode ser ajustado antes de ser 
+enviado ao navegador::
 
     public function indexAction()
     {
@@ -226,26 +261,26 @@ Response can be tweaked before it is sent to the browser::
         return $response;
     }
 
-No matter how you do it, the end goal of your controller is always to return
-the ``Response`` object that should be delivered back to the user. This ``Response``
-object can be populated with HTML code, represent a client redirect, or even
-return the contents of a JPG image with a ``Content-Type`` header of ``image/jpg``.
+Não importa como você faz isso, o objetivo final do seu controlador sempre será retornar
+o objeto ``Response`` que deve ser devolvido ao usuário. Este objeto ``Response`` pode 
+ser populado com código HTML, representar um redirecionamento do cliente, ou mesmo
+retornar o conteúdo de uma imagem JPG com um cabeçalho ``Content-Type`` de ``image/jpg``.
 
 .. tip::
 
-    Extending the ``Controller`` base class is optional. As a matter of fact,
-    a controller can be a plain PHP function or even a PHP closure.
-    ":doc:`The Controller</book/controller>`" chapter of the book tells you
-    everything about Symfony2 controllers.
+    Estender a classe base ``Controller`` é opcional. De fato 
+    um controlador pode ser uma função PHP simples ou até mesmo uma closure PHP.
+    O capítulo ":doc:`O Controlador</book/controller>`" do livro lhe ensina
+    tudo sobre os controladores do Symfony2.
 
-The template name, ``AcmeDemoBundle:Welcome:index.html.twig``, is the template
-*logical name* and it references the
-``Resources/views/Welcome/index.html.twig`` file inside the ``AcmeDemoBundle``
-(located at ``src/Acme/DemoBundle``). The bundles section below will explain
-why this is useful.
+O nome do template, ``AcmeDemoBundle:Welcome:index.html.twig``, é o *nome lógico* 
+do template e faz referência ao arquivo ``Resources/views/Welcome/index.html.twig`` 
+dentro do ``AcmeDemoBundle`` (localizado em ``src/Acme/DemoBundle``). 
+A seção bundles abaixo irá explicar
+porque isso é útil.
 
-Now, take a look at the routing configuration again and find the ``_demo``
-key:
+Agora, dê uma olhada novamente na configuração de roteamento e encontre a chave
+``_demo``.
 
 .. code-block:: yaml
 
@@ -255,11 +290,11 @@ key:
         type:     annotation
         prefix:   /demo
 
-Symfony2 can read/import the routing information from different files written
-in YAML, XML, PHP, or even embedded in PHP annotations. Here, the file's
-*logical name* is ``@AcmeDemoBundle/Controller/DemoController.php`` and refers
-to the ``src/Acme/DemoBundle/Controller/DemoController.php`` file. In this
-file, routes are defined as annotations on action methods::
+O Symfony2 pode ler/importar as informações de roteamento de diferentes arquivos escritos
+em YAML, XML, PHP ou até mesmo incorporado em anotações PHP. Aqui, o *nome lógico* do
+arquivo é ``@AcmeDemoBundle/Controller/DemoController.php`` e refere-se
+ao arquivo ``src/Acme/DemoBundle/Controller/DemoController.php`` . Neste
+arquivo, as rotas são definidas como anotações nos métodos da ação::
 
     // src/Acme/DemoBundle/Controller/DemoController.php
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -279,37 +314,37 @@ file, routes are defined as annotations on action methods::
         // ...
     }
 
-The ``@Route()`` annotation defines a new route with a pattern of
-``/hello/{name}`` that executes the ``helloAction`` method when matched. A
-string enclosed in curly brackets like ``{name}`` is called a placeholder. As
-you can see, its value can be retrieved through the ``$name`` method argument.
+A anotação ``@Route()`` define uma nova rota com um padrão 
+``/hello/{name}`` que executa o método ``helloAction`` quando corresponder. A
+string entre chaves como ``{name}`` é chamada de placeholder. Como
+você pode ver, o seu valor pode ser obtido através do argumento do método ``$name``.
 
 .. note::
 
-    Even if annotations are not natively supported by PHP, you use them
-    extensively in Symfony2 as a convenient way to configure the framework
-    behavior and keep the configuration next to the code.
+    Mesmo as anotações não sendo suportadas nativamente pelo PHP, você as usará
+    extensivamente no Symfony2 como uma forma conveniente de configurar o comportamento
+    do framework e manter a configuração próxima ao código.
 
-If you take a closer look at the controller code, you can see that instead of
-rendering a template and returning a ``Response`` object like before, it
-just returns an array of parameters. The ``@Template()`` annotation tells
-Symfony to render the template for you, passing in each variable of the array
-to the template. The name of the template that's rendered follows the name
-of the controller. So, in this example, the ``AcmeDemoBundle:Demo:hello.html.twig``
-template is rendered (located at ``src/Acme/DemoBundle/Resources/views/Demo/hello.html.twig``).
+Se você verificar o código do controlador, poderá ver que em vez de
+renderizar um template e retornar um objeto ``Response`` como antes,
+ele apenas retorna um array de parâmetros. A anotação ``@Template()`` diz ao
+Symfony para renderizar o template para você, passando cada variável do array
+ao template. O nome do template que é renderizado segue o nome
+do controlador. Assim, neste exemplo, o template ``AcmeDemoBundle:Demo:hello.html.twig``
+é renderizado (localizado em ``src/Acme/DemoBundle/Resources/views/Demo/hello.html.twig``).
 
 .. tip::
 
-    The ``@Route()`` and ``@Template()`` annotations are more powerful than
-    the simple examples shown in this tutorial. Learn more about "`annotations
-    in controllers`_" in the official documentation.
+    As anotações ``@Route()`` e ``@Template()`` são mais poderosas do que
+    os exemplos simples mostrados neste tutorial. Saiba mais sobre "`anotações
+    em controladores`_" na documentação oficial.
 
 Templates
 ~~~~~~~~~
 
-The controller renders the
-``src/Acme/DemoBundle/Resources/views/Demo/hello.html.twig`` template (or
-``AcmeDemoBundle:Demo:hello.html.twig`` if you use the logical name):
+O controlador renderiza o
+template ``src/Acme/DemoBundle/Resources/views/Demo/hello.html.twig`` (ou
+``AcmeDemoBundle:Demo:hello.html.twig`` se você usar o nome lógico):
 
 .. code-block:: jinja
 
@@ -322,74 +357,83 @@ The controller renders the
         <h1>Hello {{ name }}!</h1>
     {% endblock %}
 
-By default, Symfony2 uses `Twig`_ as its template engine but you can also use
-traditional PHP templates if you choose. The next chapter will introduce how
-templates work in Symfony2.
+Por padrão, o Symfony2 usa o `Twig`_ como seu template engine, mas você também pode usar
+templates tradicionais PHP se você escolher. No próximo capítulo apresentaremos como
+os templates funcionam no Symfony2.
 
 Bundles
 ~~~~~~~
 
-You might have wondered why the :term:`bundle` word is used in many names we
-have seen so far. All the code you write for your application is organized in
-bundles. In Symfony2 speak, a bundle is a structured set of files (PHP files,
-stylesheets, JavaScripts, images, ...) that implements a single feature (a
-blog, a forum, ...) and which can be easily shared with other developers. As
-of now, we have manipulated one bundle, ``AcmeDemoBundle``. You will learn
-more about bundles in the last chapter of this tutorial.
+Você pode ter se perguntado por que a palavra :term:`bundle` é usada em muitos nomes que
+vimos até agora. Todo o código que você escreve para a sua aplicação está organizado em
+bundles. Na forma de falar do Symfony2, um bundle é um conjunto estruturado de arquivos (arquivos PHP,
+folhas de estilo, JavaScripts, imagens, ...) que implementam uma funcionalidade única (um
+blog, um fórum, ...) e que podem ser facilmente compartilhados com outros desenvolvedores. Até
+agora, manipulamos um bundle, ``AcmeDemoBundle``. Você vai aprender
+mais sobre bundles no último capítulo deste tutorial.
 
 .. _quick-tour-big-picture-environments:
 
-Working with Environments
+Trabalhando com Ambientes
 -------------------------
 
-Now that you have a better understanding of how Symfony2 works, take a closer
-look at the bottom of any Symfony2 rendered page. You should notice a small
-bar with the Symfony2 logo. This is called the "Web Debug Toolbar" and it
-is the developer's best friend.
+Agora que você tem uma compreensão melhor de como funciona o Symfony2, verifique 
+a parte inferior de qualquer página renderizada com o Symfony2. Você deve observar uma pequena
+barra com o logotipo do Symfony2. Isso é chamado de "Barra de ferramentas para Debug Web" e
+é a melhor amiga do desenvolvedor.
 
 .. image:: /images/quick_tour/web_debug_toolbar.png
    :align: center
 
-But what you see initially is only the tip of the iceberg; click on the weird
-hexadecimal number to reveal yet another very useful Symfony2 debugging tool:
-the profiler.
+Mas, o que você vê inicialmente é apenas a ponta do iceberg; clique sobre o estranho
+número hexadecimal para revelar mais uma ferramenta de depuração muito útil do Symfony2:
+o profiler.
 
 .. image:: /images/quick_tour/profiler.png
    :align: center
 
-Of course, you won't want to show these tools when you deploy your application
-to production. That's why you will find another front controller in the
-``web/`` directory (``app.php``), which is optimized for the production environment:
+É claro, você não vai querer mostrar essas ferramentas quando implantar a sua aplicação
+em produção. É por isso que você vai encontrar um outro front controller no
+diretório ``web/`` (``app.php``), que é otimizado para o ambiente de produção:
 
 .. code-block:: text
 
-    http://localhost/Symfony/web/app.php/demo/hello/Fabien
+    http://localhost/app.php/demo/hello/Fabien
 
-And if you use Apache with ``mod_rewrite`` enabled, you can even omit the
-``app.php`` part of the URL:
-
-.. code-block:: text
-
-    http://localhost/Symfony/web/demo/hello/Fabien
-
-Last but not least, on the production servers, you should point your web root
-directory to the ``web/`` directory to secure your installation and have an
-even better looking URL:
+E, se você usar o Apache com o ``mod_rewrite`` habilitado, poderá até omitir a
+parte ``app.php`` da URL:
 
 .. code-block:: text
 
     http://localhost/demo/hello/Fabien
 
-To make you application respond faster, Symfony2 maintains a cache under the
-``app/cache/`` directory. In the development environment (``app_dev.php``),
-this cache is flushed automatically whenever you make changes to any code or
-configuration. But that's not the case in the production environment
-(``app.php``) where performance is key. That's why you should always use
-the development environment when developing your application.
+Por último, mas não menos importante, nos servidores de produção, você deve apontar seu diretório
+raiz web para o diretório ``web/`` para proteger sua instalação e ter uma URL
+ainda melhor:
 
-Different :term:`environments<environment>` of a given application differ
-only in their configuration. In fact, a configuration can inherit from another
-one:
+.. code-block:: text
+
+    http://localhost/demo/hello/Fabien
+
+.. note::
+
+    Note que as três URLs acima são fornecidas aqui apenas como **exemplos** de
+    como uma URL parece quando o front controller de produção é usado (com ou
+    sem mod_rewrite). Se você realmente experimentá-los em uma
+    instalação do *Symfony Standard Edition* você receberá um erro 404 pois
+    o *AcmeDemoBundle* está habilitado somente no ambiente dev e suas rotas importam
+    o *app/config/routing_dev.yml*.
+
+Para fazer a sua aplicação responder mais rápido, o Symfony2 mantém um cache sob o
+diretório ``app/cache/``. No ambiente de desenvolvimento (``app_dev.php``),
+esse cache é liberado automaticamente sempre que fizer alterações em qualquer código ou
+configuração. Mas esse não é o caso do ambiente de produção
+(``app.php``) onde o desempenho é fundamental. É por isso que você deve sempre usar
+o ambiente de desenvolvimento ao desenvolver a sua aplicação.
+
+Diferentes :term:`ambientes<environment>` de uma dada aplicação diferem
+apenas na sua configuração. Na verdade, uma configuração pode herdar de 
+outra:
 
 .. code-block:: yaml
 
@@ -401,22 +445,23 @@ one:
         toolbar: true
         intercept_redirects: false
 
-The ``dev`` environment (which loads the ``config_dev.yml`` configuration file)
-imports the global ``config.yml`` file and then modifies it by, in this example,
-enabling the web debug toolbar.
+O ambiente ``dev`` (que carrega o arquivo de configuração ``config_dev.yml``)
+importa o arquivo global ``config.yml`` e, em seguida, modifica-o, neste exemplo,
+habilitando a barra de ferramentas para debug web.
 
-Final Thoughts
---------------
+Considerações Finais
+--------------------
 
-Congratulations! You've had your first taste of Symfony2 code. That wasn't so
-hard, was it? There's a lot more to explore, but you should already see how
-Symfony2 makes it really easy to implement web sites better and faster. If you
-are eager to learn more about Symfony2, dive into the next section:
-":doc:`The View<the_view>`".
+Parabéns! Você já teve a sua primeira amostra de código do Symfony2. Isso não foi tão
+difícil, foi? Há muito mais para explorar, mas, você já deve ter notado como
+o Symfony2 torna muito fácil implementar web sites de forma melhor e mais rápida. 
+Se você está ansioso para aprender mais sobre o Symfony2, mergulhe na próxima seção:
+":doc:`A Visão<the_view>`".
 
-.. _Symfony2 Standard Edition:      http://symfony.com/download
-.. _Symfony in 5 minutes:           http://symfony.com/symfony-in-five-minutes
-.. _Separation of Concerns:         http://en.wikipedia.org/wiki/Separation_of_concerns
-.. _YAML:                           http://www.yaml.org/
-.. _annotations in controllers:     http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers
-.. _Twig:                           http://twig.sensiolabs.org/
+.. _Edição Standard do Symfony2:       http://symfony.com/download
+.. _Symfony em 5 minutos:              http://symfony.com/symfony-in-five-minutes
+.. _Separação de Responsabilidades:    http://en.wikipedia.org/wiki/Separation_of_concerns
+.. _YAML:                              http://www.yaml.org/
+.. _anotações nos controladores:       http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#annotations-for-controllers
+.. _Twig:                              http://twig.sensiolabs.org/
+.. _`Página de Instalação do Symfony`: http://symfony.com/download

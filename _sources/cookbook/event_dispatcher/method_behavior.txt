@@ -1,15 +1,15 @@
 .. index::
-   single: Event Dispatcher
+   single: Dispatcher de Evento
 
-How to customize a Method Behavior without using Inheritance
-============================================================
+Como personalizar o Comportamento do Método sem o uso de Herança
+================================================================
 
-Doing something before or after a Method Call
----------------------------------------------
+Realizar algo antes ou após a Chamada de um Método
+--------------------------------------------------
 
-If you want to do something just before, or just after a method is called, you
-can dispatch an event respectively at the beginning or at the end of the
-method::
+Se você deseja realizar algo logo antes ou após um método ser chamado, você
+pode despachar um evento, respectivamente, no início ou no fim do
+método::
 
     class Foo
     {
@@ -24,8 +24,9 @@ method::
             // get $foo and $bar from the event, they may have been modified
             $foo = $event->getFoo();
             $bar = $event->getBar();
+
             // the real method implementation is here
-            // $ret = ...;
+            $ret = ...;
 
             // do something after the method
             $event = new FilterSendReturnValue($ret);
@@ -35,15 +36,15 @@ method::
         }
     }
 
-In this example, two events are thrown: ``foo.pre_send``, before the method is
-executed, and ``foo.post_send`` after the method is executed. Each uses a
-custom Event class to communicate information to the listeners of the two
-events. These event classes would need to be created by you and should allow,
-in this example, the variables ``$foo``, ``$bar`` and ``$ret`` to be retrieved
-and set by the listeners.
+Neste exemplo, dois eventos são lançados: ``foo.pre_send``, antes do método ser
+executado, e ``foo.post_send`` após o método ser executado. Cada um usa uma
+classe ``Event`` personalizada para comunicar informações para os ouvintes dos dois
+eventos. Essas classes de evento teriam que ser criadas por você e, devem permitir, 
+neste exemplo, que as variáveis ``$foo``, ``$bar`` e ``$ret`` sejam recuperadas
+e definidas pelos ouvintes.
 
-For example, assuming the ``FilterSendReturnValue`` has a ``setReturnValue``
-method, one listener might look like this:
+Por exemplo, supondo que o ``FilterSendReturnValue`` tem um método ``setReturnValue``,
+um ouvinte pode ter o seguinte aspecto:
 
 .. code-block:: php
 

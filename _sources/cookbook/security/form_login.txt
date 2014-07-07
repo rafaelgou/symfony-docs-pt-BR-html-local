@@ -1,13 +1,16 @@
-How to customize your Form Login
-================================
+.. index::
+   single: Segurança; Personalizando o formulário de login
 
-Using a :ref:`form login<book-security-form-login>` for authentication is
-a common, and flexible, method for handling authentication in Symfony2. Pretty
-much every aspect of the form login can be customized. The full, default
-configuration is shown in the next section.
+Como personalizar o seu Formulário de Login
+===========================================
 
-Form Login Configuration Reference
-----------------------------------
+Usar um :ref:`formulário de login<book-security-form-login>` para autenticação é
+é um método comum e flexível para lidar com a autenticação no Symfony2. Praticamente
+todos os aspectos do formulário de login podem ser personalizados. A configuração padrão
+completa é mostrada na próxima seção.
+
+Configuração de Referência do Formulário de Login
+-------------------------------------------------
 
 .. configuration-block::
 
@@ -96,34 +99,34 @@ Form Login Configuration Reference
             ),
         ));
 
-Redirecting after Success
--------------------------
+Redirecionando após Sucesso
+---------------------------
 
-You can change where the login form redirects after a successful login using
-the various config options. By default the form will redirect to the URL the
-user requested (i.e. the URL which triggered the login form being shown).
-For example, if the user requested ``http://www.example.com/admin/post/18/edit``
-then after he/she will eventually be sent back to ``http://www.example.com/admin/post/18/edit`` 
-after successfully logging in. This is done by storing the requested URL
-in the session. If no URL is present in the session (perhaps the user went
-directly to the login page), then the user is redirected to the default page,
-which is  ``/`` (i.e. the homepage) by default. You can change this behavior
-in several ways.
+Você pode alterar o local para onde o formulário de login redireciona após um login bem-sucedido 
+usando opções de configuração diferentes. Por padrão, o formulário irá redirecionar para a URL
+solicitada pelo usuário (ou seja, a URL que acionou o formulário de login que está sendo exibido).
+Por exemplo, se o usuário solicitou ``http://www.example.com/admin/post/18/edit``, então, após 
+o login bem-sucedido, ele será enviado de volta para ``http://www.example.com/admin/post/18/edit`` 
+. Isto é feito através do armazenamento da URL solicitada 
+em sessão. Se nenhuma URL estiver presente na sessão (talvez o usuário acessou
+diretamente a página de login), então, o usuário é redirecionado para a página padrão,
+que é ``/`` (ou seja, a homepage). Você pode alterar esse comportamento
+de várias formas.
 
 .. note::
 
-    As mentioned, by default the user is redirected back to the page he originally
-    requested. Sometimes, this can cause problems, like if a background AJAX
-    request "appears" to be the last visited URL, causing the user to be
-    redirected there. For information on controlling this behavior, see
+    Como mencionado, por padrão, o usuário é redirecionado para a página que ele solicitou
+    originalmente. Às vezes, isso pode causar problemas, como, por exemplo, uma requisição AJAX 
+    em background "aparece" sendo a última URL visitada, fazendo com que o usuário seja
+    redirecionado para lá. Para informações sobre como controlar esse comportamento, consulte
     :doc:`/cookbook/security/target_path`.
 
-Changing the Default Page
+Alterando a Página Padrão
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First, the default page can be set (i.e. the page the user is redirected to
-if no previous page was stored in the session). To set it to ``/admin`` use
-the following config:
+Primeiro, a página padrão pode ser definida (ou seja, a página para a qual o usuário será 
+redirecionado se nenhuma página anterior foi armazenada em sessão). Para configurá-la para 
+``/admin`` use a seguinte configuração:
 
 .. configuration-block::
 
@@ -154,20 +157,20 @@ the following config:
         $container->loadFromExtension('security', array(
             'firewalls' => array(
                 'main' => array('form_login' => array(
-                    // ...
+                    ...,
                     'default_target_path' => '/admin',
                 )),
             ),
         ));
 
-Now, when no URL is set in the session users will be sent to ``/admin``.
+Agora, quando não houver uma URL definida na sessão, os usuários serão enviados para ``/admin``.
 
-Always Redirect to the Default Page
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sempre Redirecionar para a Página Padrão
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can make it so that users are always redirected to the default page regardless
-of what URL they had requested previously by setting the 
-``always_use_default_target_path`` option to true:
+Você pode fazer com que os usuários sejam sempre redirecionados para a página padrão,
+independentemente da URL que eles tenham solicitado anteriormente, definindo a 
+a opção ``always_use_default_target_path`` para true:
 
 .. configuration-block::
 
@@ -198,18 +201,18 @@ of what URL they had requested previously by setting the
         $container->loadFromExtension('security', array(
             'firewalls' => array(
                 'main' => array('form_login' => array(
-                    // ...
+                    ...,
                     'always_use_default_target_path' => true,
                 )),
             ),
         ));
 
-Using the Referring URL
-~~~~~~~~~~~~~~~~~~~~~~~
+Usando a URL de referência (Referring URL)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In case no previous URL was stored in the session, you may wish to try using
-the ``HTTP_REFERER`` instead, as this will often be the same. You can  do
-this by setting ``use_referer`` to true (it defaults to false): 
+No caso de nenhuma URL anterior estar armazenada em sessão, você pode desejar usar
+o ``HTTP_REFERER`` no lugar, pois este, muitas vezes, é o mesmo. Você pode fazer
+isso configurando o ``use_referer`` para true (o padrão é false): 
 
 .. configuration-block::
 
@@ -240,18 +243,22 @@ this by setting ``use_referer`` to true (it defaults to false):
         $container->loadFromExtension('security', array(
             'firewalls' => array(
                 'main' => array('form_login' => array(
-                    // ...
+                    ...,
                     'use_referer' => true,
                 )),
             ),
         ));
 
-Control the Redirect URL from inside the Form
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. versionadded:: 2.1
+    A partir da versão 2.1, se o referer for igual à opção ``login_path``, 
+    o usuário será redirecionado para ``default_target_path``.
 
-You can also override where the user is redirected to via the form itself by 
-including a hidden field with the name ``_target_path``. For example, to
-redirect to the URL defined by some ``acount`` route, use the following:
+Controlando a URL de redirecionamento dentro do Formulário
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Você também pode sobrescrever para onde o usuário será redirecionado, através do próprio 
+formulário incluindo um campo oculto com o nome ``_target_path``. Por exemplo, para
+redirecionar para a URL definida por rota ``account``, use o seguinte:
 
 .. configuration-block::
 
@@ -276,7 +283,7 @@ redirect to the URL defined by some ``acount`` route, use the following:
 
     .. code-block:: html+php
 
-        <?php // src/Acme/SecurityBundle/Resources/views/Security/login.html.php ?>
+        <!-- src/Acme/SecurityBundle/Resources/views/Security/login.html.php -->
         <?php if ($error): ?>
             <div><?php echo $error->getMessage() ?></div>
         <?php endif; ?>
@@ -293,10 +300,10 @@ redirect to the URL defined by some ``acount`` route, use the following:
             <input type="submit" name="login" />
         </form>
 
-Now, the user will be redirected to the value of the hidden form field. The
-value attribute can be a relative path, absolute URL, or a route name. You 
-can even change the name of the hidden form field by changing the ``target_path_parameter`` 
-option to another value.
+Agora, o usuário será redirecionado para o valor do campo oculto do formulário. O
+valor do atributo pode ser um caminho relativo, uma URL absoluta, ou um nome de rota. 
+Você pode até mesmo alterar o nome do campo oculto do formulário, alterando a opção 
+``target_path_parameter`` para um outro valor.
 
 .. configuration-block::
 
@@ -331,14 +338,14 @@ option to another value.
             ),
         ));
 
-Redirecting on Login Failure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Redirecionando quando o Login Falhar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In addition to redirect the user after a successful login, you can also set
-the URL that the user should be redirected to after a failed login (e.g. an
-invalid username or password was submitted). By default, the user is redirected
-back to the login form itself. You can set this to a different URL with the
-following config:
+Além de redirecionar o usuário após um login bem-sucedido, você também pode definir
+a URL que o usuário deve ser redirecionado após uma falha de login (por exemplo, quando um
+nome de usuário ou senha inválida foi submetida). Por padrão, o usuário é redirecionado
+de volta ao formulário de login. Você pode definir isso para uma URL diferente com a
+seguinte configuração:
 
 .. configuration-block::
 
@@ -369,7 +376,7 @@ following config:
         $container->loadFromExtension('security', array(
             'firewalls' => array(
                 'main' => array('form_login' => array(
-                    // ...
+                    ...,
                     'failure_path' => login_failure,
                 )),
             ),

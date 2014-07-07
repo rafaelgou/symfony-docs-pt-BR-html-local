@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to Minify JavaScripts and Stylesheets with YUI Compressor &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como Minificar JavaScripts e Folhas de Estilo com o YUI Compressor &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to Use Assetic For Image Optimization with Twig Functions" href="jpeg_optimize.html" />
-    <link rel="prev" title="How to Use Assetic for Asset Management" href="asset_management.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Assetic" href="index.html" />
+    <link rel="next" title="Como usar o Assetic para otimização de imagem com funções do Twig" href="jpeg_optimize.html" />
+    <link rel="prev" title="Como usar o Assetic para o Gerenciamento de Assets" href="asset_management.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="jpeg_optimize.html" title="How to Use Assetic For Image Optimization with Twig Functions"
+          <a href="jpeg_optimize.html" title="Como usar o Assetic para otimização de imagem com funções do Twig"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="asset_management.html" title="How to Use Assetic for Asset Management"
+          <a href="asset_management.html" title="Como usar o Assetic para o Gerenciamento de Assets"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Assetic</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,21 +52,21 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to-minify-javascripts-and-stylesheets-with-yui-compressor">
-<h1>How to Minify JavaScripts and Stylesheets with YUI Compressor<a class="headerlink" href="#how-to-minify-javascripts-and-stylesheets-with-yui-compressor" title="Permalink to this headline">¶</a></h1>
-<p>Yahoo! provides an excellent utility for minifying JavaScripts and stylesheets
-so they travel over the wire faster, the <a class="reference external" href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>. Thanks to Assetic,
-you can take advantage of this tool very easily.</p>
-<div class="section" id="download-the-yui-compressor-jar">
-<h2>Download the YUI Compressor JAR<a class="headerlink" href="#download-the-yui-compressor-jar" title="Permalink to this headline">¶</a></h2>
-<p>The YUI Compressor is written in Java and distributed as a JAR. <a class="reference external" href="http://yuilibrary.com/downloads/#yuicompressor">Download the JAR</a>
-from the Yahoo! site and save it to <tt class="docutils literal"><span class="pre">app/Resources/java/yuicompressor.jar</span></tt>.</p>
+  <div class="section" id="como-minificar-javascripts-e-folhas-de-estilo-com-o-yui-compressor">
+<h1>Como Minificar JavaScripts e Folhas de Estilo com o YUI Compressor<a class="headerlink" href="#como-minificar-javascripts-e-folhas-de-estilo-com-o-yui-compressor" title="Permalink to this headline">¶</a></h1>
+<p>A Yahoo! oferece um excelente utilitário, chamado <a class="reference external" href="http://developer.yahoo.com/yui/compressor/">YUI Compressor</a>, para minificar
+JavaScripts e folhas de estilo, assim, eles são carregados mais rapidamente.
+Graças ao Assetic, você pode tirar proveito desta ferramenta de forma muito fácil.</p>
+<div class="section" id="baixe-o-jar-do-yui-compressor">
+<h2>Baixe o JAR do YUI Compressor<a class="headerlink" href="#baixe-o-jar-do-yui-compressor" title="Permalink to this headline">¶</a></h2>
+<p>O YUI Compressor é escrito em Java e distribuído como um JAR. <a class="reference external" href="http://yuilibrary.com/downloads/#yuicompressor">Faça o download do JAR</a>
+no site da Yahoo! e salve-o em <tt class="docutils literal"><span class="pre">app/Resources/java/yuicompressor.jar</span></tt>.</p>
 </div>
-<div class="section" id="configure-the-yui-filters">
-<h2>Configure the YUI Filters<a class="headerlink" href="#configure-the-yui-filters" title="Permalink to this headline">¶</a></h2>
-<p>Now you need to configure two Assetic filters in your application, one for
-minifying JavaScripts with the YUI Compressor and one for minifying
-stylesheets:</p>
+<div class="section" id="configure-os-filtros-do-yui">
+<h2>Configure os Filtros do YUI<a class="headerlink" href="#configure-os-filtros-do-yui" title="Permalink to this headline">¶</a></h2>
+<p>Agora você precisa configurar dois filtros Assetic em sua aplicação, um para
+minificar os JavaScripts com o YUI Compressor e um para minificar as
+folhas de estilo:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
@@ -89,31 +91,31 @@ stylesheets:</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;assetic&#39;, array(</span>
-<span class="x">    &#39;filters&#39; =&gt; array(</span>
-<span class="x">        &#39;yui_css&#39; =&gt; array(</span>
-<span class="x">            &#39;jar&#39; =&gt; &#39;%kernel.root_dir%/Resources/java/yuicompressor.jar&#39;,</span>
-<span class="x">        ),</span>
-<span class="x">        &#39;yui_js&#39; =&gt; array(</span>
-<span class="x">            &#39;jar&#39; =&gt; &#39;%kernel.root_dir%/Resources/java/yuicompressor.jar&#39;,</span>
-<span class="x">        ),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;assetic&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;filters&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;yui_css&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;jar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;%kernel.root_dir%/Resources/java/yuicompressor.jar&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="s1">&#39;yui_js&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;jar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;%kernel.root_dir%/Resources/java/yuicompressor.jar&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
-<p>You now have access to two new Assetic filters in your application:
-<tt class="docutils literal"><span class="pre">yui_css</span></tt> and <tt class="docutils literal"><span class="pre">yui_js</span></tt>. These will use the YUI Compressor to minify
-stylesheets and JavaScripts, respectively.</p>
+<p>Você agora tem acesso a dois novos filtros Assetic em sua aplicação:
+<tt class="docutils literal"><span class="pre">yui_css</span></tt> e <tt class="docutils literal"><span class="pre">yui_js</span></tt>. Eles utilizarão o YUI Compressor para minificar
+as folhas de estilo e JavaScripts, respectivamente.</p>
 </div>
-<div class="section" id="minify-your-assets">
-<h2>Minify your Assets<a class="headerlink" href="#minify-your-assets" title="Permalink to this headline">¶</a></h2>
-<p>You have YUI Compressor configured now, but nothing is going to happen until
-you apply one of these filters to an asset. Since your assets are a part of
-the view layer, this work is done in your templates:</p>
+<div class="section" id="minifique-os-seus-assets">
+<h2>Minifique os seus Assets<a class="headerlink" href="#minifique-os-seus-assets" title="Permalink to this headline">¶</a></h2>
+<p>Você agora tem o YUI Compressor configurado, mas nada vai acontecer até
+aplicar um desses filtros para um asset. Uma vez que os seus assets fazem
+parte da camada de visão, este trabalho é feito em seus templates:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">javascripts</span> <span class="s1">&#39;@AcmeFooBundle/Resources/public/js/*&#39;</span> <span class="nv">filter</span><span class="o">=</span><span class="s1">&#39;yui_js&#39;</span> <span class="cp">%}</span>
@@ -134,14 +136,14 @@ the view layer, this work is done in your templates:</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The above example assumes that you have a bundle called <tt class="docutils literal"><span class="pre">AcmeFooBundle</span></tt>
-and your JavaScript files are in the <tt class="docutils literal"><span class="pre">Resources/public/js</span></tt> directory under
-your bundle. This isn&#8217;t important however - you can include your Javascript
-files no matter where they are.</p>
+<p class="last">O exemplo acima assume que você tem um bundle chamado <tt class="docutils literal"><span class="pre">AcmeFooBundle</span></tt>
+e os seus arquivos JavaScript estão no diretório``Resources/public/js`` sob
+o seu bundle. Entretante, isso não é importante - você pode incluir os seus arquivos
+JavaScript, não importa onde eles estiverem.</p>
 </div>
-<p>With the addition of the <tt class="docutils literal"><span class="pre">yui_js</span></tt> filter to the asset tags above, you should
-now see minified JavaScripts coming over the wire much faster. The same process
-can be repeated to minify your stylesheets.</p>
+<p>Com a adição do filtro <tt class="docutils literal"><span class="pre">yui_js</span></tt> para as tags asset acima, você deve agora ver
+os JavaScripts minificados sendo carregados muito mais rápido. O mesmo processo
+pode ser repetido para minificar as suas folhas de estilo.</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">stylesheets</span> <span class="s1">&#39;@AcmeFooBundle/Resources/public/css/*&#39;</span> <span class="nv">filter</span><span class="o">=</span><span class="s1">&#39;yui_css&#39;</span> <span class="cp">%}</span>
@@ -161,13 +163,13 @@ can be repeated to minify your stylesheets.</p>
 </ul>
 </div>
 </div>
-<div class="section" id="disable-minification-in-debug-mode">
-<h2>Disable Minification in Debug Mode<a class="headerlink" href="#disable-minification-in-debug-mode" title="Permalink to this headline">¶</a></h2>
-<p>Minified JavaScripts and Stylesheets are very difficult to read, let alone
-debug. Because of this, Assetic lets you disable a certain filter when your
-application is in debug mode. You can do this be prefixing the filter name
-in your template with a question mark: <tt class="docutils literal"><span class="pre">?</span></tt>. This tells Assetic to only
-apply this filter when debug mode is off.</p>
+<div class="section" id="desative-a-minificacao-no-modo-de-depuracao">
+<h2>Desative a minificação no modo de depuração<a class="headerlink" href="#desative-a-minificacao-no-modo-de-depuracao" title="Permalink to this headline">¶</a></h2>
+<p>Os JavaScripts e as folhas de estilo minificados são muito difíceis de ler, e muito menos
+depurar. Devido a isso, o Assetic permite desabilitar um certo filtro quando a sua
+aplicação está no modo de depuração. Você pode fazer isso prefixando o nome do filtro
+em seu template com um ponto de interrogação: <tt class="docutils literal"><span class="pre">?</span></tt>. Isto diz ao Assetic para apenas
+aplicar esse filtro quando o modo de depuração está desligado.</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">javascripts</span> <span class="s1">&#39;@AcmeFooBundle/Resources/public/js/*&#39;</span> <span class="nv">filter</span><span class="o">=</span><span class="s1">&#39;?yui_js&#39;</span> <span class="cp">%}</span>
@@ -197,21 +199,21 @@ apply this filter when debug mode is off.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">How to Minify JavaScripts and Stylesheets with YUI Compressor</a><ul>
-<li><a class="reference internal" href="#download-the-yui-compressor-jar">Download the YUI Compressor JAR</a></li>
-<li><a class="reference internal" href="#configure-the-yui-filters">Configure the YUI Filters</a></li>
-<li><a class="reference internal" href="#minify-your-assets">Minify your Assets</a></li>
-<li><a class="reference internal" href="#disable-minification-in-debug-mode">Disable Minification in Debug Mode</a></li>
+<li><a class="reference internal" href="#">Como Minificar JavaScripts e Folhas de Estilo com o YUI Compressor</a><ul>
+<li><a class="reference internal" href="#baixe-o-jar-do-yui-compressor">Baixe o JAR do YUI Compressor</a></li>
+<li><a class="reference internal" href="#configure-os-filtros-do-yui">Configure os Filtros do YUI</a></li>
+<li><a class="reference internal" href="#minifique-os-seus-assets">Minifique os seus Assets</a></li>
+<li><a class="reference internal" href="#desative-a-minificacao-no-modo-de-depuracao">Desative a minificação no modo de depuração</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="asset_management.html"
-                        title="previous chapter">How to Use Assetic for Asset Management</a></p>
+                        title="previous chapter">Como usar o Assetic para o Gerenciamento de Assets</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="jpeg_optimize.html"
-                        title="next chapter">How to Use Assetic For Image Optimization with Twig Functions</a></p>
+                        title="next chapter">Como usar o Assetic para otimização de imagem com funções do Twig</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/assetic/yuicompressor.txt"
@@ -220,7 +222,7 @@ apply this filter when debug mode is off.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -241,18 +243,19 @@ apply this filter when debug mode is off.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="jpeg_optimize.html" title="How to Use Assetic For Image Optimization with Twig Functions"
+          <a href="jpeg_optimize.html" title="Como usar o Assetic para otimização de imagem com funções do Twig"
              >next</a> |</li>
         <li class="right" >
-          <a href="asset_management.html" title="How to Use Assetic for Asset Management"
+          <a href="asset_management.html" title="Como usar o Assetic para o Gerenciamento de Assets"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Assetic</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

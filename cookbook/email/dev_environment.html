@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Como Trabalhar com E-mails Durante o Desenvolvimento &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como Trabalhar com E-mails Durante o Desenvolvimento &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Email" href="index.html" />
     <link rel="next" title="Como fazer Spool de E-mail" href="spool.html" />
-    <link rel="prev" title="How to use Gmail to send Emails" href="../gmail.html" /> 
+    <link rel="prev" title="Como usar o Gmail para enviar E-mails" href="gmail.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +39,11 @@
           <a href="spool.html" title="Como fazer Spool de E-mail"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../gmail.html" title="How to use Gmail to send Emails"
+          <a href="gmail.html" title="Como usar o Gmail para enviar E-mails"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Email</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -87,10 +89,10 @@ ambientes <tt class="docutils literal"><span class="pre">prod</span></tt> e <tt 
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config_test.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;swiftmailer&#39;, array(</span>
-<span class="x">    &#39;disable_delivery&#39;  =&gt; &quot;true&quot;,</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_test.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;swiftmailer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;disable_delivery&#39;</span>  <span class="o">=&gt;</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -124,28 +126,28 @@ através da opção <tt class="docutils literal"><span class="pre">delivery_addr
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config_dev.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;swiftmailer&#39;, array(</span>
-<span class="x">    &#39;delivery_address&#39;  =&gt; &quot;dev@example.com&quot;,</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_dev.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;swiftmailer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;delivery_address&#39;</span>  <span class="o">=&gt;</span> <span class="s2">&quot;dev@example.com&quot;</span><span class="p">,</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
 <p>Agora, suponha que você está enviando um email para <tt class="docutils literal"><span class="pre">recipient&#64;example.com</span></tt>.</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">public function indexAction($name)</span>
-<span class="x">{</span>
-<span class="x">    $message = \Swift_Message::newInstance()</span>
-<span class="x">        -&gt;setSubject(&#39;Hello Email&#39;)</span>
-<span class="x">        -&gt;setFrom(&#39;send@example.com&#39;)</span>
-<span class="x">        -&gt;setTo(&#39;recipient@example.com&#39;)</span>
-<span class="x">        -&gt;setBody($this-&gt;renderView(&#39;HelloBundle:Hello:email.txt.twig&#39;, array(&#39;name&#39; =&gt; $name)))</span>
-<span class="x">    ;</span>
-<span class="x">    $this-&gt;get(&#39;mailer&#39;)-&gt;send($message);</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$message</span> <span class="o">=</span> <span class="nx">\Swift_Message</span><span class="o">::</span><span class="na">newInstance</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">&#39;Hello Email&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setFrom</span><span class="p">(</span><span class="s1">&#39;send@example.com&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setTo</span><span class="p">(</span><span class="s1">&#39;recipient@example.com&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">renderView</span><span class="p">(</span><span class="s1">&#39;HelloBundle:Hello:email.txt.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">)))</span>
+    <span class="p">;</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
 
-<span class="x">    return $this-&gt;render(...);</span>
-<span class="x">}</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="o">...</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>No ambiente <tt class="docutils literal"><span class="pre">dev</span></tt>, o e-mail será enviado para <tt class="docutils literal"><span class="pre">dev&#64;example.com</span></tt>.
@@ -190,8 +192,8 @@ para que possa ver o e-mail na barra de ferramentas de debug web antes de ser re
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../gmail.html"
-                        title="previous chapter">How to use Gmail to send Emails</a></p>
+  <p class="topless"><a href="gmail.html"
+                        title="previous chapter">Como usar o Gmail para enviar E-mails</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="spool.html"
                         title="next chapter">Como fazer Spool de E-mail</a></p>
@@ -203,7 +205,7 @@ para que possa ver o e-mail na barra de ferramentas de debug web antes de ser re
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -227,15 +229,16 @@ para que possa ver o e-mail na barra de ferramentas de debug web antes de ser re
           <a href="spool.html" title="Como fazer Spool de E-mail"
              >next</a> |</li>
         <li class="right" >
-          <a href="../gmail.html" title="How to use Gmail to send Emails"
+          <a href="gmail.html" title="Como usar o Gmail para enviar E-mails"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Email</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

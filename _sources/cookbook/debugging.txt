@@ -1,32 +1,32 @@
 .. index::
-   single: Debugging
+   single: Depuração
 
-How to optimize your development Environment for debugging
-==========================================================
+Como otimizar seu ambiente de desenvolvimento para a depuraração
+================================================================
 
-When you work on a Symfony project on your local machine, you should use the
-``dev`` environment (``app_dev.php`` front controller). This environment
-configuration is optimized for two main purposes:
+Ao trabalhar em um projeto Symfony na sua máquina local, você deve usar o
+ambiente ``dev`` (front controller ``app_dev.php``). Esta configuração de 
+ambiente é otimizada para dois principais propósitos:
 
- * Give the developer accurate feedback whenever something goes wrong (web
-   debug toolbar, nice exception pages, profiler, ...);
+* Fornecer ao desenvolvedor um feedback preciso sempre que algo der errado (barra 
+  de ferramentas de depuração web, páginas de exceção agradáveis, profiler, ...);
 
- * Be as similar as possible as the production environment to avoid problems
-   when deploying the project.
+* Ser o mais semelhante possível do ambiente de produção para evitar problemas
+  ao implantar o projeto.
 
 .. _cookbook-debugging-disable-bootstrap:
 
-Disabling the Bootstrap File and Class Caching
-----------------------------------------------
+Desabilitando o Arquivo de Bootstrap e o Cache de Classe
+--------------------------------------------------------
 
-And to make the production environment as fast as possible, Symfony creates
-big PHP files in your cache containing the aggregation of PHP classes your
-project needs for every request. However, this behavior can confuse your IDE
-or your debugger. This recipe shows you how you can tweak this caching
-mechanism to make it friendlier when you need to debug code that involves
-Symfony classes.
+E para tornar o ambiente de produção o mais rápido possível, o Symfony cria
+grandes arquivos PHP em seu cache que contém a agregação das classes PHP que o
+projeto precisa para cada solicitação. No entanto, este comportamento pode confundir a sua IDE
+ou seu depurador. Esta receita mostra como você pode ajustar este mecanismo de
+cache para torná-lo mais amigável quando você precisar depurar código que envolve
+classes do Symfony.
 
-The ``app_dev.php`` front controller reads as follows by default::
+O front controller ``app_dev.php``, por padrão, é o seguinte::
 
     // ...
 
@@ -39,14 +39,13 @@ The ``app_dev.php`` front controller reads as follows by default::
     $kernel->loadClassCache();
     $kernel->handle(Request::createFromGlobals())->send();
 
-To make you debugger happier, disable all PHP class caches by removing the
-call to ``loadClassCache()`` and by replacing the require statements like
-below::
+Para deixar o seu depurador ainda mais feliz, desabilite todos os caches de classe PHP,
+removendo a chamada para ``loadClassCache()`` e substituindo as declarações require como
+abaixo::
 
     // ...
 
     // require_once __DIR__.'/../app/bootstrap.php.cache';
-    require_once __DIR__.'/../vendor/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
     require_once __DIR__.'/../app/autoload.php';
     require_once __DIR__.'/../app/AppKernel.php';
 
@@ -58,11 +57,11 @@ below::
 
 .. tip::
 
-    If you disable the PHP caches, don't forget to revert after your debugging
-    session.
+    Se você desativar os caches PHP, não se esqueça de voltar depois da sua sessão de
+    depuração.
 
-Some IDEs do not like the fact that some classes are stored in different
-locations. To avoid problems, you can either tell your IDE to ignore the PHP
-cache files, or you can change the extension used by Symfony for these files::
+Algumas IDEs não gostam do fato de que algumas classes são armazenadas em locais diferentes.
+Para evitar problemas, você pode dizer a sua IDE para ignorar os arquivos de cache PHP
+, ou você pode mudar a extensão usada pelo Symfony para esses arquivos::
 
     $kernel->loadClassCache('classes', '.php.cache');

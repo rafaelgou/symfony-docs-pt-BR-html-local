@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to define Controllers as Services &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como definir Controladores como Serviços &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="Como forçar as rotas a usar sempre HTTPS ou HTTP" href="../routing/scheme.html" />
-    <link rel="prev" title="How to customize Error Pages" href="error_pages.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Controlador" href="index.html" />
+    <link rel="next" title="Roteamento" href="../routing/index.html" />
+    <link rel="prev" title="Como personalizar as páginas de erro" href="error_pages.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../routing/scheme.html" title="Como forçar as rotas a usar sempre HTTPS ou HTTP"
+          <a href="../routing/index.html" title="Roteamento"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="error_pages.html" title="How to customize Error Pages"
+          <a href="error_pages.html" title="Como personalizar as páginas de erro"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Controlador</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,41 +52,60 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to-define-controllers-as-services">
-<span id="index-0"></span><h1>How to define Controllers as Services<a class="headerlink" href="#how-to-define-controllers-as-services" title="Permalink to this headline">¶</a></h1>
-<p>In the book, you&#8217;ve learned how easily a controller can be used when it
-extends the base
-<tt class="xref py py-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> class. While
-this works fine, controllers can also be specified as services.</p>
-<p>To refer to a controller that&#8217;s defined as a service, use the single colon (:)
-notation. For example, suppose we&#8217;ve defined a service called
-<tt class="docutils literal"><span class="pre">my_controller</span></tt> and we want to forward to a method called <tt class="docutils literal"><span class="pre">indexAction()</span></tt>
-inside the service:</p>
-<div class="highlight-python"><pre>$this-&gt;forward('my_controller:indexAction', array('foo' =&gt; $bar));</pre>
+  <div class="section" id="como-definir-controladores-como-servicos">
+<span id="index-0"></span><h1>Como definir Controladores como Serviços<a class="headerlink" href="#como-definir-controladores-como-servicos" title="Permalink to this headline">¶</a></h1>
+<p>No livro, você aprendeu como um controlador pode ser facilmente usado quando ele
+estende a classe base
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html" title="Symfony\Bundle\FrameworkBundle\Controller\Controller"><span class="pre">Controller</span></a></tt>. Mesmo
+isso funcionando bem, os controladores também podem ser especificados como serviços.</p>
+<p>Para referir-se a um controlador que é definido como um serviço, utilize a notação de um único dois pontos (:)
+. Por exemplo, supondo que você definiu um serviço chamado
+<tt class="docutils literal"><span class="pre">my_controller</span></tt> e que deseja encaminhar para um método chamado <tt class="docutils literal"><span class="pre">indexAction()</span></tt>
+dentro do serviço:</p>
+<div class="highlight-python"><div class="highlight"><pre>$this-&gt;forward(&#39;my_controller:indexAction&#39;, array(&#39;foo&#39; =&gt; $bar));
+</pre></div>
 </div>
-<p>You need to use the same notation when defining the route <tt class="docutils literal"><span class="pre">_controller</span></tt>
-value:</p>
+<p>Você precisa usar a mesma notação ao definir o valor da rota
+<tt class="docutils literal"><span class="pre">_controller</span></tt>:</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">my_controller</span><span class="p-Indicator">:</span>
     <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>   <span class="l-Scalar-Plain">/</span>
     <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span>  <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">my_controller</span><span class="p-Indicator">:</span><span class="nv">indexAction</span> <span class="p-Indicator">}</span>
 </pre></div>
 </div>
-<p>To use a controller in this way, it must be defined in the service container
-configuration. For more information, see the <a class="reference internal" href="../../book/service_container.html"><em>Service Container</em></a> chapter.</p>
-<p>When using a controller defined as a service, it will most likely not extend
-the base <tt class="docutils literal"><span class="pre">Controller</span></tt> class. Instead of relying on its shortcut methods,
-you&#8217;ll interact directly with the services that you need. Fortunately, this is
-usually pretty easy and the base <tt class="docutils literal"><span class="pre">Controller</span></tt> class itself is a great source
-on how to perform many common tasks.</p>
+<p>Para utilizar um controlador desta forma, ele deve estar definido na configuração do
+container de serviço. Para mais informações, consulte o capítulo <a class="reference internal" href="../../book/service_container.html"><em>Service Container</em></a></p>
+<p>Ao usar um controlador definido como um serviço, ele provavelmente não estenderá
+a classe base <tt class="docutils literal"><span class="pre">Controller</span></tt>. Em vez de contar com seus métodos de atalho,
+você vai interagir diretamente com os serviços que você precisa. Felizmente, isto é
+normalmente muito fácil e a classe base <tt class="docutils literal"><span class="pre">Controller</span></tt> em si é uma grande fonte
+sobre a forma de realizar muitas das tarefas comuns.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Specifying a controller as a service takes a little bit more work. The
-primary advantage is that the entire controller or any services passed to
-the controller can be modified via the service container configuration.
-This is especially useful when developing an open-source bundle or any
-bundle that will be used in many different projects. So, even if you don&#8217;t
-specify your controllers as services, you&#8217;ll likely see this done in some
-open-source Symfony2 bundles.</p>
+<p class="last">Especificar um controlador como um serviço leva um pouco mais de trabalho. A
+principal vantagem é que todo o controlador ou quaisquer serviços passados ​​para
+o controlador podem ser modificados através da configuração do container de serviço.
+Isto é especialmente útil no desenvolvimento de um bundle open-source ou qualquer
+bundle que será utilizado em vários projetos diferentes. Assim, mesmo se você não
+especificar os seus controladores como serviços, provavelmente verá isto feito em alguns
+bundles open-source do Symfony2.</p>
+</div>
+<div class="section" id="usando-anotacao-no-roteamento">
+<h2>Usando Anotação no Roteamento<a class="headerlink" href="#usando-anotacao-no-roteamento" title="Permalink to this headline">¶</a></h2>
+<p>Ao usar anotações para configurar as rotas em um controlador definido como um
+serviço, é necessário especificar o serviço da seguinte forma:</p>
+<div class="highlight-python"><div class="highlight"><pre>/**
+ * @Route(&quot;/blog&quot;, service=&quot;my_bundle.annot_controller&quot;)
+ * @Cache(expires=&quot;tomorrow&quot;)
+ */
+class AnnotController extends Controller
+{
+}
+</pre></div>
+</div>
+<p>Neste exemplo, <tt class="docutils literal"><span class="pre">my_bundle.annot_controller</span></tt> deve ser o id da
+instância <tt class="docutils literal"><span class="pre">AnnotController</span></tt> definida no container de serviço. Isto está
+documentado no capítulo <tt class="xref doc docutils literal"><span class="pre">/bundles/SensioFrameworkExtraBundle/annotations/routing</span></tt>
+.</p>
 </div>
 </div>
 
@@ -94,12 +115,20 @@ open-source Symfony2 bundles.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Como definir Controladores como Serviços</a><ul>
+<li><a class="reference internal" href="#usando-anotacao-no-roteamento">Usando Anotação no Roteamento</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="error_pages.html"
-                        title="previous chapter">How to customize Error Pages</a></p>
+                        title="previous chapter">Como personalizar as páginas de erro</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../routing/scheme.html"
-                        title="next chapter">Como forçar as rotas a usar sempre HTTPS ou HTTP</a></p>
+  <p class="topless"><a href="../routing/index.html"
+                        title="next chapter">Roteamento</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/controller/service.txt"
@@ -108,7 +137,7 @@ open-source Symfony2 bundles.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -129,18 +158,19 @@ open-source Symfony2 bundles.</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../routing/scheme.html" title="Como forçar as rotas a usar sempre HTTPS ou HTTP"
+          <a href="../routing/index.html" title="Roteamento"
              >next</a> |</li>
         <li class="right" >
-          <a href="error_pages.html" title="How to customize Error Pages"
+          <a href="error_pages.html" title="Como personalizar as páginas de erro"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Controlador</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

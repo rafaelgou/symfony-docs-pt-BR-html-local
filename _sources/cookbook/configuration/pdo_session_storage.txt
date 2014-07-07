@@ -1,18 +1,25 @@
 .. index::
-   single: Session; Database Storage
+   single: Sessão; Armazenamento em Banco de Dados
 
-How to use PdoSessionStorage to store Sessions in the Database
-==============================================================
+Como usar o PdoSessionStorage para armazenar as Sessões no Banco de Dados
+=========================================================================
 
-The default session storage of Symfony2 writes the session information to
-file(s). Most medium to large websites use a database to store the session
-values instead of files, because databases are easier to use and scale in a
-multi-webserver environment.
+O armazenamento de sessão padrão do Symfony2 grava as informações da sessão em arquivo(s).
+A maioria dos sites de médio à grande porte utilizam um banco de dados para armazenar os
+valores da sessão, em vez de arquivos, pois os bancos de dados são mais fáceis de usar e
+escalam em um ambiente multi-servidor.
 
-Symfony2 has a built-in solution for database session storage called
-:class:`Symfony\\Component\\HttpFoundation\\SessionStorage\\PdoSessionStorage`.
-To use it, you just need to change some parameters in ``config.yml`` (or the
-configuration format of your choice):
+O Symfony2 tem uma solução interna para o armazenamento de sessão em banco de dados chamado
+:class:`Symfony\\Component\\HttpFoundation\\Session\\Storage\\Handler\\PdoSessionHandler`.
+Para usá-lo, você só precisa alterar alguns parâmetros no ``config.yml`` (ou o
+formato de configuração de sua escolha):
+
+.. versionadded:: 2.1
+    No Symfony2.1 a classe e o namespace foram ligeiramente modificados. Você pode agora 
+    encontrar as classes de armazenamento de sessão no namespace `Session\\Storage`:
+    ``Symfony\Component\HttpFoundation\Session\Storage``. Observe também
+    que no Symfony2.1 você deve configurar o ``handler_id`` e não o ``storage_id`` como no Symfony2.0. 
+    Abaixo, você vai perceber que o ``%session.storage.options%`` não é mais usado.
 
 .. configuration-block::
 
@@ -22,7 +29,7 @@ configuration format of your choice):
         framework:
             session:
                 # ...
-                storage_id:     session.storage.pdo
+                handler_id:     session.handler.pdo
 
         parameters:
             pdo.db_options:
@@ -39,15 +46,15 @@ configuration format of your choice):
                     user:     myuser
                     password: mypassword
 
-            session.storage.pdo:
-                class:     Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage
-                arguments: [@pdo, %session.storage.options%, %pdo.db_options%]
+            session.handler.pdo:
+                class:     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+                arguments: [@pdo, %pdo.db_options%]
 
     .. code-block:: xml
 
         <!-- app/config/config.xml -->
         <framework:config>
-            <framework:session storage-id="session.storage.pdo" default-locale="en" lifetime="3600" auto-start="true"/>
+            <framework:session handler-id="session.handler.pdo" lifetime="3600" auto-start="true"/>
         </framework:config>
 
         <parameters>
@@ -66,24 +73,23 @@ configuration format of your choice):
                 <argument>mypassword</argument>
             </service>
 
-            <service id="session.storage.pdo" class="Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage">
+            <service id="session.handler.pdo" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler">
                 <argument type="service" id="pdo" />
-                <argument>%session.storage.options%</argument>
                 <argument>%pdo.db_options%</argument>
             </service>
         </services>
 
     .. code-block:: php
 
-        // app/config/config.yml
+        // app/config/config.php
         use Symfony\Component\DependencyInjection\Definition;
         use Symfony\Component\DependencyInjection\Reference;
 
         $container->loadFromExtension('framework', array(
             // ...
             'session' => array(
-                // ...
-                'storage_id' => 'session.storage.pdo',
+                ...,
+                'handler_id' => 'session.handler.pdo',
             ),
         ));
 
@@ -101,28 +107,27 @@ configuration format of your choice):
         ));
         $container->setDefinition('pdo', $pdoDefinition);
 
-        $storageDefinition = new Definition('Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage', array(
+        $storageDefinition = new Definition('Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler', array(
             new Reference('pdo'),
-            '%session.storage.options%',
             '%pdo.db_options%',
         ));
-        $container->setDefinition('session.storage.pdo', $storageDefinition);
+        $container->setDefinition('session.handler.pdo', $storageDefinition);
 
-* ``db_table``: The name of the session table in your database
-* ``db_id_col``: The name of the id column in your session table (VARCHAR(255) or larger)
-* ``db_data_col``: The name of the value column in your session table (TEXT or CLOB)
-* ``db_time_col``: The name of the time column in your session table (INTEGER)
+* ``db_table``: O nome da tabela de sessão no seu banco de dados
+* ``db_id_col``: O nome da coluna id na sua tabela de sessão (VARCHAR (255) ou maior)
+* ``db_data_col``: O nome da coluna value na sua tabela de sessão (TEXT ou CLOB)
+* ``db_time_col``: O nome da coluna time em sua tabela de sessão (INTEGER)
 
-Sharing your Database Connection Information
---------------------------------------------
+Compartilhando suas Informações de Conexão do Banco de Dados
+------------------------------------------------------------
 
-With the given configuration, the database connection settings are defined for
-the session storage connection only. This is OK when you use a separate
-database for the session data.
+Com a configuração fornecida, as configurações de conexão do banco de dados são definidas
+somente para a conexão de armazenamento de sessão. Isto está OK quando você usa um banco de dados
+separado para os dados da sessão.
 
-But if you'd like to store the session data in the same database as the rest
-of your project's data, you can use the connection settings from the
-parameter.ini by referencing the database-related parameters defined there:
+Mas, se você gostaria de armazenar os dados da sessão no mesmo banco de dados que o resto
+dos dados do seu projeto, você pode usar as definições de conexão do
+parameter.ini referenciando os parâmetros relacionados ao banco de dados definidos lá:
 
 .. configuration-block::
 
@@ -143,7 +148,7 @@ parameter.ini by referencing the database-related parameters defined there:
             <argument>%database_password%</argument>
         </service>
 
-    .. code-block:: xml
+    .. code-block:: php
 
         $pdoDefinition = new Definition('PDO', array(
             'mysql:dbname=%database_name%',
@@ -151,14 +156,14 @@ parameter.ini by referencing the database-related parameters defined there:
             '%database_password%',
         ));
 
-Example SQL Statements
-----------------------
+Exemplo de Instruções SQL
+-------------------------
 
 MySQL
 ~~~~~
 
-The SQL statement for creating the needed database table might look like the
-following (MySQL):
+A instrução SQL para criar a tabela de banco de dados necessária pode ser semelhante a
+seguinte (MySQL):
 
 .. code-block:: sql
 
@@ -166,13 +171,13 @@ following (MySQL):
         `session_id` varchar(255) NOT NULL,
         `session_value` text NOT NULL,
         `session_time` int(11) NOT NULL,
-        PRIMARY KEY (`session_id`),
+        PRIMARY KEY (`session_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 PostgreSQL
 ~~~~~~~~~~
 
-For PostgreSQL, the statement should look like this:
+Para o PostgreSQL, a declaração deve ficar assim:
 
 .. code-block:: sql
 
@@ -180,5 +185,5 @@ For PostgreSQL, the statement should look like this:
         session_id character varying(255) NOT NULL,
         session_value text NOT NULL,
         session_time integer NOT NULL,
-        CONSTRAINT session_pkey PRIMARY KEY (session_id),
+        CONSTRAINT session_pkey PRIMARY KEY (session_id)
     );

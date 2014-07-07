@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Validação &mdash; Symfony2Docs v1 documentation</title>
+    <title>Validação &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Livro" href="index.html" />
     <link rel="next" title="Formulários" href="forms.html" />
     <link rel="prev" title="Testes" href="testing.html" /> 
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="testing.html" title="Testes"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Livro</a> &raquo;</li> 
       </ul>
     </div>  
@@ -64,13 +65,13 @@ Vamos olhar como isso pode ser usado no PHP.</p>
 <p>A melhor forma de entender validação é vê-la em ação. Para começar, suponha
 que você criou um bom e velho objeto PHP que você precisa usar em algum lugar da
 sua aplicação:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
-<span class="x">namespace Acme\BlogBundle\Entity;</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    public $name;</span>
-<span class="x">}</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Até agora, essa é somente uma classe comum que serve para alguns propósitos
@@ -91,16 +92,17 @@ seguinte:</p>
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// src/Acme/BlogBundle/Entity/Author.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Author
-{
-    /**
-     * @Assert\NotBlank()
-     */
-    public $name;
-}</pre>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -118,20 +120,20 @@ class Author
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
 
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\NotBlank;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    public $name;</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
 
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;name&#39;, new NotBlank());</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -146,29 +148,29 @@ class Author
 <div class="section" id="usando-o-servico-validator">
 <span id="index-1"></span><h3>Usando o serviço <tt class="docutils literal"><span class="pre">validator</span></tt><a class="headerlink" href="#usando-o-servico-validator" title="Permalink to this headline">¶</a></h3>
 <p>Próximo passo, para realmente validar um objeto``Author``, use o método <tt class="docutils literal"><span class="pre">validate</span></tt>
-no serviço <tt class="docutils literal"><span class="pre">validator</span></tt> (classe <tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\Validator\Validator</span></tt>).
+no serviço <tt class="docutils literal"><span class="pre">validator</span></tt> (classe <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/Validator.html" title="Symfony\Component\Validator\Validator"><span class="pre">Validator</span></a></tt>).
 A tarefa do <tt class="docutils literal"><span class="pre">validator</span></tt> é fácil: ler as restrições (i.e. regras)
 de uma classe e verificar se o dado no objeto satisfaz ou não aquelas restrições.
 Se a validação falhar, retorna um array de erros. Observe esse
 simples exemplo de dentro do controller:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">use Symfony\Component\HttpFoundation\Response;</span>
-<span class="x">use Acme\BlogBundle\Entity\Author;</span>
-<span class="x">// ...</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\BlogBundle\Entity\Author</span><span class="p">;</span>
+<span class="c1">// ...</span>
 
-<span class="x">public function indexAction()</span>
-<span class="x">{</span>
-<span class="x">    $author = new Author();</span>
-<span class="x">    // ... do something to the $author object</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$author</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Author</span><span class="p">();</span>
+    <span class="c1">// ... do something to the $author object</span>
 
-<span class="x">    $validator = $this-&gt;get(&#39;validator&#39;);</span>
-<span class="x">    $errors = $validator-&gt;validate($author);</span>
+    <span class="nv">$validator</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;validator&#39;</span><span class="p">);</span>
+    <span class="nv">$errors</span> <span class="o">=</span> <span class="nv">$validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$author</span><span class="p">);</span>
 
-<span class="x">    if (count($errors) &gt; 0) {</span>
-<span class="x">        return new Response(print_r($errors, true));</span>
-<span class="x">    } else {</span>
-<span class="x">        return new Response(&#39;The author is valid! Yes!&#39;);</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$errors</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;The author is valid! Yes!&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Se a propriedade <tt class="docutils literal"><span class="pre">$name</span></tt> é vazia,  você verá a seguinte mensagem de
@@ -187,13 +189,13 @@ você irá usar a validação indiretamente quando lidar com dados enviados do f
 Para mais informações, veja: ref:<cite>book-validation-forms</cite>.</p>
 </div>
 <p>Você também poderia passar o conjunto de erros em um template.</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">if (count($errors) &gt; 0) {</span>
-<span class="x">    return $this-&gt;render(&#39;AcmeBlogBundle:Author:validate.html.twig&#39;, array(</span>
-<span class="x">        &#39;errors&#39; =&gt; $errors,</span>
-<span class="x">    ));</span>
-<span class="x">} else {</span>
-<span class="x">    // ...</span>
-<span class="x">}</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Author:validate.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;errors&#39;</span> <span class="o">=&gt;</span> <span class="nv">$errors</span><span class="p">,</span>
+    <span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Dentro do template, você pode gerar a lista de erros exatamente necessária:</p>
@@ -226,7 +228,7 @@ Para mais informações, veja: ref:<cite>book-validation-forms</cite>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Cada erro de validação (chamado de &#8220;constraint violation&#8221;), é representado por
-um objeto <tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\Validator\ConstraintViolation</span></tt> .</p>
+um objeto <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/ConstraintViolation.html" title="Symfony\Component\Validator\ConstraintViolation"><span class="pre">ConstraintViolation</span></a></tt> .</p>
 </div>
 </div>
 <div class="section" id="validacao-e-formularios">
@@ -238,7 +240,7 @@ internamente para validar o objeto oculto após os valores terem sido enviados
 e fixados. As violações de restrição no objeto são convertidas em objetos <tt class="docutils literal"><span class="pre">FieldError</span></tt>
 que podem ser facilmente exibidos com seu formulário. O tipico fluxo de envio do formulário
 parece o seguinte dentro do controller:</p>
-<div class="highlight-python"><pre>use Acme\BlogBundle\Entity\Author;
+<div class="highlight-python"><div class="highlight"><pre>use Acme\BlogBundle\Entity\Author;
 use Acme\BlogBundle\Form\AuthorType;
 use Symfony\Component\HttpFoundation\Request;
 // ...
@@ -248,20 +250,21 @@ public function updateAction(Request $request)
     $author = new Acme\BlogBundle\Entity\Author();
     $form = $this-&gt;createForm(new AuthorType(), $author);
 
-    if ($request-&gt;getMethod() == 'POST') {
-        $form-&gt;bindRequest($request);
+    if ($request-&gt;isMethod(&#39;POST&#39;)) {
+        $form-&gt;bind($request);
 
         if ($form-&gt;isValid()) {
             // the validation passed, do something with the $author object
 
-            $this-&gt;redirect($this-&gt;generateUrl('...'));
+            $this-&gt;redirect($this-&gt;generateUrl(&#39;...&#39;));
         }
     }
 
-    return $this-&gt;render('BlogBundle:Author:form.html.twig', array(
-        'form' =&gt; $form-&gt;createView(),
+    return $this-&gt;render(&#39;BlogBundle:Author:form.html.twig&#39;, array(
+        &#39;form&#39; =&gt; $form-&gt;createView(),
     ));
-}</pre>
+}
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -289,10 +292,10 @@ se você usar o método de anotação para especificar suas restrições:</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/config.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;framework&#39;, array(&#39;validation&#39; =&gt; array(</span>
-<span class="x">    &#39;enable_annotations&#39; =&gt; true,</span>
-<span class="x">)));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;validation&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;enable_annotations&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+<span class="p">)));</span>
 </pre></div>
 </div>
 </li>
@@ -312,80 +315,13 @@ regras da restrição.</p>
 <div class="section" id="resticoes-suportadas">
 <h3>Restições Suportadas<a class="headerlink" href="#resticoes-suportadas" title="Permalink to this headline">¶</a></h3>
 <p>Symfony2 engloba um grande número de restrições mais frequentemente usadas:</p>
-</div>
-<div class="section" id="basic-constraints">
-<h3>Basic Constraints<a class="headerlink" href="#basic-constraints" title="Permalink to this headline">¶</a></h3>
-<p>These are the basic constraints: use them to assert very basic things about
-the value of properties or the return value of methods on your object.</p>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/NotBlank.html"><em>NotBlank</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Blank.html"><em>Blank</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/NotNull.html"><em>NotNull</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Null.html"><em>Null</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/True.html"><em>True</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/False.html"><em>False</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Type.html"><em>Type</em></a></li>
-</ul>
-</div>
-<div class="section" id="string-constraints">
-<h3>String Constraints<a class="headerlink" href="#string-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/Email.html"><em>Email</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/MinLength.html"><em>MinLength</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/MaxLength.html"><em>MaxLength</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Url.html"><em>Url</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Regex.html"><em>Regex</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Ip.html"><em>Ip</em></a></li>
-</ul>
-</div>
-<div class="section" id="number-constraints">
-<h3>Number Constraints<a class="headerlink" href="#number-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/Max.html"><em>Max</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Min.html"><em>Min</em></a></li>
-</ul>
-</div>
-<div class="section" id="date-constraints">
-<h3>Date Constraints<a class="headerlink" href="#date-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/Date.html"><em>Date</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/DateTime.html"><em>DateTime</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Time.html"><em>Time</em></a></li>
-</ul>
-</div>
-<div class="section" id="collection-constraints">
-<h3>Collection Constraints<a class="headerlink" href="#collection-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/Choice.html"><em>Choice</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Collection.html"><em>Collection</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/UniqueEntity.html"><em>UniqueEntity</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Language.html"><em>Language</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Locale.html"><em>Locale</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Country.html"><em>Country</em></a></li>
-</ul>
-</div>
-<div class="section" id="file-constraints">
-<h3>File Constraints<a class="headerlink" href="#file-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/File.html"><em>File</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Image.html"><em>Image</em></a></li>
-</ul>
-</div>
-<div class="section" id="other-constraints">
-<h3>Other Constraints<a class="headerlink" href="#other-constraints" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="../reference/constraints/Callback.html"><em>Callback</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/All.html"><em>All</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/UserPassword.html"><em>UserPassword</em></a></li>
-<li><a class="reference internal" href="../reference/constraints/Valid.html"><em>Valid</em></a></li>
-</ul>
 <p>Você também pode criar sua própria restrição personalizada. Esse tópico é coberto
-no artigo do cookbook &#8220;<a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>How to create a Custom Validation Constraint</em></a>&#8221;  .</p>
+no artigo do cookbook &#8220;<a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>Como criar uma Constraint de Validação Personalizada</em></a>&#8221;  .</p>
 </div>
 <div class="section" id="configuracao-de-restricoes">
 <span id="book-validation-constraint-configuration"></span><span id="index-5"></span><h3>Configuração de restrições<a class="headerlink" href="#configuracao-de-restricoes" title="Permalink to this headline">¶</a></h3>
-<p>Algumas restrições, como <a class="reference internal" href="../reference/constraints/NotBlank.html"><em>NotBlank</em></a>,
-são simples como as outras, como a restrição <a class="reference internal" href="../reference/constraints/Choice.html"><em>Choice</em></a>
+<p>Algumas restrições, como <tt class="xref doc docutils literal"><span class="pre">NotBlank</span></tt>,
+são simples como as outras, como a restrição <tt class="xref doc docutils literal"><span class="pre">Choice</span></tt>
 , tem várias opções de configuração disponíveis. Suponha que a classe``Author``
 tenha outra propriedade, <tt class="docutils literal"><span class="pre">gender</span></tt> que possa ser configurado como
 &#8220;male&#8221; ou &#8220;female&#8221;:</p>
@@ -399,19 +335,20 @@ tenha outra propriedade, <tt class="docutils literal"><span class="pre">gender</
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// src/Acme/BlogBundle/Entity/Author.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Author
-{
-    /**
-     * @Assert\Choice(
-     *     choices = { "male", "female" },
-     *     message = "Choose a valid gender."
-     * )
-     */
-    public $gender;
-}</pre>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\Choice(</span>
+<span class="sd">     *     choices = { &quot;male&quot;, &quot;female&quot; },</span>
+<span class="sd">     *     message = &quot;Choose a valid gender.&quot;</span>
+<span class="sd">     * )</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$gender</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -435,22 +372,22 @@ class Author
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\NotBlank;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    public $gender;</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$gender</span><span class="p">;</span>
 
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;gender&#39;, new Choice(array(</span>
-<span class="x">            &#39;choices&#39; =&gt; array(&#39;male&#39;, &#39;female&#39;),</span>
-<span class="x">            &#39;message&#39; =&gt; &#39;Choose a valid gender.&#39;,</span>
-<span class="x">        )));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Choice</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose a valid gender.&#39;</span><span class="p">,</span>
+        <span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -470,16 +407,17 @@ podem ser espeficadas dessa forma.</p>
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// src/Acme/BlogBundle/Entity/Author.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Author
-{
-    /**
-     * @Assert\Choice({"male", "female"})
-     */
-    protected $gender;
-}</pre>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\Choice({&quot;male&quot;, &quot;female&quot;})</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$gender</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -500,19 +438,19 @@ class Author
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\Choice;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Choice</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    protected $gender;</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$gender</span><span class="p">;</span>
 
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;gender&#39;, new Choice(array(&#39;male&#39;, &#39;female&#39;)));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Choice</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -530,8 +468,8 @@ para a restrição ou faça de forma segura sempre passando um array de opções
 <p>Restrições podem ser aplicadas a uma propriedade de classe (e.g. <tt class="docutils literal"><span class="pre">name</span></tt>) ou
 um método getter público (e.g. <tt class="docutils literal"><span class="pre">getFullName</span></tt>). O primeiro é mais comum e fácil
 de usar, mas o segundo permite você especificar regras de validação mais complexas.</p>
-<div class="section" id="propriedads">
-<span id="validation-property-target"></span><span id="index-7"></span><h3>Propriedads<a class="headerlink" href="#propriedads" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="propriedades">
+<span id="validation-property-target"></span><span id="index-7"></span><h3>Propriedades<a class="headerlink" href="#propriedades" title="Permalink to this headline">¶</a></h3>
 <p>Validar as propriedades de uma classe é a técnica de validação mais básica.Symfony2
 permite a você validar propriedades private, protected ou public. A próxima listagem
 mostra a você como configurar a propriedade <tt class="docutils literal"><span class="pre">$firstName</span></tt> da classe <tt class="docutils literal"><span class="pre">Author</span></tt>
@@ -547,17 +485,18 @@ para ter ao menos 3 caracteres.</p>
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// Acme/BlogBundle/Entity/Author.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Author
-{
-    /**
-     * @Assert\NotBlank()
-     * @Assert\MinLength(3)
-     */
-    private $firstName;
-}</pre>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     * @Assert\MinLength(3)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$firstName</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -570,21 +509,21 @@ class Author
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\NotBlank;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\MinLength;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\MinLength</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    private $firstName;</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$firstName</span><span class="p">;</span>
 
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;firstName&#39;, new NotBlank());</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;firstName&#39;, new MinLength(3));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -612,19 +551,20 @@ esse método deva retornar &#8216;&#8217;true&#8217;&#8216;:</p>
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// src/Acme/BlogBundle/Entity/Author.php
-use Symfony\Component\Validator\Constraints as Assert;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class Author
-{
-    /**
-     * @Assert\True(message = "The password cannot match your first name")
-     */
-    public function isPasswordLegal()
-    {
-        // return true or false
-    }
-}</pre>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\True(message = &quot;The password cannot match your first name&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isPasswordLegal</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// return true or false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -638,29 +578,30 @@ class Author
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/Author.php</span>
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\True;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\True</span><span class="p">;</span>
 
-<span class="x">class Author</span>
-<span class="x">{</span>
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addGetterConstraint(&#39;passwordLegal&#39;, new True(array(</span>
-<span class="x">            &#39;message&#39; =&gt; &#39;The password cannot match your first name&#39;,</span>
-<span class="x">        )));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addGetterConstraint</span><span class="p">(</span><span class="s1">&#39;passwordLegal&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="k">True</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;The password cannot match your first name&#39;</span><span class="p">,</span>
+        <span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
 <p>Agora, crie o método <tt class="docutils literal"><span class="pre">isPasswordLegal()</span></tt> , e inclua a lógica que você precisa:</p>
-<div class="highlight-python"><pre>public function isPasswordLegal()
+<div class="highlight-python"><div class="highlight"><pre>public function isPasswordLegal()
 {
     return ($this-&gt;firstName != $this-&gt;password);
-}</pre>
+}
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -673,7 +614,7 @@ mudar sua lógica de validação.</p>
 <div class="section" id="classes">
 <span id="validation-class-target"></span><h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
 <p>Algumas restrições aplicam para a classe inteira ser validada. Por exemplo,
-a restrição <a class="reference internal" href="../reference/constraints/Callback.html"><em>Callback</em></a> é uma restrição
+a restrição <tt class="xref doc docutils literal"><span class="pre">Callback</span></tt> é uma restrição
 genérica que é aplicada para a própria classe. Quando a classe é validada,
 métodos especificados por aquela restrição são simplesmente executadas então cada um pode
 prover uma validação mais personalizada.</p>
@@ -703,30 +644,31 @@ usuário registra e quando um usuário atualiza sua informações de contato pos
 </pre></div>
 </div>
 </li>
-<li><em>Annotations</em><div class="highlight-php-annotations"><pre>// src/Acme/BlogBundle/Entity/User.php
-namespace Acme\BlogBundle\Entity;
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/User.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
 
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
+<span class="k">use</span> <span class="nx">Symfony\Component\Security\Core\User\UserInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
 
-class User implements UserInterface
-{
-    /**
-    * @Assert\Email(groups={"registration"})
-    */
-    private $email;
+<span class="k">class</span> <span class="nc">User</span> <span class="k">implements</span> <span class="nx">UserInterface</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\Email(groups={&quot;registration&quot;})</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$email</span><span class="p">;</span>
 
-    /**
-    * @Assert\NotBlank(groups={"registration"})
-    * @Assert\MinLength(limit=7, groups={"registration"})
-    */
-    private $password;
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\NotBlank(groups={&quot;registration&quot;})</span>
+<span class="sd">    * @Assert\MinLength(limit=7, groups={&quot;registration&quot;})</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$password</span><span class="p">;</span>
 
-    /**
-    * @Assert\MinLength(2)
-    */
-    private $city;
-}</pre>
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\MinLength(2)</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$city</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
@@ -758,33 +700,33 @@ class User implements UserInterface
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// src/Acme/BlogBundle/Entity/User.php</span>
-<span class="x">namespace Acme\BlogBundle\Entity;</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/User.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
 
-<span class="x">use Symfony\Component\Validator\Mapping\ClassMetadata;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\Email;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\NotBlank;</span>
-<span class="x">use Symfony\Component\Validator\Constraints\MinLength;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Email</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\MinLength</span><span class="p">;</span>
 
-<span class="x">class User</span>
-<span class="x">{</span>
-<span class="x">    public static function loadValidatorMetadata(ClassMetadata $metadata)</span>
-<span class="x">    {</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;email&#39;, new Email(array(</span>
-<span class="x">            &#39;groups&#39; =&gt; array(&#39;registration&#39;)</span>
-<span class="x">        )));</span>
+<span class="k">class</span> <span class="nc">User</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Email</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
 
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;password&#39;, new NotBlank(array(</span>
-<span class="x">            &#39;groups&#39; =&gt; array(&#39;registration&#39;)</span>
-<span class="x">        )));</span>
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;password&#39;, new MinLength(array(</span>
-<span class="x">            &#39;limit&#39;  =&gt; 7,</span>
-<span class="x">            &#39;groups&#39; =&gt; array(&#39;registration&#39;)</span>
-<span class="x">        )));</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;limit&#39;</span>  <span class="o">=&gt;</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
 
-<span class="x">        $metadata-&gt;addPropertyConstraint(&#39;city&#39;, new MinLength(3));</span>
-<span class="x">    }</span>
-<span class="x">}</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </li>
@@ -839,7 +781,7 @@ o objeto de restrição que você com o qual você quer validar aquele valor. Um
 completa de restrições disponíveis - bem como o nome inteiro da classe para cada
 restrição - está disponível em <a class="reference internal" href="../reference/constraints.html"><em>constraints reference</em></a>
 section .</p>
-<p>O método <tt class="docutils literal"><span class="pre">validateValule</span></tt> retorna um objeto <tt class="xref py py-class docutils literal"><span class="pre">Symfony\Component\Validator\ConstraintViolationList</span></tt>
+<p>O método <tt class="docutils literal"><span class="pre">validateValule</span></tt> retorna um objeto <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/ConstraintViolationList.html" title="Symfony\Component\Validator\ConstraintViolationList"><span class="pre">ConstraintViolationList</span></a></tt>
 , que age como um array de erros. Cada erro na coleção é um objeto :
 class:<cite>Symfony\Component\Validator\ConstraintViolation</cite> ,
 que contém a mensagem de erro no método <cite>getMessage</cite> dele.</p>
@@ -856,7 +798,7 @@ em qualquer lugar para validar qualquer objeto.</p>
 <div class="section" id="aprenda-mais-do-cookbook">
 <h2>Aprenda mais do Cookbook<a class="headerlink" href="#aprenda-mais-do-cookbook" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>How to create a Custom Validation Constraint</em></a></li>
+<li><a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>Como criar uma Constraint de Validação Personalizada</em></a></li>
 </ul>
 </div>
 </div>
@@ -878,18 +820,11 @@ em qualquer lugar para validar qualquer objeto.</p>
 <li><a class="reference internal" href="#configuracao">Configuração</a></li>
 <li><a class="reference internal" href="#restricoes">Restrições</a><ul>
 <li><a class="reference internal" href="#resticoes-suportadas">Restições Suportadas</a></li>
-<li><a class="reference internal" href="#basic-constraints">Basic Constraints</a></li>
-<li><a class="reference internal" href="#string-constraints">String Constraints</a></li>
-<li><a class="reference internal" href="#number-constraints">Number Constraints</a></li>
-<li><a class="reference internal" href="#date-constraints">Date Constraints</a></li>
-<li><a class="reference internal" href="#collection-constraints">Collection Constraints</a></li>
-<li><a class="reference internal" href="#file-constraints">File Constraints</a></li>
-<li><a class="reference internal" href="#other-constraints">Other Constraints</a></li>
 <li><a class="reference internal" href="#configuracao-de-restricoes">Configuração de restrições</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#escopos-da-restricao">Escopos da restrição</a><ul>
-<li><a class="reference internal" href="#propriedads">Propriedads</a></li>
+<li><a class="reference internal" href="#propriedades">Propriedades</a></li>
 <li><a class="reference internal" href="#getters">Getters</a></li>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 </ul>
@@ -916,7 +851,7 @@ em qualquer lugar para validar qualquer objeto.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -942,13 +877,13 @@ em qualquer lugar para validar qualquer objeto.</p>
         <li class="right" >
           <a href="testing.html" title="Testes"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Livro</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

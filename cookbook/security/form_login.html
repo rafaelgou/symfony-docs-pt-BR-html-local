@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to customize your Form Login &mdash; Symfony2Docs v1 documentation</title>
+    <title>Como personalizar o seu Formulário de Login &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,10 +23,10 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../../index.html" />
-    <link rel="up" title="Cookbook" href="../index.html" />
-    <link rel="next" title="How to secure any Service or Method in your Application" href="securing_services.html" />
-    <link rel="prev" title="How to force HTTPS or HTTP for Different URLs" href="force_https.html" /> 
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../../index.html" />
+    <link rel="up" title="Segurança" href="index.html" />
+    <link rel="next" title="Como criar um Provider de Usuário Personalizado" href="custom_provider.html" />
+    <link rel="prev" title="Como forçar HTTPS ou HTTP para URLs Diferentes" href="force_https.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,13 +36,14 @@
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="securing_services.html" title="How to secure any Service or Method in your Application"
+          <a href="custom_provider.html" title="Como criar um Provider de Usuário Personalizado"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="force_https.html" title="How to force HTTPS or HTTP for Different URLs"
+          <a href="force_https.html" title="Como forçar HTTPS ou HTTP para URLs Diferentes"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" accesskey="U">Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Segurança</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,14 +52,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to-customize-your-form-login">
-<h1>How to customize your Form Login<a class="headerlink" href="#how-to-customize-your-form-login" title="Permalink to this headline">¶</a></h1>
-<p>Using a <a class="reference internal" href="../../book/security.html#book-security-form-login"><em>form login</em></a> for authentication is
-a common, and flexible, method for handling authentication in Symfony2. Pretty
-much every aspect of the form login can be customized. The full, default
-configuration is shown in the next section.</p>
-<div class="section" id="form-login-configuration-reference">
-<h2>Form Login Configuration Reference<a class="headerlink" href="#form-login-configuration-reference" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="como-personalizar-o-seu-formulario-de-login">
+<span id="index-0"></span><h1>Como personalizar o seu Formulário de Login<a class="headerlink" href="#como-personalizar-o-seu-formulario-de-login" title="Permalink to this headline">¶</a></h1>
+<p>Usar um <a class="reference internal" href="../../book/security.html#book-security-form-login"><em>formulário de login</em></a> para autenticação é
+é um método comum e flexível para lidar com a autenticação no Symfony2. Praticamente
+todos os aspectos do formulário de login podem ser personalizados. A configuração padrão
+completa é mostrada na próxima seção.</p>
+<div class="section" id="configuracao-de-referencia-do-formulario-de-login">
+<h2>Configuração de Referência do Formulário de Login<a class="headerlink" href="#configuracao-de-referencia-do-formulario-de-login" title="Permalink to this headline">¶</a></h2>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -121,58 +123,58 @@ configuration is shown in the next section.</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            &#39;check_path&#39;                     =&gt; &#39;/login_check&#39;,</span>
-<span class="x">            &#39;login_path&#39;                     =&gt; &#39;/login&#39;,</span>
-<span class="x">            &#39;user_forward&#39;                   =&gt; false,</span>
-<span class="x">            &#39;always_use_default_target_path&#39; =&gt; false,</span>
-<span class="x">            &#39;default_target_path&#39;            =&gt; &#39;/&#39;,</span>
-<span class="x">            &#39;target_path_parameter&#39;          =&gt; _target_path,</span>
-<span class="x">            &#39;use_referer&#39;                    =&gt; false,</span>
-<span class="x">            &#39;failure_path&#39;                   =&gt; null,</span>
-<span class="x">            &#39;failure_forward&#39;                =&gt; false,</span>
-<span class="x">            &#39;username_parameter&#39;             =&gt; &#39;_username&#39;,</span>
-<span class="x">            &#39;password_parameter&#39;             =&gt; &#39;_password&#39;,</span>
-<span class="x">            &#39;csrf_parameter&#39;                 =&gt; &#39;_csrf_token&#39;,</span>
-<span class="x">            &#39;intention&#39;                      =&gt; &#39;authenticate&#39;,</span>
-<span class="x">            &#39;post_only&#39;                      =&gt; true,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;check_path&#39;</span>                     <span class="o">=&gt;</span> <span class="s1">&#39;/login_check&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;login_path&#39;</span>                     <span class="o">=&gt;</span> <span class="s1">&#39;/login&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;user_forward&#39;</span>                   <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+            <span class="s1">&#39;always_use_default_target_path&#39;</span> <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+            <span class="s1">&#39;default_target_path&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;target_path_parameter&#39;</span>          <span class="o">=&gt;</span> <span class="nx">_target_path</span><span class="p">,</span>
+            <span class="s1">&#39;use_referer&#39;</span>                    <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+            <span class="s1">&#39;failure_path&#39;</span>                   <span class="o">=&gt;</span> <span class="k">null</span><span class="p">,</span>
+            <span class="s1">&#39;failure_forward&#39;</span>                <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+            <span class="s1">&#39;username_parameter&#39;</span>             <span class="o">=&gt;</span> <span class="s1">&#39;_username&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;password_parameter&#39;</span>             <span class="o">=&gt;</span> <span class="s1">&#39;_password&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;csrf_parameter&#39;</span>                 <span class="o">=&gt;</span> <span class="s1">&#39;_csrf_token&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;intention&#39;</span>                      <span class="o">=&gt;</span> <span class="s1">&#39;authenticate&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;post_only&#39;</span>                      <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
 </div>
-<div class="section" id="redirecting-after-success">
-<h2>Redirecting after Success<a class="headerlink" href="#redirecting-after-success" title="Permalink to this headline">¶</a></h2>
-<p>You can change where the login form redirects after a successful login using
-the various config options. By default the form will redirect to the URL the
-user requested (i.e. the URL which triggered the login form being shown).
-For example, if the user requested <tt class="docutils literal"><span class="pre">http://www.example.com/admin/post/18/edit</span></tt>
-then after he/she will eventually be sent back to <tt class="docutils literal"><span class="pre">http://www.example.com/admin/post/18/edit</span></tt>
-after successfully logging in. This is done by storing the requested URL
-in the session. If no URL is present in the session (perhaps the user went
-directly to the login page), then the user is redirected to the default page,
-which is  <tt class="docutils literal"><span class="pre">/</span></tt> (i.e. the homepage) by default. You can change this behavior
-in several ways.</p>
+<div class="section" id="redirecionando-apos-sucesso">
+<h2>Redirecionando após Sucesso<a class="headerlink" href="#redirecionando-apos-sucesso" title="Permalink to this headline">¶</a></h2>
+<p>Você pode alterar o local para onde o formulário de login redireciona após um login bem-sucedido
+usando opções de configuração diferentes. Por padrão, o formulário irá redirecionar para a URL
+solicitada pelo usuário (ou seja, a URL que acionou o formulário de login que está sendo exibido).
+Por exemplo, se o usuário solicitou <tt class="docutils literal"><span class="pre">http://www.example.com/admin/post/18/edit</span></tt>, então, após
+o login bem-sucedido, ele será enviado de volta para <tt class="docutils literal"><span class="pre">http://www.example.com/admin/post/18/edit</span></tt>
+. Isto é feito através do armazenamento da URL solicitada
+em sessão. Se nenhuma URL estiver presente na sessão (talvez o usuário acessou
+diretamente a página de login), então, o usuário é redirecionado para a página padrão,
+que é <tt class="docutils literal"><span class="pre">/</span></tt> (ou seja, a homepage). Você pode alterar esse comportamento
+de várias formas.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">As mentioned, by default the user is redirected back to the page he originally
-requested. Sometimes, this can cause problems, like if a background AJAX
-request &#8220;appears&#8221; to be the last visited URL, causing the user to be
-redirected there. For information on controlling this behavior, see
-<a class="reference internal" href="target_path.html"><em>How to change the Default Target Path Behavior</em></a>.</p>
+<p class="last">Como mencionado, por padrão, o usuário é redirecionado para a página que ele solicitou
+originalmente. Às vezes, isso pode causar problemas, como, por exemplo, uma requisição AJAX
+em background &#8220;aparece&#8221; sendo a última URL visitada, fazendo com que o usuário seja
+redirecionado para lá. Para informações sobre como controlar esse comportamento, consulte
+<tt class="xref doc docutils literal"><span class="pre">/cookbook/security/target_path</span></tt>.</p>
 </div>
-<div class="section" id="changing-the-default-page">
-<h3>Changing the Default Page<a class="headerlink" href="#changing-the-default-page" title="Permalink to this headline">¶</a></h3>
-<p>First, the default page can be set (i.e. the page the user is redirected to
-if no previous page was stored in the session). To set it to <tt class="docutils literal"><span class="pre">/admin</span></tt> use
-the following config:</p>
+<div class="section" id="alterando-a-pagina-padrao">
+<h3>Alterando a Página Padrão<a class="headerlink" href="#alterando-a-pagina-padrao" title="Permalink to this headline">¶</a></h3>
+<p>Primeiro, a página padrão pode ser definida (ou seja, a página para a qual o usuário será
+redirecionado se nenhuma página anterior foi armazenada em sessão). Para configurá-la para
+<tt class="docutils literal"><span class="pre">/admin</span></tt> use a seguinte configuração:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -196,27 +198,27 @@ the following config:</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            // ...</span>
-<span class="x">            &#39;default_target_path&#39; =&gt; &#39;/admin&#39;,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="o">...</span><span class="p">,</span>
+            <span class="s1">&#39;default_target_path&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/admin&#39;</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
-<p>Now, when no URL is set in the session users will be sent to <tt class="docutils literal"><span class="pre">/admin</span></tt>.</p>
+<p>Agora, quando não houver uma URL definida na sessão, os usuários serão enviados para <tt class="docutils literal"><span class="pre">/admin</span></tt>.</p>
 </div>
-<div class="section" id="always-redirect-to-the-default-page">
-<h3>Always Redirect to the Default Page<a class="headerlink" href="#always-redirect-to-the-default-page" title="Permalink to this headline">¶</a></h3>
-<p>You can make it so that users are always redirected to the default page regardless
-of what URL they had requested previously by setting the
-<tt class="docutils literal"><span class="pre">always_use_default_target_path</span></tt> option to true:</p>
+<div class="section" id="sempre-redirecionar-para-a-pagina-padrao">
+<h3>Sempre Redirecionar para a Página Padrão<a class="headerlink" href="#sempre-redirecionar-para-a-pagina-padrao" title="Permalink to this headline">¶</a></h3>
+<p>Você pode fazer com que os usuários sejam sempre redirecionados para a página padrão,
+independentemente da URL que eles tenham solicitado anteriormente, definindo a
+a opção <tt class="docutils literal"><span class="pre">always_use_default_target_path</span></tt> para true:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -240,26 +242,26 @@ of what URL they had requested previously by setting the
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            // ...</span>
-<span class="x">            &#39;always_use_default_target_path&#39; =&gt; true,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="o">...</span><span class="p">,</span>
+            <span class="s1">&#39;always_use_default_target_path&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
 </div>
-<div class="section" id="using-the-referring-url">
-<h3>Using the Referring URL<a class="headerlink" href="#using-the-referring-url" title="Permalink to this headline">¶</a></h3>
-<p>In case no previous URL was stored in the session, you may wish to try using
-the <tt class="docutils literal"><span class="pre">HTTP_REFERER</span></tt> instead, as this will often be the same. You can  do
-this by setting <tt class="docutils literal"><span class="pre">use_referer</span></tt> to true (it defaults to false):</p>
+<div class="section" id="usando-a-url-de-referencia-referring-url">
+<h3>Usando a URL de referência (Referring URL)<a class="headerlink" href="#usando-a-url-de-referencia-referring-url" title="Permalink to this headline">¶</a></h3>
+<p>No caso de nenhuma URL anterior estar armazenada em sessão, você pode desejar usar
+o <tt class="docutils literal"><span class="pre">HTTP_REFERER</span></tt> no lugar, pois este, muitas vezes, é o mesmo. Você pode fazer
+isso configurando o <tt class="docutils literal"><span class="pre">use_referer</span></tt> para true (o padrão é false):</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -283,26 +285,30 @@ this by setting <tt class="docutils literal"><span class="pre">use_referer</span
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            // ...</span>
-<span class="x">            &#39;use_referer&#39; =&gt; true,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="o">...</span><span class="p">,</span>
+            <span class="s1">&#39;use_referer&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 2.1: </span>A partir da versão 2.1, se o referer for igual à opção <tt class="docutils literal"><span class="pre">login_path</span></tt>,
+o usuário será redirecionado para <tt class="docutils literal"><span class="pre">default_target_path</span></tt>.</p>
 </div>
-<div class="section" id="control-the-redirect-url-from-inside-the-form">
-<h3>Control the Redirect URL from inside the Form<a class="headerlink" href="#control-the-redirect-url-from-inside-the-form" title="Permalink to this headline">¶</a></h3>
-<p>You can also override where the user is redirected to via the form itself by
-including a hidden field with the name <tt class="docutils literal"><span class="pre">_target_path</span></tt>. For example, to
-redirect to the URL defined by some <tt class="docutils literal"><span class="pre">acount</span></tt> route, use the following:</p>
+</div>
+<div class="section" id="controlando-a-url-de-redirecionamento-dentro-do-formulario">
+<h3>Controlando a URL de redirecionamento dentro do Formulário<a class="headerlink" href="#controlando-a-url-de-redirecionamento-dentro-do-formulario" title="Permalink to this headline">¶</a></h3>
+<p>Você também pode sobrescrever para onde o usuário será redirecionado, através do próprio
+formulário incluindo um campo oculto com o nome <tt class="docutils literal"><span class="pre">_target_path</span></tt>. Por exemplo, para
+redirecionar para a URL definida por rota <tt class="docutils literal"><span class="pre">account</span></tt>, use o seguinte:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}</span>
@@ -324,8 +330,8 @@ redirect to the URL defined by some <tt class="docutils literal"><span class="pr
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="c1">// src/Acme/SecurityBundle/Resources/views/Security/login.html.php ?&gt;</span>
-<span class="o">&lt;?</span><span class="nx">php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$error</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/SecurityBundle/Resources/views/Security/login.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$error</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
     <span class="nt">&lt;div&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$error</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/div&gt;</span>
 <span class="cp">&lt;?php</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span>
 
@@ -345,10 +351,10 @@ redirect to the URL defined by some <tt class="docutils literal"><span class="pr
 </li>
 </ul>
 </div>
-<p>Now, the user will be redirected to the value of the hidden form field. The
-value attribute can be a relative path, absolute URL, or a route name. You
-can even change the name of the hidden form field by changing the <tt class="docutils literal"><span class="pre">target_path_parameter</span></tt>
-option to another value.</p>
+<p>Agora, o usuário será redirecionado para o valor do campo oculto do formulário. O
+valor do atributo pode ser um caminho relativo, uma URL absoluta, ou um nome de rota.
+Você pode até mesmo alterar o nome do campo oculto do formulário, alterando a opção
+<tt class="docutils literal"><span class="pre">target_path_parameter</span></tt> para um outro valor.</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -371,27 +377,27 @@ option to another value.</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            &#39;target_path_parameter&#39; =&gt; redirect_url,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;target_path_parameter&#39;</span> <span class="o">=&gt;</span> <span class="nx">redirect_url</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div>
 </div>
-<div class="section" id="redirecting-on-login-failure">
-<h3>Redirecting on Login Failure<a class="headerlink" href="#redirecting-on-login-failure" title="Permalink to this headline">¶</a></h3>
-<p>In addition to redirect the user after a successful login, you can also set
-the URL that the user should be redirected to after a failed login (e.g. an
-invalid username or password was submitted). By default, the user is redirected
-back to the login form itself. You can set this to a different URL with the
-following config:</p>
+<div class="section" id="redirecionando-quando-o-login-falhar">
+<h3>Redirecionando quando o Login Falhar<a class="headerlink" href="#redirecionando-quando-o-login-falhar" title="Permalink to this headline">¶</a></h3>
+<p>Além de redirecionar o usuário após um login bem-sucedido, você também pode definir
+a URL que o usuário deve ser redirecionado após uma falha de login (por exemplo, quando um
+nome de usuário ou senha inválida foi submetida). Por padrão, o usuário é redirecionado
+de volta ao formulário de login. Você pode definir isso para uma URL diferente com a
+seguinte configuração:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -415,15 +421,15 @@ following config:</p>
 </pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="x">// app/config/security.php</span>
-<span class="x">$container-&gt;loadFromExtension(&#39;security&#39;, array(</span>
-<span class="x">    &#39;firewalls&#39; =&gt; array(</span>
-<span class="x">        &#39;main&#39; =&gt; array(&#39;form_login&#39; =&gt; array(</span>
-<span class="x">            // ...</span>
-<span class="x">            &#39;failure_path&#39; =&gt; login_failure,</span>
-<span class="x">        )),</span>
-<span class="x">    ),</span>
-<span class="x">));</span>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;firewalls&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;main&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form_login&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="o">...</span><span class="p">,</span>
+            <span class="s1">&#39;failure_path&#39;</span> <span class="o">=&gt;</span> <span class="nx">login_failure</span><span class="p">,</span>
+        <span class="p">)),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </li>
@@ -441,14 +447,14 @@ following config:</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">How to customize your Form Login</a><ul>
-<li><a class="reference internal" href="#form-login-configuration-reference">Form Login Configuration Reference</a></li>
-<li><a class="reference internal" href="#redirecting-after-success">Redirecting after Success</a><ul>
-<li><a class="reference internal" href="#changing-the-default-page">Changing the Default Page</a></li>
-<li><a class="reference internal" href="#always-redirect-to-the-default-page">Always Redirect to the Default Page</a></li>
-<li><a class="reference internal" href="#using-the-referring-url">Using the Referring URL</a></li>
-<li><a class="reference internal" href="#control-the-redirect-url-from-inside-the-form">Control the Redirect URL from inside the Form</a></li>
-<li><a class="reference internal" href="#redirecting-on-login-failure">Redirecting on Login Failure</a></li>
+<li><a class="reference internal" href="#">Como personalizar o seu Formulário de Login</a><ul>
+<li><a class="reference internal" href="#configuracao-de-referencia-do-formulario-de-login">Configuração de Referência do Formulário de Login</a></li>
+<li><a class="reference internal" href="#redirecionando-apos-sucesso">Redirecionando após Sucesso</a><ul>
+<li><a class="reference internal" href="#alterando-a-pagina-padrao">Alterando a Página Padrão</a></li>
+<li><a class="reference internal" href="#sempre-redirecionar-para-a-pagina-padrao">Sempre Redirecionar para a Página Padrão</a></li>
+<li><a class="reference internal" href="#usando-a-url-de-referencia-referring-url">Usando a URL de referência (Referring URL)</a></li>
+<li><a class="reference internal" href="#controlando-a-url-de-redirecionamento-dentro-do-formulario">Controlando a URL de redirecionamento dentro do Formulário</a></li>
+<li><a class="reference internal" href="#redirecionando-quando-o-login-falhar">Redirecionando quando o Login Falhar</a></li>
 </ul>
 </li>
 </ul>
@@ -457,10 +463,10 @@ following config:</p>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="force_https.html"
-                        title="previous chapter">How to force HTTPS or HTTP for Different URLs</a></p>
+                        title="previous chapter">Como forçar HTTPS ou HTTP para URLs Diferentes</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="securing_services.html"
-                        title="next chapter">How to secure any Service or Method in your Application</a></p>
+  <p class="topless"><a href="custom_provider.html"
+                        title="next chapter">Como criar um Provider de Usuário Personalizado</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/cookbook/security/form_login.txt"
@@ -469,7 +475,7 @@ following config:</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -490,18 +496,19 @@ following config:</p>
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="securing_services.html" title="How to secure any Service or Method in your Application"
+          <a href="custom_provider.html" title="Como criar um Provider de Usuário Personalizado"
              >next</a> |</li>
         <li class="right" >
-          <a href="force_https.html" title="How to force HTTPS or HTTP for Different URLs"
+          <a href="force_https.html" title="Como forçar HTTPS ou HTTP para URLs Diferentes"
              >previous</a> |</li>
-        <li><a href="../../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
-          <li><a href="../index.html" >Cookbook</a> &raquo;</li> 
+        <li><a href="../../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Cookbook</a> &raquo;</li>
+          <li><a href="index.html" >Segurança</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

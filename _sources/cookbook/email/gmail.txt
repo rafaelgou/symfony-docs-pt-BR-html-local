@@ -1,20 +1,20 @@
 .. index::
-   single: Emails; Gmail
+   single: E-mails; Gmail
 
-How to use Gmail to send Emails
-===============================
+Como usar o Gmail para enviar E-mails
+=====================================
 
-During development, instead of using a regular SMTP server to send emails, you
-might find using Gmail easier and more practical. The Swiftmailer bundle makes
-it really easy.
+Durante o desenvolvimento, em vez de usar um servidor SMTP regular para enviar e-mails, você
+pode descobrir que usar o Gmail é mais fácil e prático. O bundle Swiftmailer torna esta tarefa
+realmente fácil.
 
 .. tip::
 
-    Instead of using your regular Gmail account, it's of course recommended
-    that you create a special account.
+    Em vez de usar a sua conta do Gmail normal, é, com certeza, recomendado
+    que você crie uma conta especial para este propósito.
 
-In the development configuration file, change the ``transport`` setting to
-``gmail`` and set the ``username`` and ``password`` to the Google credentials:
+No arquivo de configuração de desenvolvimento, altere a definição ``transport`` para
+``gmail`` e defina o ``username`` e ``password`` com as credenciais do Google:
 
 .. configuration-block::
 
@@ -31,8 +31,8 @@ In the development configuration file, change the ``transport`` setting to
         <!-- app/config/config_dev.xml -->
 
         <!--
-        xmlns:swiftmailer="http://symfony.com/schema/dic/swiftmailer"
-        http://symfony.com/schema/dic/swiftmailer http://symfony.com/schema/dic/swiftmailer/swiftmailer-1.0.xsd
+            xmlns:swiftmailer="http://symfony.com/schema/dic/swiftmailer"
+            http://symfony.com/schema/dic/swiftmailer http://symfony.com/schema/dic/swiftmailer/swiftmailer-1.0.xsd
         -->
 
         <swiftmailer:config
@@ -49,9 +49,9 @@ In the development configuration file, change the ``transport`` setting to
             'password'  => "your_gmail_password",
         ));
 
-You're done!
+Está pronto!
 
 .. note::
 
-    The ``gmail`` transport is simply a shortcut that uses the ``smtp`` transport
-    and sets ``encryption``, ``auth_mode`` and ``host`` to work with Gmail.
+    O transporte ``gmail`` é simplesmente um atalho que usa o transporte ``smtp``
+    e seta as definições ``encryption``, ``auth_mode`` e ``host`` para funcionar com o Gmail.

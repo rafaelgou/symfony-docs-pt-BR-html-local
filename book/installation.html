@@ -1,19 +1,20 @@
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Instalando e Configurando o Symfony &mdash; Symfony2Docs v1 documentation</title>
+    <title>Instalando e Configurando o Symfony &mdash; Symfony2.4Docs 2.4 documentation</title>
+    
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '1',
+        VERSION:     '2.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,9 +23,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Symfony2Docs v1 documentation" href="../index.html" />
+    <link rel="top" title="Symfony2.4Docs 2.4 documentation" href="../index.html" />
     <link rel="up" title="Livro" href="index.html" />
-    <link rel="next" title="Creating Pages in Symfony2" href="page_creation.html" />
+    <link rel="next" title="Controlador" href="controller.html" />
     <link rel="prev" title="Symfony2 versus o PHP puro" href="from_flat_php_to_symfony2.html" /> 
   </head>
   <body>
@@ -35,12 +36,12 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="page_creation.html" title="Creating Pages in Symfony2"
+          <a href="controller.html" title="Controlador"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="from_flat_php_to_symfony2.html" title="Symfony2 versus o PHP puro"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" accesskey="U">Livro</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,13 +63,16 @@ começar a desenvolver imediatamente.</p>
 projeto e armazena-lo por meio de um sistema de controle de versão, veja
 <a class="reference internal" href="#utilizando-controle-de-versao">Utilizando Controle de Versão</a>.</p>
 </div>
-<div class="section" id="baixando-uma-distribuicao-do-symfony2">
-<h2>Baixando uma Distribuição do Symfony2<a class="headerlink" href="#baixando-uma-distribuicao-do-symfony2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="instalando-uma-distribuicao-do-symfony2">
+<h2>Instalando uma Distribuição do Symfony2<a class="headerlink" href="#instalando-uma-distribuicao-do-symfony2" title="Permalink to this headline">¶</a></h2>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">Primeiro, certifique-se de que você tem um servidor web (Apache, por exemplo)
-com o PHP 5.3.2 ou superior instalado e configurado. Para mais informações
-sobre os requisitos do Symfony2, veja a <a class="reference internal" href="../reference/requirements.html"><em>referência sobre requisitos</em></a>.</p>
+com a versão mais recente possível do PHP (é recomendado o PHP 5.3.8 ou superior).
+Para mais informações sobre os requisitos do Symfony2, veja a <a class="reference internal" href="../reference/requirements.html"><em>referência
+sobre requisitos</em></a>. Para informações sobre a configuração
+de seu específico root do servidor web, verifique a seguinte documentação:
+<a class="reference external" href="http://httpd.apache.org/docs/current/mod/core.html#documentroot">Apache</a> | <a class="reference external" href="http://wiki.nginx.org/Symfony">Nginx</a> .</p>
 </div>
 <p>O Symfony2 tem pacotes chamados de &#8220;distribuições&#8221;, que são aplicações totalmente
 funcionais que já vem com as bibliotecas básicas do framework, uma seleção de
@@ -78,28 +82,35 @@ esqueleto de uma aplicação funcional que pode ser utilizado imediatamente
 para começar a desenvolver.</p>
 <p>Comece acessando a página de download do Symfony2 em <a class="reference external" href="http://symfony.com/download">http://symfony.com/download</a>.
 Nessa página, você verá <em>Symfony Standard Edition</em>, que é a principal distribuição
-do Symfony2. Aqui você precisará fazer duas escolhas:</p>
-<ul class="simple">
-<li>Baixar o arquivo <tt class="docutils literal"><span class="pre">.tgz</span></tt> ou o <tt class="docutils literal"><span class="pre">.zip</span></tt>. Os dois são equivalentes, portanto,
-baixe o arquivo no formato que você estiver mais acostumado a utilizar.</li>
-<li>Baixar a distribuição com ou sem itens de terceiros (vendors). Se você tem o
-<a class="reference external" href="http://git-scm.com/">Git</a> instalado em seu computador, você deve optar pela opção sem itens de
-terceiros (without vendors), uma vez que isso te dará um pouco mais de flexibilidade
-ao trabalhar com bibliotecas de terceiros.</li>
-</ul>
-<p>Baixe um dos arquivos para um local dentro do diretório raiz do seu servidor web
-e o descompacte. Utilizando a linha de comando em um sistema UNIX, isso pode ser
-feito da seguinte maneira (troque o <tt class="docutils literal"><span class="pre">###</span></tt> pelo nome do arquivo):</p>
-<div class="highlight-bash"><div class="highlight"><pre><span class="c"># for .tgz file</span>
-tar zxvf Symfony_Standard_Vendors_2.0.###.tgz
-
-<span class="c"># for a .zip file</span>
-unzip Symfony_Standard_Vendors_2.0.###.zip
+do Symfony2. Existem duas formas de iniciar o seu projeto:</p>
+<div class="section" id="opcao-1-composer">
+<h3>Opção 1) Composer<a class="headerlink" href="#opcao-1-composer" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://getcomposer.org/">Composer</a>  é uma biblioteca de gerenciamento de dependências para PHP, que você pode usar
+para baixar a Edição Standard do Symfony2.</p>
+<p>Comece fazendo o <a class="reference external" href="http://getcomposer.org/download/">download do Composer</a> em qualquer lugar em seu computador local. Se você
+tem o curl instalado, é tão fácil como:</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl -s https://getcomposer.org/installer | php
 </pre></div>
 </div>
-<p>Ao terminar, você deverá ter um diretório chamado <tt class="docutils literal"><span class="pre">Symfony/</span></tt> parecido com isso:</p>
-<div class="highlight-text"><div class="highlight"><pre>www/ &lt;- your web root directory
-    Symfony/ &lt;- the unpacked archive
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Se o seu computador não está pronto para usar o Composer, você verá algumas recomendações
+ao executar este comando. Siga as recomendações para que o Composer funcione corretamente.</p>
+</div>
+<p>O Composer é um arquivo executável PHAR, que você pode usar para baixar a Distribuição Standard:</p>
+<div class="highlight-bash"><div class="highlight"><pre>php composer.phar create-project symfony/framework-standard-edition /path/to/webroot/Symfony 2.1.x-dev
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Para uma versão exata, substitua <cite>2.1.x-dev</cite> com a versão mais recente do Symfony (por exemplo, 2.1.1).
+Para mais detalhes, consulte a <a href="#id1"><span class="problematic" id="id2">`Página de Instalação do Symfony`_</span></a></p>
+</div>
+<p>Este comando pode demorar alguns minutos para ser executado pois o Composer baixa a Distribuição Padrão,
+juntamente com todas as bibliotecas vendor de que ela precisa. Quando terminar, você deve ter um diretório
+parecido com o seguinte:</p>
+<div class="highlight-text"><div class="highlight"><pre>path/to/webroot/ &lt;- your web root directory
+    Symfony/ &lt;- the new directory
         app/
             cache/
             config/
@@ -113,16 +124,83 @@ unzip Symfony_Standard_Vendors_2.0.###.zip
             ...
 </pre></div>
 </div>
-<div class="section" id="atualizando-bibliotecas-de-terceiros">
-<h3>Atualizando bibliotecas de terceiros<a class="headerlink" href="#atualizando-bibliotecas-de-terceiros" title="Permalink to this headline">¶</a></h3>
-<p>Por fim, se você baixou a versão sem itens de terceiros (without vendors),
-instale esses itens via linha de comando utilizando:</p>
-<div class="highlight-bash"><div class="highlight"><pre>php bin/vendors install
+</div>
+<div class="section" id="opcao-2-fazer-download-de-um-arquivo">
+<h3>Opção 2) Fazer download de um arquivo<a class="headerlink" href="#opcao-2-fazer-download-de-um-arquivo" title="Permalink to this headline">¶</a></h3>
+<p>Você também pode fazer download de um arquivo da Edição Standard. Aqui, você vai
+precisar fazer duas escolhas:</p>
+<ul class="simple">
+<li>Faça o download do arquivo <tt class="docutils literal"><span class="pre">tgz</span></tt> ou <tt class="docutils literal"><span class="pre">zip</span></tt> - ambos são equivalentes, faça o download
+daquele que você está mais confortável em usar;</li>
+<li>Faça o download da distribuição com ou sem vendors. Se você está pensando em usar mais
+bibliotecas de terceiros ou bundles e gerenciá-los através do Composer, você
+provavelmente deve baixar &#8220;sem vendors&#8221;.</li>
+</ul>
+<p>Baixe um dos arquivos em algum lugar sob o diretório raiz do seu servidor web local e descompacte-o.
+A partir de uma linha de comando UNIX, isto pode ser feito com um dos seguintes comandos (substituindo
+<tt class="docutils literal"><span class="pre">###</span></tt> com o seu nome real do arquivo):</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># for .tgz file</span>
+<span class="nv">$ </span>tar zxvf Symfony_Standard_Vendors_2.1.###.tgz
+
+<span class="c"># for a .zip file</span>
+<span class="nv">$ </span>unzip Symfony_Standard_Vendors_2.1.###.zip
 </pre></div>
 </div>
-<p>Esse comando baixa todas as bibliotecas de terceiros necessários - incluindo o
-próprio Symfony - para o diretório <tt class="docutils literal"><span class="pre">vendor/</span></tt>. Para informações sobre como as
-bibliotecas de terceiros são gerenciadas dentro do Symfony2, veja &#8220;<a class="reference internal" href="../cookbook/workflow/new_project_git.html#cookbook-managing-vendor-libraries"><em>Gerenciando Bibliotecas Vendor com bin/vendors e deps</em></a>&#8221;.</p>
+<p>Se você baixou o arquivo &#8220;sem vendors&#8221;, você definitivamente precisa ler a próxima seção.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp; Você pode facilmente substituir a estrutura de diretórios padrão. Veja
+&nbsp;&nbsp;&nbsp;&nbsp; <a class="reference internal" href="../cookbook/configuration/override_dir_structure.html"><em>Como Substituir a Estrutura de Diretório Padrão do Symfony</em></a> para mais
+&nbsp;&nbsp;&nbsp;&nbsp; informações.</p>
+</div>
+<div class="section" id="atualizando-os-vendors">
+<span id="installation-updating-vendors"></span><h3>Atualizando os Vendors<a class="headerlink" href="#atualizando-os-vendors" title="Permalink to this headline">¶</a></h3>
+<p>Neste ponto, você baixou um projeto Symfony totalmente funcional em que
+você vai começar a desenvolver a sua própria aplicação. Um projeto Symfony depende
+de um número de bibliotecas externas. Estas são baixadas no diretório <cite>vendor/</cite>
+do seu projeto através de uma biblioteca chamada <cite>Composer_</cite>.</p>
+<p>Dependendo de como você baixou o Symfony, você pode ou não precisar fazer a atualização
+de seus vendors agora. Mas, a atualização de seus vendors é sempre segura, e garante
+que você tem todas as bibliotecas vendor que você precisa.</p>
+<p>Passo 1: Obter o <cite>Composer</cite> _ (O excelente novo sistema de pacotes do PHP)</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl -s http://getcomposer.org/installer | php
+</pre></div>
+</div>
+<p>Certifique-se de que você baixou o <tt class="docutils literal"><span class="pre">composer.phar</span></tt> no mesmo diretório onde
+o arquivo <tt class="docutils literal"><span class="pre">composer.json</span></tt> encontra-se (por padrão, no raiz de seu projeto
+Symfony).</p>
+<p>Passo 2: Instalar os vendors</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar install
+</pre></div>
+</div>
+<p>Este comando faz o download de todas as bibliotecas vendor necessárias - incluindo
+o Symfony em si - dentro do diretório <tt class="docutils literal"><span class="pre">vendor/</span></tt>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Se você não tem o <tt class="docutils literal"><span class="pre">curl</span></tt> instalado, você também pode apenas baixar o arquivo <tt class="docutils literal"><span class="pre">installer</span></tt>
+manualmente em <a class="reference external" href="http://getcomposer.org/installer">http://getcomposer.org/installer</a>. Coloque este arquivo em seu
+projeto e execute:</p>
+<div class="last highlight-bash"><div class="highlight"><pre>php installer
+php composer.phar install
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Ao executar <tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">install</span></tt> ou <tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">update</span></tt>,
+o composer vai executar comandos de pós instalação/atualização para limpar o cache
+e instalar os assets. Por padrão, os assets serão copiados para o seu diretório
+<tt class="docutils literal"><span class="pre">web</span></tt>. Para criar links simbólicos em vez de copiar os assets, você pode
+adicionar uma entrada no nó <tt class="docutils literal"><span class="pre">extra</span></tt> do seu arquivo composer.json com a chave
+<tt class="docutils literal"><span class="pre">symfony-assets-install</span></tt>  e o valor <tt class="docutils literal"><span class="pre">symlink</span></tt>:</p>
+<div class="highlight-json"><div class="highlight"><pre>&quot;extra&quot;: {
+    &quot;symfony-app-dir&quot;: &quot;app&quot;,
+    &quot;symfony-web-dir&quot;: &quot;web&quot;,
+    &quot;symfony-assets-install&quot;: &quot;symlink&quot;
+}
+</pre></div>
+</div>
+<p class="last">Ao passar <tt class="docutils literal"><span class="pre">relative`</span> <span class="pre">ao</span> <span class="pre">invés</span> <span class="pre">de</span> <span class="pre">``symlink</span></tt> para o symfony-assets-install,
+o comando irá gerar links simbólicos relativos.</p>
+</div>
 </div>
 <div class="section" id="configuracao-e-instalacao">
 <h3>Configuração e Instalação<a class="headerlink" href="#configuracao-e-instalacao" title="Permalink to this headline">¶</a></h3>
@@ -132,7 +210,7 @@ e alguns códigos de exemplo no diretório <tt class="docutils literal"><span cl
 <p>O Symfony2 tem um script para testar as configuração do servidor de forma visual,
 que ajuda garantir que o servidor web e o PHP estão configurados para o framework.
 Utilize a seguinte URL para verificar a sua configuração:</p>
-<div class="highlight-text"><div class="highlight"><pre>http://localhost/Symfony/web/config.php
+<div class="highlight-text"><div class="highlight"><pre>http://localhost/config.php
 </pre></div>
 </div>
 <p>Se algum problema foi encontrado, ele deve ser corrigido agora, antes de prosseguir.</p>
@@ -157,7 +235,7 @@ sudo chmod +a <span class="s2">&quot;yourname allow delete,write,append,file_inh
 </div>
 <p><strong>2. Utilizando ACL em um sistema que não suporta chmod +a</strong></p>
 <p>Alguns sistemas não suportam o comando <tt class="docutils literal"><span class="pre">chmod</span> <span class="pre">+a</span></tt>, mas suportam um outro
-chamado <tt class="docutils literal"><span class="pre">setfacl</span></tt>. Pode ser necessário que você <a class="reference external" href="https://help.ubuntu.com/community/FilePermissions#ACLs">habilite o suporte a ACL</a>
+chamado <tt class="docutils literal"><span class="pre">setfacl</span></tt>. Pode ser necessário que você <a class="reference external" href="https://help.ubuntu.com/community/FilePermissionsACLs">habilite o suporte a ACL</a>
 na sua partição e instale o setfacl antes de utiliza-lo (esse é o caso no Ubuntu,
 por exemplo) da seguinte maneira:</p>
 <div class="highlight-bash"><div class="highlight"><pre>sudo setfacl -R -m u:www-data:rwx -m u:yourname:rwx app/cache app/logs
@@ -171,11 +249,11 @@ escrita para o grupo ou para todos (vai depender se o usuário do servidor web
 e o usuário da linha de comando estão no mesmo grupo). Para isso, coloque a
 seguinte linha no começo dos arquivos <tt class="docutils literal"><span class="pre">app/console</span></tt>, <tt class="docutils literal"><span class="pre">web/app.php</span></tt> e
 <tt class="docutils literal"><span class="pre">web/app_dev.php</span></tt>:</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="x">umask(0002); // This will let the permissions be 0775</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="nb">umask</span><span class="p">(</span><span class="mo">0002</span><span class="p">);</span> <span class="c1">// This will let the permissions be 0775</span>
 
-<span class="x">// or</span>
+<span class="c1">// or</span>
 
-<span class="x">umask(0000); // This will let the permissions be 0777</span>
+<span class="nb">umask</span><span class="p">(</span><span class="mo">0000</span><span class="p">);</span> <span class="c1">// This will let the permissions be 0777</span>
 </pre></div>
 </div>
 <p class="last">Note que se você tem acesso a ACL no seu servidor, esse será o método recomendado,
@@ -183,7 +261,7 @@ uma vez que alterar a umask não é uma operação thread-safe.</p>
 </div>
 <p>Quando tudo estiver feito, clique em &#8220;Go to the Welcome page&#8221; para acessar a sua
 primeira webpage Symfony2 &#8220;real&#8221;:</p>
-<div class="highlight-text"><div class="highlight"><pre>http://localhost/Symfony/web/app_dev.php/
+<div class="highlight-text"><div class="highlight"><pre>http://localhost/app_dev.php/
 </pre></div>
 </div>
 <p>O Symfony2 deverá lhe dar as boas vindas e parabeniza-lo pelo trabalho duro até agora!</p>
@@ -197,9 +275,11 @@ o desenvolvimento! A sua distribuição deve conter alguns códigos de exemplo -
 verifique o arquivo <tt class="docutils literal"><span class="pre">README.rst</span></tt> incluído na distribuição (você pode abri-lo
 como um arquivo de texto) para aprender sobre os exemplos incluídos e como
 você pode removê-los mais tarde.</p>
-<p>Se você é novo no Symfony, junte-se a nós em &#8220;<a class="reference internal" href="page_creation.html"><em>Creating Pages in Symfony2</em></a>&#8221;, onde você
+<p>Se você é novo no Symfony, junte-se a nós em &#8220;<tt class="xref doc docutils literal"><span class="pre">page_creation</span></tt>&#8221;, onde você
 aprenderá como criar páginas, mudar configurações e tudo mais que precisará para
 a sua nova aplicação.</p>
+<p>Certifique-se também verificar o <a class="reference internal" href="../cookbook/index.html"><em>Cookbook</em></a>, que contém
+uma grande variedade de artigos sobre a resolução de problemas específicos com Symfony.</p>
 </div>
 <div class="section" id="utilizando-controle-de-versao">
 <h2>Utilizando Controle de Versão<a class="headerlink" href="#utilizando-controle-de-versao" title="Permalink to this headline">¶</a></h2>
@@ -214,13 +294,13 @@ para ser armazenado no git, veja <a class="reference internal" href="../cookbook
 ignorar todo o diretório <tt class="docutils literal"><span class="pre">vendor/</span></tt> com segurança e não enviá-lo para o controle
 de versão. No <tt class="docutils literal"><span class="pre">Git</span></tt>, isso é feito criando e o arquivo <tt class="docutils literal"><span class="pre">.gitignore</span></tt> e adicionando
 a seguinte linha:</p>
-<div class="highlight-text"><div class="highlight"><pre>vendor/
+<div class="highlight-text"><div class="highlight"><pre>/vendor/
 </pre></div>
 </div>
 <p>Agora, o diretório vendor não será enviado para o controle de versão. Isso é bom
 (na verdade, é ótimo!) porque quando alguém clonar ou fizer check out do projeto,
-ele/ela poderá simplesmente executar o script <tt class="docutils literal"><span class="pre">php</span> <span class="pre">bin/vendors</span> <span class="pre">install</span></tt> para
-baixar todas as bibliotecas de terceiros necessárias.</p>
+ele/ela poderá simplesmente executar o script <tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">install</span></tt> para
+instalar todas as bibliotecas vendor necessárias.</p>
 </div>
 </div>
 </div>
@@ -234,8 +314,10 @@ baixar todas as bibliotecas de terceiros necessárias.</p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Instalando e Configurando o Symfony</a><ul>
-<li><a class="reference internal" href="#baixando-uma-distribuicao-do-symfony2">Baixando uma Distribuição do Symfony2</a><ul>
-<li><a class="reference internal" href="#atualizando-bibliotecas-de-terceiros">Atualizando bibliotecas de terceiros</a></li>
+<li><a class="reference internal" href="#instalando-uma-distribuicao-do-symfony2">Instalando uma Distribuição do Symfony2</a><ul>
+<li><a class="reference internal" href="#opcao-1-composer">Opção 1) Composer</a></li>
+<li><a class="reference internal" href="#opcao-2-fazer-download-de-um-arquivo">Opção 2) Fazer download de um arquivo</a></li>
+<li><a class="reference internal" href="#atualizando-os-vendors">Atualizando os Vendors</a></li>
 <li><a class="reference internal" href="#configuracao-e-instalacao">Configuração e Instalação</a></li>
 </ul>
 </li>
@@ -252,8 +334,8 @@ baixar todas as bibliotecas de terceiros necessárias.</p>
   <p class="topless"><a href="from_flat_php_to_symfony2.html"
                         title="previous chapter">Symfony2 versus o PHP puro</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="page_creation.html"
-                        title="next chapter">Creating Pages in Symfony2</a></p>
+  <p class="topless"><a href="controller.html"
+                        title="next chapter">Controlador</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/book/installation.txt"
@@ -262,7 +344,7 @@ baixar todas as bibliotecas de terceiros necessárias.</p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -283,18 +365,18 @@ baixar todas as bibliotecas de terceiros necessárias.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="page_creation.html" title="Creating Pages in Symfony2"
+          <a href="controller.html" title="Controlador"
              >next</a> |</li>
         <li class="right" >
           <a href="from_flat_php_to_symfony2.html" title="Symfony2 versus o PHP puro"
              >previous</a> |</li>
-        <li><a href="../index.html">Symfony2Docs v1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">Symfony2.4Docs 2.4 documentation</a> &raquo;</li>
           <li><a href="index.html" >Livro</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2012, Symfony Team.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+        &copy; Copyright 2014, Symfony Team + Symfony pt_BR Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
     </div>
   </body>
 </html>

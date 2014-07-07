@@ -1,225 +1,226 @@
 .. index::
-   single: Internals
+single: Bastidores
 
-Internals
+Bastidores
 =========
 
-Looks like you want to understand how Symfony2 works and how to extend it.
-That makes me very happy! This section is an in-depth explanation of the
-Symfony2 internals.
+Parece que você quer entender como funciona o Symfony2 e como extendê-lo.
+Isso me deixa muito feliz! Esta seção explica detalhadamente os bastidores
+do Symfony2.
 
 .. note::
 
-    You need to read this section only if you want to understand how Symfony2
-    works behind the scene, or if you want to extend Symfony2.
+    Você precisa ler esta seção apenas se quer entender como o Symfony2 funciona
+    seu miolo, ou se quer extendê-lo.
 
-Overview
+Visão Geral
 --------
 
-The Symfony2 code is made of several independent layers. Each layer is built
-on top of the previous one.
+O código do Symfony2 é feito de várias camadas independentes. Cada camada é
+construída em cima da anterior.
 
 .. tip::
 
-    Autoloading is not managed by the framework directly; it's done
-    independently with the help of the
-    :class:`Symfony\\Component\\ClassLoader\\UniversalClassLoader` class
-    and the ``src/autoload.php`` file. Read the :doc:`dedicated chapter
-    </cookbook/tools/autoloader>` for more information.
+    O Autoloading não é gerenciado diretamente pelo framework; isso é feito usando
+    o autoloader do Composer (``vendor/autoload.php``), que é incluído no arquivo
+    ``app/autoload.php``.
 
-``HttpFoundation`` Component
+Componente ``HttpFoundation``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The deepest level is the :namespace:`Symfony\\Component\\HttpFoundation`
-component. HttpFoundation provides the main objects needed to deal with HTTP.
-It is an Object-Oriented abstraction of some native PHP functions and
-variables:
+O nível mais profundo é o componente :namespace:`Symfony\\Component\\HttpFoundation`.
+HttpFoundation fornece os principais objetos necessários para lidar com HTTP.
+É um objeto que abstrai algumas funções nativas do PHP e variáveis:
 
-* The :class:`Symfony\\Component\\HttpFoundation\\Request` class abstracts
-  the main PHP global variables like ``$_GET``, ``$_POST``, ``$_COOKIE``,
-  ``$_FILES``, and ``$_SERVER``;
+* A classe :class:`Symfony\\Component\\HttpFoundation\\Request` abstrai as principais
+  variáveis globais do PHP como: ``$_GET``, ``$_POST``, ``$_COOKIE``,
+  ``$_FILES``, e ``$_SERVER``;
 
-* The :class:`Symfony\\Component\\HttpFoundation\\Response` class abstracts
-  some PHP functions like ``header()``, ``setcookie()``, and ``echo``;
+* A classe :class:`Symfony\\Component\\HttpFoundation\\Response` abstrai algumas
+  funções do PHP como: ``header()``, ``setcookie()``, e ``echo``;
 
-* The :class:`Symfony\\Component\\HttpFoundation\\Session` class and
+* A classe :class:`Symfony\\Component\\HttpFoundation\\Session` e a interface
   :class:`Symfony\\Component\\HttpFoundation\\SessionStorage\\SessionStorageInterface`
-  interface abstract session management ``session_*()`` functions.
+  abstraem o gerenciamento da sessão, com uso das funções ``session_*()``.
 
-``HttpKernel`` Component
+.. note::
+
+    Leia mais sobre o :doc:`Componente HttpFoundation </components/http_foundation/introduction>`.
+
+Componente ``HttpKernel``
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-On top of HttpFoundation is the :namespace:`Symfony\\Component\\HttpKernel`
-component. HttpKernel handles the dynamic part of HTTP; it is a thin wrapper
-on top of the Request and Response classes to standardize the way requests are
-handled. It also provides extension points and tools that makes it the ideal
-starting point to create a Web framework without too much overhead.
+No topo do HttpFoundation está o componente :namespace:`Symfony\\Component\\HttpKernel`.
+HttpKernel manuseia a parte dinâmica do HTTP; é um sutíl que envolve as classes
+Request e Response para padronizar as formas como as requisições são manipuladas. Ele
+também oferece pontos de extensão e ferramentas ideais para criar um framework Web
+sem muito trabalho.
 
-It also optionally adds configurability and extensibility, thanks to the
-Dependency Injection component and a powerful plugin system (bundles).
+Também, opcionalmente, adiciona conigurabilidade e extensibilidade, obrigado ao
+componente de Injeção de Dependência e um poderoso sistema de plugins (bundles).
 
 .. seealso::
 
-    Read more about the :doc:`HttpKernel <kernel>` component. Read more about
-    :doc:`Dependency Injection </book/service_container>` and :doc:`Bundles
-    </cookbook/bundles/best_practices>`.
+    Leia mais sobre o :doc:`Componente HttpKernel </components/http_kernel/introduction>`,
+    :doc:`Dependency Injection </book/service_container>` e
+    :doc:`Bundles </cookbook/bundles/best_practices>`.
 
-``FrameworkBundle`` Bundle
+O Bundle ``FrameworkBundle``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The :namespace:`Symfony\\Bundle\\FrameworkBundle` bundle is the bundle that
-ties the main components and libraries together to make a lightweight and fast
-MVC framework. It comes with a sensible default configuration and conventions
-to ease the learning curve.
+O bundle :namespace:`Symfony\\Bundle\\FrameworkBundle` é um pacote que amarra os
+principais componentes e bibliotecas para fazer um leve e rápido framework MVC. Ele
+vem com uma configuração padrão e convenções para facilitar a curva de aprendizado.
 
 .. index::
-   single: Internals; Kernel
+single: Bastidores; Kernel
 
 Kernel
 ------
 
-The :class:`Symfony\\Component\\HttpKernel\\HttpKernel` class is the central
-class of Symfony2 and is responsible for handling client requests. Its main
-goal is to "convert" a :class:`Symfony\\Component\\HttpFoundation\\Request`
-object to a :class:`Symfony\\Component\\HttpFoundation\\Response` object.
+A classe :class:`Symfony\\Component\\HttpKernel\\HttpKernel` é a classe central
+do Symfony2 e é responsável por tratar os peedidos do cliente. Seu principal objetivo
+é "converter" um objeto :class:`Symfony\\Component\\HttpFoundation\\Request` para um
+objeto :class:`Symfony\\Component\\HttpFoundation\\Response`.
 
-Every Symfony2 Kernel implements
+Cada Kernel do Symfony2 implementa
 :class:`Symfony\\Component\\HttpKernel\\HttpKernelInterface`::
 
     function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
 
 .. index::
-   single: Internals; Controller Resolver
+single: Bastidores; Resolvedor do Controlador
 
-Controllers
+Controladores
 ~~~~~~~~~~~
 
-To convert a Request to a Response, the Kernel relies on a "Controller". A
-Controller can be any valid PHP callable.
+Para converter um Request para um Response, o Kernel se baseia em um "Controlador". Um
+Controlador pode ser qualquer código PHP válido.
 
-The Kernel delegates the selection of what Controller should be executed
-to an implementation of
+O Controlador deve ser uma implementação de
 :class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface`::
 
     public function getController(Request $request);
 
     public function getArguments(Request $request, $controller);
 
-The
+e o Kernel poderá executá-lo.
+
+O método
 :method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getController`
-method returns the Controller (a PHP callable) associated with the given
-Request. The default implementation
-(:class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver`)
-looks for a ``_controller`` request attribute that represents the controller
-name (a "class::method" string, like
-``Bundle\BlogBundle\PostController:indexAction``).
+retorna o Controlador (um código PHP) associado com o dado Request. A implementação padrão
+(:class:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolver`) procura
+pelo atributo ``_controller`` do pedido que representa o nome do controlador
+(uma string "classs::método", como ``Bundle\BlogBundle\PostController:indexAction``).
 
 .. tip::
 
-    The default implementation uses the
+    A implementação padrão utiliza o
     :class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener`
-    to define the ``_controller`` Request attribute (see :ref:`kernel-core-request`).
+    para definir o atributo ``_controller`` do Request (veja :ref:`kernel-core-request`).
 
-The
+O método
 :method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getArguments`
-method returns an array of arguments to pass to the Controller callable. The
-default implementation automatically resolves the method arguments, based on
-the Request attributes.
+retorna um arrau de argumentos para passar para o Controlador. A implementação padrão
+automaticamente resolve os argumentos dos métodos, baseado nos atributos do Request.
 
-.. sidebar:: Matching Controller method arguments from Request attributes
+.. sidebar:: Correspondente os argumentos dos métodos do Controlador a partir dos
+atributos do Request
 
-    For each method argument, Symfony2 tries to get the value of a Request
-    attribute with the same name. If it is not defined, the argument default
-    value is used if defined::
+    Para cada argumento, o Symfony2 tenta pegar o valor do atributo do Request com o
+    mesmo nome. Se este não estiver definido, o valor do argumento padrão é usado se
+    definido::
 
-        // Symfony2 will look for an 'id' attribute (mandatory)
-        // and an 'admin' one (optional)
+        // Symfony2 vai olhar para um atributo 'id' (obrigatório)
+        // e um 'admin' (opcional)
         public function showAction($id, $admin = true)
         {
             // ...
         }
 
 .. index::
-  single: Internals; Request Handling
+single: Bastidores; Trantando os Requests
 
-Handling Requests
+Trantando os Requests
 ~~~~~~~~~~~~~~~~~
 
-The ``handle()`` method takes a ``Request`` and *always* returns a ``Response``.
-To convert the ``Request``, ``handle()`` relies on the Resolver and an ordered
-chain of Event notifications (see the next section for more information about
-each Event):
+O método :method:`Symfony\\Component\\HttpKernel\\HttpKernel::handle` pega um
+``Request`` e *sempre* retorna um ``Response``. Para converter o ``Request``,
+o ``handle()`` depende do Resolver e uma cadeia ordenada de notificações de eventos
+(veja a próxima seção para mais informações sobre cada Event):
 
-1. Before doing anything else, the ``kernel.request`` event is notified -- if
-   one of the listeners returns a ``Response``, it jumps to step 8 directly;
+#. Antes de qualquer coisa, o evento ``kernel.request`` é notificado -- se um dos
+   listeners retorna um ``Response``, pula diretamente para o passo 8;
 
-2. The Resolver is called to determine the Controller to execute;
+#. O Resolver é chamado para determinar qual Controlador executar;
 
-3. Listeners of the ``kernel.controller`` event can now manipulate the
-   Controller callable the way they want (change it, wrap it, ...);
+#. Os listeners do evento ``kernel.controller`` podem manipular o Controlador
+   chamado como queiram (alterá-lo, envolvê-lo, ...);
 
-4. The Kernel checks that the Controller is actually a valid PHP callable;
+#. O Kernel verifica se o Controlador é um código PHP válido;
 
-5. The Resolver is called to determine the arguments to pass to the Controller;
+#. O Resolver é chamado para determinar os argumentos para passar para o Controlador;
 
-6. The Kernel calls the Controller;
+#. O Kernel chama o Controlador;
 
-7. If the Controller does not return a ``Response``, listeners of the
-   ``kernel.view`` event can convert the Controller return value to a ``Response``;
+#. Se o Controlador não retorna um ``Response``, os listeners do evento
+   ``kernel.view`` podem converter o valor de retorno do Controlador para um ``Response``;
 
-8. Listeners of the ``kernel.response`` event can manipulate the ``Response``
-   (content and headers);
+#. Os listeners do evento ``kernel.response`` podem manipular o ``Response``
+   (conteúdo e cabeçalho);
 
-9. The Response is returned.
+#. O Response é retornado.
 
-If an Exception is thrown during processing, the ``kernel.exception`` is
-notified and listeners are given a chance to convert the Exception to a
-Response. If that works, the ``kernel.response`` event is notified; if not, the
-Exception is re-thrown.
+Se uma Exception é lançada durante o processamento, o ``kernel.exception`` é notificado
+e os listeners têm a oportundade de converter a Exception em um Response. Se isso
+funcionar, o evento ``kernel.reponse`` é notificado; se não, a Exception é relançada.
 
-If you don't want Exceptions to be caught (for embedded requests for
-instance), disable the ``kernel.exception`` event by passing ``false`` as the
-third argument to the ``handle()`` method.
+Se você não quer ser pego por uma Exception (para pedidos embutido por exemplo),
+desabilite o evento ``kernel.exception`` pasando ``false`` como o terceiro argumento
+do método ``handle()``.
 
 .. index::
-  single: Internals; Internal Requests
+single: Bastidores; Requests Internos
 
-Internal Requests
+Requests Internos
 ~~~~~~~~~~~~~~~~~
 
-At any time during the handling of a request (the 'master' one), a sub-request
-can be handled. You can pass the request type to the ``handle()`` method (its
-second argument):
+A qualquer momento durante o tratamento de um pedido (o 'master'), um sub-pedido
+pode ser manipulado. Você pode passar o tipo do pedido para o método ``handle()``
+(segundo argumento):
 
 * ``HttpKernelInterface::MASTER_REQUEST``;
 * ``HttpKernelInterface::SUB_REQUEST``.
 
-The type is passed to all events and listeners can act accordingly (some
-processing must only occur on the master request).
+O tipo é passado para todos os eventos e os listeners podem agir de acordo (alguns
+processamentos só devem ocorrer no pedido principal).
 
 .. index::
-   pair: Kernel; Event
+pair: Kernel; Evento
 
-Events
+Eventos
 ~~~~~~
 
-Each event thrown by the Kernel is a subclass of
-:class:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent`. This means that
-each event has access to the same basic information:
+Cada evento acionado pelo Kernel é uma subclasse do
+:class:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent`. Isto significa que cada
+evento tem acesso para a mesma informação básica:
 
-* ``getRequestType()`` - returns the *type* of the request
-  (``HttpKernelInterface::MASTER_REQUEST`` or ``HttpKernelInterface::SUB_REQUEST``);
+* :method:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent::getRequestType` 
+  - retorna o *tipo* do pedido (``HttpKernelInterface::MASTER_REQUEST``
+  ou ``HttpKernelInterface::SUB_REQUEST``);
 
-* ``getKernel()`` - returns the Kernel handling the request;
+* :method:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent::getKernel` 
+  - retorna o Kernel manipulando o pedido;
 
-* ``getRequest()`` - returns the current ``Request`` being handled.
+* :method:`Symfony\\Component\\HttpKernel\\Event\\KernelEvent::getRequest` 
+  - retorna o ``Request`` sendo manipulado.
 
 ``getRequestType()``
 ....................
 
-The ``getRequestType()`` method allows listeners to know the type of the
-request. For instance, if a listener must only be active for master requests,
-add the following code at the beginning of your listener method::
+O método ``getRequestType()`` permite os listeners para a saber o tipo do pedido.
+Por exemple, se um listener só deve estar ativo para um pedidos principais, adicione
+o seguinte código no início do seu método listener::
 
     use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -230,43 +231,47 @@ add the following code at the beginning of your listener method::
 
 .. tip::
 
-    If you are not yet familiar with the Symfony2 Event Dispatcher, read the
-    :ref:`event_dispatcher` section first.
+    Se você ainda não está familiarizado com o Dispatcher de Evento do Symfony2, leia
+    primeiro seção
+    :doc:`Documentação do Compoenente Dispatcher de Evento </components/event_dispatcher/introduction>`
+    .
 
 .. index::
-   single: Event; kernel.request
+single: Evento; kernel.request
 
 .. _kernel-core-request:
 
-``kernel.request`` Event
+Evento ``kernel.request``
 ........................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseEvent`
+*Classe do Evento*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseEvent`
 
-The goal of this event is to either return a ``Response`` object immediately
-or setup variables so that a Controller can be called after the event. Any
-listener can return a ``Response`` object via the ``setResponse()`` method on
-the event. In this case, all other listeners won't be called.
+O objetivo deste evento é retornar um objeto ``Response`` ou variáveis de configuração
+de um Controlador podem ser chamadas depois do evento. Qualquer listener pode returnar
+um objeto ``Reponse`` através do métod ``setResponse()`` no evento. Neste caso, todos
+os outros listeners não serão chamados.
 
-This event is used by ``FrameworkBundle`` to populate the ``_controller``
-``Request`` attribute, via the
+Este evento é usado pelo ``FrameworkBundle`` para popular o ``_controller`` do atributo
+do ``Request``, através do
 :class:`Symfony\\Bundle\\FrameworkBundle\\EventListener\\RouterListener`. RequestListener
-uses a :class:`Symfony\\Component\\Routing\\RouterInterface` object to match
-the ``Request`` and determine the Controller name (stored in the
-``_controller`` ``Request`` attribute).
+usa um objeto  :class:`Symfony\\Component\\Routing\\RouterInterface` para combinar o
+``Request`` e determinar o nome do Controlador (armazenado no atributo ``_controller``
+do ``Request``).
+
+.. seealso::
+
+    Leia mais em :ref:`evento kernel.request <component-http-kernel-kernel-request>`.
 
 .. index::
-   single: Event; kernel.controller
+single: Evento; kernel.controller
 
-``kernel.controller`` Event
+Evento ``kernel.controller``
 ...........................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterControllerEvent`
+*Classe do Evento*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterControllerEvent`
 
-This event is not used by ``FrameworkBundle``, but can be an entry point used
-to modify the controller that should be executed:
-
-.. code-block:: php
+Este evento não é usado pelo ``FrameworkBundle``, mas pode ser ponto de entrada usado
+para modificar o controlador que será executado::
 
     use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
@@ -275,92 +280,113 @@ to modify the controller that should be executed:
         $controller = $event->getController();
         // ...
 
-        // the controller can be changed to any PHP callable
+        // o controlador pode ser trocado por qualquer código PHP válido
         $event->setController($controller);
     }
 
-.. index::
-   single: Event; kernel.view
+.. seealso::
 
-``kernel.view`` Event
+    Leio mais em :ref:`evento kernel.controller <component-http-kernel-kernel-controller>`.
+
+.. index::
+single: Evento; kernel.view
+
+Evento ``kernel.view``
 .....................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForControllerResultEvent`
+*Classe do Evento*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForControllerResultEvent`
 
-This event is not used by ``FrameworkBundle``, but it can be used to implement
-a view sub-system. This event is called *only* if the Controller does *not*
-return a ``Response`` object. The purpose of the event is to allow some other
-return value to be converted into a ``Response``.
+Este evento não é usado pelo ``FrameworkBundle``, mas pode ser usado para implementar
+um sub-sistema de view. Este evento é chamado *apenas* se o Controlador *não* retornar
+um objeto ``Response``. A proposta deste evento é permitir que qualquer outro valor possa
+ser convertido em um ``Response``.
 
-The value returned by the Controller is accessible via the
-``getControllerResult`` method::
+O valor retornado pelo Controlador é acessível através do método ``getControllerResult``::
 
     use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
     use Symfony\Component\HttpFoundation\Response;
 
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
-        $val = $event->getReturnValue();
+        $val = $event->getControllerResult();
         $response = new Response();
-        // some how customize the Response from the return value
+
+        // ... uma maneria de customizar o Response a partir de um valor de retorno
 
         $event->setResponse($response);
     }
 
-.. index::
-   single: Event; kernel.response
+.. seealso::
 
-``kernel.response`` Event
+    Leio mais no :ref:`evento kernel.view <component-http-kernel-kernel-view>`.
+
+.. index::
+single: Evento; kernel.response
+
+Evento ``kernel.response``
 .........................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterResponseEvent`
+*Classe do Evento*: :class:`Symfony\\Component\\HttpKernel\\Event\\FilterResponseEvent`
 
-The purpose of this event is to allow other systems to modify or replace the
-``Response`` object after its creation:
-
-.. code-block:: php
+A proposta deste evento é permitir outros sistemas de modificar ou substituir o objeto
+``Response`` depois de criado::
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
-        // .. modify the response object
+
+        // ... modifique o objeto response
     }
 
-The ``FrameworkBundle`` registers several listeners:
+O``FrameworkBundle`` registra vários listeners:
 
 * :class:`Symfony\\Component\\HttpKernel\\EventListener\\ProfilerListener`:
-  collects data for the current request;
+  coleta dados para o pedido atual;
 
 * :class:`Symfony\\Bundle\\WebProfilerBundle\\EventListener\\WebDebugToolbarListener`:
-  injects the Web Debug Toolbar;
+  injeta a Web Debug Toolbar;
 
 * :class:`Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener`: fixes the
-  Response ``Content-Type`` based on the request format;
+  Responde ``Content-Type`` baseado no formato do pedido;
 
 * :class:`Symfony\\Component\\HttpKernel\\EventListener\\EsiListener`: adds a
-  ``Surrogate-Control`` HTTP header when the Response needs to be parsed for
-  ESI tags.
+  Cabeçalho HTTP ``Surrogate-Control`` quando o Response precisa ser transformado para
+  tags ESI.
+
+.. seealso::
+
+    Leia mais no :ref:`evento kernel.response <component-http-kernel-kernel-response>`.
 
 .. index::
-   single: Event; kernel.exception
+single: Evento; kernel.terminate
+
+Evento ``kernel.terminate``
+..........................
+
+O objetivo deste evento é relizar tarefas mais "pesadas" depois que a resposta foi
+entregue ao cliente.
+
+.. seealso::
+
+    Leia mais em :ref:`evento kernel.terminate <component-http-kernel-kernel-terminate>`.
+
+.. index::
+single: Evento; kernel.exception
 
 .. _kernel-kernel.exception:
 
-``kernel.exception`` Event
+Evento ``kernel.exception``
 ..........................
 
-*Event Class*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForExceptionEvent`
+*Classe de Evento*: :class:`Symfony\\Component\\HttpKernel\\Event\\GetResponseForExceptionEvent`
 
-``FrameworkBundle`` registers an
-:class:`Symfony\\Component\\HttpKernel\\EventListener\\ExceptionListener` that
-forwards the ``Request`` to a given Controller (the value of the
-``exception_listener.controller`` parameter -- must be in the
-``class::method`` notation).
+``FrameworkBundle`` registra um
+:class:`Symfony\\Component\\HttpKernel\\EventListener\\ExceptionListener` que encaminha
+o ``Request`` para um dado Controlador (o valor do parâmetro
+``exception_listener.controller`` -- deve ser uma notação ``class::method``).
 
-A listener on this event can create and set a ``Response`` object, create
-and set a new ``Exception`` object, or do nothing:
-
-.. code-block:: php
+Um listener deste evento pode criar e definir um objeto ``Response``, criar e definir
+um novo objeto ``Exception``, ou fazer nada::
 
     use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
     use Symfony\Component\HttpFoundation\Response;
@@ -369,562 +395,105 @@ and set a new ``Exception`` object, or do nothing:
     {
         $exception = $event->getException();
         $response = new Response();
-        // setup the Response object based on the caught exception
+        // configura o objeto Response baseado na exception capturada
         $event->setResponse($response);
 
-        // you can alternatively set a new Exception
+        // você também pode definir uma nova Exception
         // $exception = new \Exception('Some special exception');
         // $event->setException($exception);
     }
 
-.. index::
-   single: Event Dispatcher
-
-.. _`book-internals-event-dispatcher`:
-
-The Event Dispatcher
---------------------
-
-Objected Oriented code has gone a long way to ensuring code extensibility. By
-creating classes that have well defined responsibilities, your code becomes
-more flexible and a developer can extend them with subclasses to modify their
-behaviors. But if he wants to share his changes with other developers who have
-also made their own subclasses, code inheritance is moot.
-
-Consider the real-world example where you want to provide a plugin system for
-your project. A plugin should be able to add methods, or do something before
-or after a method is executed, without interfering with other plugins. This is
-not an easy problem to solve with single inheritance, and multiple inheritance
-(were it possible with PHP) has its own drawbacks.
-
-The Symfony2 Event Dispatcher implements the `Observer`_ pattern in a simple
-and effective way to make all these things possible and to make your projects
-truly extensible.
-
-Take a simple example from the `Symfony2 HttpKernel component`_. Once a
-``Response`` object has been created, it may be useful to allow other elements
-in the system to modify it (e.g. add some cache headers) before it's actually
-used. To make this possible, the Symfony2 kernel throws an event -
-``kernel.response``. Here's how it works:
-
-* A *listener* (PHP object) tells a central *dispatcher* object that it wants
-  to listen to the ``kernel.response`` event;
-
-* At some point, the Symfony2 kernel tells the *dispatcher* object to dispatch
-  the ``kernel.response`` event, passing with it an ``Event`` object that has
-  access to the ``Response`` object;
-
-* The dispatcher notifies (i.e. calls a method on) all listeners of the
-  ``kernel.response`` event, allowing each of them to make modifications to
-  the ``Response`` object.
-
-.. index::
-   single: Event Dispatcher; Events
-
-.. _event_dispatcher:
-
-Events
-~~~~~~
-
-When an event is dispatched, it's identified by a unique name (e.g.
-``kernel.response``), which any number of listeners might be listening to. An
-:class:`Symfony\\Component\\EventDispatcher\\Event` instance is also created
-and passed to all of the listeners. As you'll see later, the ``Event`` object
-itself often contains data about the event being dispatched.
-
-.. index::
-   pair: Event Dispatcher; Naming conventions
-
-Naming Conventions
-..................
-
-The unique event name can be any string, but optionally follows a few simple
-naming conventions:
-
-* use only lowercase letters, numbers, dots (``.``), and underscores (``_``);
-
-* prefix names with a namespace followed by a dot (e.g. ``kernel.``);
-
-* end names with a verb that indicates what action is being taken (e.g.
-  ``request``).
-
-Here are some examples of good event names:
-
-* ``kernel.response``
-* ``form.pre_set_data``
-
-.. index::
-   single: Event Dispatcher; Event Subclasses
-
-Event Names and Event Objects
-.............................
-
-When the dispatcher notifies listeners, it passes an actual ``Event`` object
-to those listeners. The base ``Event`` class is very simple: it contains a
-method for stopping :ref:`event
-propagation<event_dispatcher-event-propagation>`, but not much else.
-
-Often times, data about a specific event needs to be passed along with the
-``Event`` object so that the listeners have needed information. In the case of
-the ``kernel.response`` event, the ``Event`` object that's created and passed to
-each listener is actually of type
-:class:`Symfony\\Component\\HttpKernel\\Event\\FilterResponseEvent`, a
-subclass of the base ``Event`` object. This class contains methods such as
-``getResponse`` and ``setResponse``, allowing listeners to get or even replace
-the ``Response`` object.
-
-The moral of the story is this: when creating a listener to an event, the
-``Event`` object that's passed to the listener may be a special subclass that
-has additional methods for retrieving information from and responding to the
-event.
-
-The Dispatcher
-~~~~~~~~~~~~~~
-
-The dispatcher is the central object of the event dispatcher system. In
-general, a single dispatcher is created, which maintains a registry of
-listeners. When an event is dispatched via the dispatcher, it notifies all
-listeners registered with that event.
-
-.. code-block:: php
-
-    use Symfony\Component\EventDispatcher\EventDispatcher;
-
-    $dispatcher = new EventDispatcher();
-
-.. index::
-   single: Event Dispatcher; Listeners
-
-Connecting Listeners
-~~~~~~~~~~~~~~~~~~~~
-
-To take advantage of an existing event, you need to connect a listener to the
-dispatcher so that it can be notified when the event is dispatched. A call to
-the dispatcher ``addListener()`` method associates any valid PHP callable to
-an event:
-
-.. code-block:: php
-
-    $listener = new AcmeListener();
-    $dispatcher->addListener('foo.action', array($listener, 'onFooAction'));
-
-The ``addListener()`` method takes up to three arguments:
-
-* The event name (string) that this listener wants to listen to;
-
-* A PHP callable that will be notified when an event is thrown that it listens
-  to;
-
-* An optional priority integer (higher equals more important) that determines
-  when a listener is triggered versus other listeners (defaults to ``0``). If
-  two listeners have the same priority, they are executed in the order that
-  they were added to the dispatcher.
-
 .. note::
 
-    A `PHP callable`_ is a PHP variable that can be used by the
-    ``call_user_func()`` function and returns ``true`` when passed to the
-    ``is_callable()`` function. It can be a ``\Closure`` instance, a string
-    representing a function, or an array representing an object method or a
-    class method.
+    Como o Symfony garante que o código do status do Response é como o mais adequado
+    dependendo da exceção, não vai funciona se definir o status na resposta. Se você
+    quiser substituir o código do status (você não deve fazer sem uma boa razão), defina
+    o ``X-Status-Code`` no cabeçalho::
 
-    So far, you've seen how PHP objects can be registered as listeners. You
-    can also register PHP `Closures`_ as event listeners:
-
-    .. code-block:: php
-
-        use Symfony\Component\EventDispatcher\Event;
-
-        $dispatcher->addListener('foo.action', function (Event $event) {
-            // will be executed when the foo.action event is dispatched
-        });
-
-Once a listener is registered with the dispatcher, it waits until the event is
-notified. In the above example, when the ``foo.action`` event is dispatched,
-the dispatcher calls the ``AcmeListener::onFooAction`` method and passes the
-``Event`` object as the single argument:
-
-.. code-block:: php
-
-    use Symfony\Component\EventDispatcher\Event;
-
-    class AcmeListener
-    {
-        // ...
-
-        public function onFooAction(Event $event)
-        {
-            // do something
-        }
-    }
-
-.. tip::
-
-    If you use the Symfony2 MVC framework, listeners can be registered via
-    your :ref:`configuration <dic-tags-kernel-event-listener>`. As an added
-    bonus, the listener objects are instantiated only when needed.
-
-In many cases, a special ``Event`` subclass that's specific to the given event
-is passed to the listener. This gives the listener access to special
-information about the event. Check the documentation or implementation of each
-event to determine the exact ``Symfony\Component\EventDispatcher\Event``
-instance that's being passed. For example, the ``kernel.event`` event passes an
-instance of ``Symfony\Component\HttpKernel\Event\FilterResponseEvent``:
-
-.. code-block:: php
-
-    use Symfony\Component\HttpKernel\Event\FilterResponseEvent
-
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-        $response = $event->getResponse();
-        $request = $event->getRequest();
-
-        // ...
-    }
-
-.. _event_dispatcher-closures-as-listeners:
+        return new Response(
+            'Error',
+            404 // ignored,
+            array('X-Status-Code' => 200)
+        );
 
 .. index::
-   single: Event Dispatcher; Creating and Dispatching an Event
+single: Dispatcher de Evento
 
-Creating and Dispatching an Event
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+O Dispatcher de Evento
+--------------------
 
-In addition to registering listeners with existing events, you can create and
-throw your own events. This is useful when creating third-party libraries and
-also when you want to keep different components of your own system flexible
-and decoupled.
+O dispatcher de evento é um componente autônomo que é responsável por grande parte da lógica
+subjacente e do fluxo por trás de um pedido Symfony. Para mais informações, veja a
+ :doc:`Documentação do Componente Dispatcher de Evento </components/event_dispatcher/introduction>`.
 
-The Static ``Events`` Class
-...........................
+.. seealso::
 
-Suppose you want to create a new Event - ``store.order`` - that is dispatched
-each time an order is created inside your application. To keep things
-organized, start by creating a ``StoreEvents`` class inside your application
-that serves to define and document your event:
-
-.. code-block:: php
-
-    namespace Acme\StoreBundle;
-
-    final class StoreEvents
-    {
-        /**
-         * The store.order event is thrown each time an order is created
-         * in the system.
-         *
-         * The event listener receives an Acme\StoreBundle\Event\FilterOrderEvent
-         * instance.
-         *
-         * @var string
-         */
-        const onStoreOrder = 'store.order';
-    }
-
-Notice that this class doesn't actually *do* anything. The purpose of the
-``StoreEvents`` class is just to be a location where information about common
-events can be centralized. Notice also that a special ``FilterOrderEvent``
-class will be passed to each listener of this event.
-
-Creating an Event object
-........................
-
-Later, when you dispatch this new event, you'll create an ``Event`` instance
-and pass it to the dispatcher. The dispatcher then passes this same instance
-to each of the listeners of the event. If you don't need to pass any
-information to your listeners, you can use the default
-``Symfony\Component\EventDispatcher\Event`` class. Most of the time, however,
-you *will* need to pass information about the event to each listener. To
-accomplish this, you'll create a new class that extends
-``Symfony\Component\EventDispatcher\Event``.
-
-In this example, each listener will need access to some pretend ``Order``
-object. Create an ``Event`` class that makes this possible:
-
-.. code-block:: php
-
-    namespace Acme\StoreBundle\Event;
-
-    use Symfony\Component\EventDispatcher\Event;
-    use Acme\StoreBundle\Order;
-
-    class FilterOrderEvent extends Event
-    {
-        protected $order;
-
-        public function __construct(Order $order)
-        {
-            $this->order = $order;
-        }
-
-        public function getOrder()
-        {
-            return $this->order;
-        }
-    }
-
-Each listener now has access to the ``Order`` object via the ``getOrder`` 
-method.
-
-Dispatch the Event
-..................
-
-The :method:`Symfony\\Component\\EventDispatcher\\EventDispatcher::dispatch`
-method notifies all listeners of the given event. It takes two arguments: the
-name of the event to dispatch and the ``Event`` instance to pass to each
-listener of that event:
-
-.. code-block:: php
-
-    use Acme\StoreBundle\StoreEvents;
-    use Acme\StoreBundle\Order;
-    use Acme\StoreBundle\Event\FilterOrderEvent;
-
-    // the order is somehow created or retrieved
-    $order = new Order();
-    // ...
-
-    // create the FilterOrderEvent and dispatch it
-    $event = new FilterOrderEvent($order);
-    $dispatcher->dispatch(StoreEvents::onStoreOrder, $event);
-
-Notice that the special ``FilterOrderEvent`` object is created and passed to
-the ``dispatch`` method. Now, any listener to the ``store.order`` event will
-receive the ``FilterOrderEvent`` and have access to the ``Order`` object via
-the ``getOrder`` method:
-
-.. code-block:: php
-
-    // some listener class that's been registered for onStoreOrder
-    use Acme\StoreBundle\Event\FilterOrderEvent;
-
-    public function onStoreOrder(FilterOrderEvent $event)
-    {
-        $order = $event->getOrder();
-        // do something to or with the order
-    }
-
-Passing along the Event Dispatcher Object
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If you have a look at the ``EventDispatcher`` class, you will notice that the
-class does not act as a Singleton (there is no ``getInstance()`` static method).
-That is intentional, as you might want to have several concurrent event
-dispatchers in a single PHP request. But it also means that you need a way to
-pass the dispatcher to the objects that need to connect or notify events.
-
-The best practice is to inject the event dispatcher object into your objects,
-aka dependency injection.
-
-You can use constructor injection::
-
-    class Foo
-    {
-        protected $dispatcher = null;
-
-        public function __construct(EventDispatcher $dispatcher)
-        {
-            $this->dispatcher = $dispatcher;
-        }
-    }
-
-Or setter injection::
-
-    class Foo
-    {
-        protected $dispatcher = null;
-
-        public function setEventDispatcher(EventDispatcher $dispatcher)
-        {
-            $this->dispatcher = $dispatcher;
-        }
-    }
-
-Choosing between the two is really a matter of taste. Many tend to prefer the
-constructor injection as the objects are fully initialized at construction
-time. But when you have a long list of dependencies, using setter injection
-can be the way to go, especially for optional dependencies.
-
-.. tip::
-
-    If you use dependency injection like we did in the two examples above, you
-    can then use the `Symfony2 Dependency Injection component`_ to elegantly
-    manage the injection of the ``event_dispatcher`` service for these objects.
-
-        .. code-block:: yaml
-
-            # src/Acme/HelloBundle/Resources/config/services.yml
-            services:
-                foo_service:
-                    class: Acme/HelloBundle/Foo/FooService
-                    arguments: [@event_dispatcher]
-            
-.. index::
-   single: Event Dispatcher; Event subscribers
-
-Using Event Subscribers
-~~~~~~~~~~~~~~~~~~~~~~~
-
-The most common way to listen to an event is to register an *event listener*
-with the dispatcher. This listener can listen to one or more events and is
-notified each time those events are dispatched.
-
-Another way to listen to events is via an *event subscriber*. An event
-subscriber is a PHP class that's able to tell the dispatcher exactly which
-events it should subscribe to. It implements the
-:class:`Symfony\\Component\\EventDispatcher\\EventSubscriberInterface`
-interface, which requires a single static method called
-``getSubscribedEvents``. Take the following example of a subscriber that
-subscribes to the ``kernel.response`` and ``store.order`` events:
-
-.. code-block:: php
-
-    namespace Acme\StoreBundle\Event;
-
-    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-    use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-
-    class StoreSubscriber implements EventSubscriberInterface
-    {
-        static public function getSubscribedEvents()
-        {
-            return array(
-                'kernel.response' => 'onKernelResponse',
-                'store.order'     => 'onStoreOrder',
-            );
-        }
-
-        public function onKernelResponse(FilterResponseEvent $event)
-        {
-            // ...
-        }
-
-        public function onStoreOrder(FilterOrderEvent $event)
-        {
-            // ...
-        }
-    }
-
-This is very similar to a listener class, except that the class itself can
-tell the dispatcher which events it should listen to. To register a subscriber
-with the dispatcher, use the
-:method:`Symfony\\Component\\EventDispatcher\\EventDispatcher::addSubscriber`
-method:
-
-.. code-block:: php
-
-    use Acme\StoreBundle\Event\StoreSubscriber;
-
-    $subscriber = new StoreSubscriber();
-    $dispatcher->addSubscriber($subscriber);
-
-The dispatcher will automatically register the subscriber for each event
-returned by the ``getSubscribedEvents`` method. This method returns an array
-indexed by event names and whose values are either the method name to call or
-an array composed of the method name to call and a priority.
-
-.. tip::
-
-    If you use the Symfony2 MVC framework, subscribers can be registered via
-    your :ref:`configuration <dic-tags-kernel-event-subscriber>`. As an added
-    bonus, the subscriber objects are instantiated only when needed.
+    Leia mais no :ref:`evento kernel.exception <component-http-kernel-kernel-exception>`.
 
 .. index::
-   single: Event Dispatcher; Stopping event flow
+single: Profiler
 
-.. _event_dispatcher-event-propagation:
-
-Stopping Event Flow/Propagation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-In some cases, it may make sense for a listener to prevent any other listeners
-from being called. In other words, the listener needs to be able to tell the
-dispatcher to stop all propagation of the event to future listeners (i.e. to
-not notify any more listeners). This can be accomplished from inside a
-listener via the
-:method:`Symfony\\Component\\EventDispatcher\\Event::stopPropagation` method:
-
-.. code-block:: php
-
-   use Acme\StoreBundle\Event\FilterOrderEvent;
-
-   public function onStoreOrder(FilterOrderEvent $event)
-   {
-       // ...
-
-       $event->stopPropagation();
-   }
-
-Now, any listeners to ``store.order`` that have not yet been called will *not*
-be called.
-
-.. index::
-   single: Profiler
+.. _internals-profiler:
 
 Profiler
 --------
 
-When enabled, the Symfony2 profiler collects useful information about each
-request made to your application and store them for later analysis. Use the
-profiler in the development environment to help you to debug your code and
-enhance performance; use it in the production environment to explore problems
-after the fact.
+Quando ativado, o profiler do Symfony2 coleta informações úteis sobre cada pedido feito
+à sua aplicação e armazenadas para uma análise posterior. Utilize o profiler no
+ambiente de desenvolvimento para ajudar a depurar seu código e melhorar o desempenho;
+utilize-o em produção para problemas quando acontecerem.
 
-You rarely have to deal with the profiler directly as Symfony2 provides
-visualizer tools like the Web Debug Toolbar and the Web Profiler. If you use
-the Symfony2 Standard Edition, the profiler, the web debug toolbar, and the
-web profiler are all already configured with sensible settings.
+Você raramente precisa lidar com o profiler diretamente, como o Symfony2 oferece ferramentas
+como Web Debug Toolbar e o Web Profiler. Se você utilizar o Symfony2 Standard Edition,
+o profiler, o web debug toolbar, e o web profiler estão configurados com configurações
+razoáveis.
 
 .. note::
 
-    The profiler collects information for all requests (simple requests,
-    redirects, exceptions, Ajax requests, ESI requests; and for all HTTP
-    methods and all formats). It means that for a single URL, you can have
-    several associated profiling data (one per external request/response
-    pair).
+    O profiler coleta informações sobre todo os pedidos (pedidos simples, redirecionamentos,
+    exeçõec, pedidos Ajax, pedidos ESI; e para todos os métodos HTTP e todos formatos).
+    Isso significa que para uma única URL, você pode ter vários dados de perfis associados
+    (por pedido externo/resposta)
 
 .. index::
-   single: Profiler; Visualizing
+single: Profiler; Visualizando
 
-Visualizing Profiling Data
+Visualizando os dados do Profiler
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Using the Web Debug Toolbar
+Usando a Web Debug Toolbar
 ...........................
 
-In the development environment, the web debug toolbar is available at the
-bottom of all pages. It displays a good summary of the profiling data that
-gives you instant access to a lot of useful information when something does
-not work as expected.
+No ambiente de desenvolvimento, a web debug toolbar está dispinível na parte de inferior
+de todas as páginas. Ela mostra um bom resumo do dados coletados e dá acesso instantâneo
+a uma grande quantidade de informações úteis quando algo não funciona como o esperado.
 
-If the summary provided by the Web Debug Toolbar is not enough, click on the
-token link (a string made of 13 random characters) to access the Web Profiler.
+Se o resumo oferecido pela Web Debug Toolbar não é suficiente, clique no link do token
+(uma string feita de 13 caractéres randômicos) para acessar o Web Profiler.
 
 .. note::
 
-    If the token is not clickable, it means that the profiler routes are not
-    registered (see below for configuration information).
+    Se o token não está clicável, isso significa que a rota do profiler não está
+    registrada (veja abaixo para obter informações de configuração)
 
-Analyzing Profiling data with the Web Profiler
+Analisando os dados com o Web Profiler
 ..............................................
 
-The Web Profiler is a visualization tool for profiling data that you can use
-in development to debug your code and enhance performance; but it can also be
-used to explore problems that occur in production. It exposes all information
-collected by the profiler in a web interface.
+O Web Profiler é uma ferramenta de visualização de dados que você pode usar no
+desenvolvimento para depurar seu código e melhor o desempenho; mas pode também ser
+usado para explorar problemas que ocorrem em produção. Ele expõe toda informação
+coletada pelo profiler na interface web.
 
 .. index::
-   single: Profiler; Using the profiler service
+single: Profiler; Usando o serviço do profiler
 
-Accessing the Profiling information
+Acessando a informação coletada
 ...................................
 
-You don't need to use the default visualizer to access the profiling
-information. But how can you retrieve profiling information for a specific
-request after the fact? When the profiler stores data about a Request, it also
-associates a token with it; this token is available in the ``X-Debug-Token``
-HTTP header of the Response::
+Você não precisa usar o visualizador padrão para acessar as informações coletadas. Mas
+como você pode recuperar informações para um pedido específico? Quando o profiler armazena
+os dados de um Request, também associa um token para ele; este token está disponível no
+cabeçalho HTTP ``X-Debug-Token`` do Response::
 
     $profile = $container->get('profiler')->loadProfileFromResponse($response);
 
@@ -932,99 +501,102 @@ HTTP header of the Response::
 
 .. tip::
 
-    When the profiler is enabled but not the web debug toolbar, or when you
-    want to get the token for an Ajax request, use a tool like Firebug to get
-    the value of the ``X-Debug-Token`` HTTP header.
+    Quando o profiler está ativado man não a web debug toolbar, ou quando você precisa
+    pegar o token para um pedido Aja, utilize uma ferramenta como o Firebug para pegar
+    o valor do cabeçalho HTTP ``X-Debug-Token``.
 
-Use the ``find()`` method to access tokens based on some criteria::
+Utilize o método :method:`Symfony\\Component\\HttpKernel\\Profiler\\Profiler::find`
+para acessar os tokens baseados em alguns critérios::
 
-    // get the latest 10 tokens
+    // pega os 10 últimos tokens
     $tokens = $container->get('profiler')->find('', '', 10);
 
-    // get the latest 10 tokens for all URL containing /admin/
+    // pegue os 10 últimos tokens para todas URLs que contenham /admin/
     $tokens = $container->get('profiler')->find('', '/admin/', 10);
 
-    // get the latest 10 tokens for local requests
+    // pegue os 10 últimos tokens para pedidos locais
     $tokens = $container->get('profiler')->find('127.0.0.1', '', 10);
 
-If you want to manipulate profiling data on a different machine than the one
-where the information were generated, use the ``export()`` and ``import()``
-methods::
+Se você precisa manipular os dados coletados em uma máquina diferente da em que os dados
+foram gerados, utilize os métodos
+:method:`Symfony\\Component\\HttpKernel\\Profiler\\Profiler::export` e
+:method:`Symfony\\Component\\HttpKernel\\Profiler\\Profiler::import`::
 
-    // on the production machine
+    // na máquina de produção
     $profile = $container->get('profiler')->loadProfile($token);
     $data = $profiler->export($profile);
 
-    // on the development machine
+    // na máquina de desenvolvimento
     $profiler->import($data);
 
 .. index::
-   single: Profiler; Visualizing
+single: Profiler; Visualizando
 
-Configuration
+Configuração
 .............
 
-The default Symfony2 configuration comes with sensible settings for the
-profiler, the web debug toolbar, and the web profiler. Here is for instance
-the configuration for the development environment:
+A configuração padrão do Symfony2 vem com definições razoáveis para o profiler, a web
+debug toolbar, e o web profiler. Aqui está um exemplo de configuração para o ambiente
+de desenvolvimento:
 
 .. configuration-block::
 
     .. code-block:: yaml
 
-        # load the profiler
+        # carrega o profiler
         framework:
             profiler: { only_exceptions: false }
 
-        # enable the web profiler
+        # ativa o web profiler
         web_profiler:
             toolbar: true
             intercept_redirects: true
-            verbose: true
 
     .. code-block:: xml
 
-        <!-- xmlns:webprofiler="http://symfony.com/schema/dic/webprofiler" -->
-        <!-- xsi:schemaLocation="http://symfony.com/schema/dic/webprofiler http://symfony.com/schema/dic/webprofiler/webprofiler-1.0.xsd"> -->
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <container xmlns="http://symfony.com/schema/dic/services"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:webprofiler="http://symfony.com/schema/dic/webprofiler"
+            xmlns:framework="http://symfony.com/schema/dic/symfony"
+            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd
+                                http://symfony.com/schema/dic/webprofiler http://symfony.com/schema/dic/webprofiler/webprofiler-1.0.xsd
+                                http://symfony.com/schema/dic/symfony http://symfony.com/schema/dic/symfony/symfony-1.0.xsd">
 
-        <!-- load the profiler -->
-        <framework:config>
-            <framework:profiler only-exceptions="false" />
-        </framework:config>
+            <!-- load the profiler -->
+            <framework:config>
+                <framework:profiler only-exceptions="false" />
+            </framework:config>
 
-        <!-- enable the web profiler -->
-        <webprofiler:config
-            toolbar="true"
-            intercept-redirects="true"
-            verbose="true"
-        />
+            <!-- enable the web profiler -->
+            <webprofiler:config
+                toolbar="true"
+                intercept-redirects="true"
+                verbose="true"
+            />
+        </container>
 
     .. code-block:: php
 
-        // load the profiler
+        // carrega o profiler
         $container->loadFromExtension('framework', array(
             'profiler' => array('only-exceptions' => false),
         ));
 
-        // enable the web profiler
+        // ativa o web profiler
         $container->loadFromExtension('web_profiler', array(
-            'toolbar' => true,
+            'toolbar'             => true,
             'intercept-redirects' => true,
-            'verbose' => true,
         ));
 
-When ``only-exceptions`` is set to ``true``, the profiler only collects data
-when an exception is thrown by the application.
+Quando ``only-execptions`` está definida como ``true``, o profiler apenas coleta dados
+quando uma exception é lançada pela aplicação.
 
-When ``intercept-redirects`` is set to ``true``, the web profiler intercepts
-the redirects and gives you the opportunity to look at the collected data
-before following the redirect.
+Quando ``intercept-redirects`` é definido como ``true``, o web profiler intercepta os
+redirecionamentos e dá a você a oportunidade de ver os dados coletados antes de seguir
+o redirecionamento.
 
-When ``verbose`` is set to ``true``, the Web Debug Toolbar displays a lot of
-information. Setting ``verbose`` to ``false`` hides some secondary information
-to make the toolbar shorter.
-
-If you enable the web profiler, you also need to mount the profiler routes:
+Se você ativa o web profiler, você também precisa montar as rotas do profiler:
 
 .. configuration-block::
 
@@ -1036,103 +608,34 @@ If you enable the web profiler, you also need to mount the profiler routes:
 
     .. code-block:: xml
 
-        <import resource="@WebProfilerBundle/Resources/config/routing/profiler.xml" prefix="/_profiler" />
+        <?xml version="1.0" encoding="UTF-8" ?>
+        <routes xmlns="http://symfony.com/schema/routing"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/routing
+                http://symfony.com/schema/routing/routing-1.0.xsd">
+
+            <import
+                resource="@WebProfilerBundle/Resources/config/routing/profiler.xml"
+                prefix="/_profiler"
+            />
+        </routes>
 
     .. code-block:: php
 
-        $collection->addCollection($loader->import("@WebProfilerBundle/Resources/config/routing/profiler.xml"), '/_profiler');
-
-As the profiler adds some overhead, you might want to enable it only under
-certain circumstances in the production environment. The ``only-exceptions``
-settings limits profiling to 500 pages, but what if you want to get
-information when the client IP comes from a specific address, or for a limited
-portion of the website? You can use a request matcher:
-
-.. configuration-block::
-
-    .. code-block:: yaml
-
-        # enables the profiler only for request coming for the 192.168.0.0 network
-        framework:
-            profiler:
-                matcher: { ip: 192.168.0.0/24 }
-
-        # enables the profiler only for the /admin URLs
-        framework:
-            profiler:
-                matcher: { path: "^/admin/" }
-
-        # combine rules
-        framework:
-            profiler:
-                matcher: { ip: 192.168.0.0/24, path: "^/admin/" }
-
-        # use a custom matcher instance defined in the "custom_matcher" service
-        framework:
-            profiler:
-                matcher: { service: custom_matcher }
-
-    .. code-block:: xml
-
-        <!-- enables the profiler only for request coming for the 192.168.0.0 network -->
-        <framework:config>
-            <framework:profiler>
-                <framework:matcher ip="192.168.0.0/24" />
-            </framework:profiler>
-        </framework:config>
-
-        <!-- enables the profiler only for the /admin URLs -->
-        <framework:config>
-            <framework:profiler>
-                <framework:matcher path="^/admin/" />
-            </framework:profiler>
-        </framework:config>
-
-        <!-- combine rules -->
-        <framework:config>
-            <framework:profiler>
-                <framework:matcher ip="192.168.0.0/24" path="^/admin/" />
-            </framework:profiler>
-        </framework:config>
-
-        <!-- use a custom matcher instance defined in the "custom_matcher" service -->
-        <framework:config>
-            <framework:profiler>
-                <framework:matcher service="custom_matcher" />
-            </framework:profiler>
-        </framework:config>
-
-    .. code-block:: php
-
-        // enables the profiler only for request coming for the 192.168.0.0 network
-        $container->loadFromExtension('framework', array(
-            'profiler' => array(
-                'matcher' => array('ip' => '192.168.0.0/24'),
+        $collection->addCollection(
+            $loader->import(
+                "@WebProfilerBundle/Resources/config/routing/profiler.xml"
             ),
-        ));
+            '/_profiler'
+        );
 
-        // enables the profiler only for the /admin URLs
-        $container->loadFromExtension('framework', array(
-            'profiler' => array(
-                'matcher' => array('path' => '^/admin/'),
-            ),
-        ));
+Como o profiler adiciona alguma sobrecarga, você pode querer ativar apenas em algumas
+circunstâncias no ambiente de desenvolvimento. O parâmetro ``only-exceptions`` limita
+para 500 páginas, mas se quiser obter informações quando um IP do cliente vier de um
+endereço específico, ou de uma parte limitada do site? Você pode usar um Profiler
+Matcher, aprenda mais sobre ele no ":doc:`/cookbook/profiler/matchers`".
 
-        // combine rules
-        $container->loadFromExtension('framework', array(
-            'profiler' => array(
-                'matcher' => array('ip' => '192.168.0.0/24', 'path' => '^/admin/'),
-            ),
-        ));
-
-        # use a custom matcher instance defined in the "custom_matcher" service
-        $container->loadFromExtension('framework', array(
-            'profiler' => array(
-                'matcher' => array('service' => 'custom_matcher'),
-            ),
-        ));
-
-Learn more from the Cookbook
+Aprenda mais com o Cookbook
 ----------------------------
 
 * :doc:`/cookbook/testing/profiling`
@@ -1140,8 +643,4 @@ Learn more from the Cookbook
 * :doc:`/cookbook/event_dispatcher/class_extension`
 * :doc:`/cookbook/event_dispatcher/method_behavior`
 
-.. _Observer: http://en.wikipedia.org/wiki/Observer_pattern
-.. _`Symfony2 HttpKernel component`: https://github.com/symfony/HttpKernel
-.. _Closures: http://php.net/manual/en/functions.anonymous.php
-.. _`Symfony2 Dependency Injection component`: https://github.com/symfony/DependencyInjection
-.. _PHP callable: http://www.php.net/manual/en/language.pseudo-types.php#language.types.callback
+.. _`Componete de Injeção de Dependência do Symfony2`: https://github.com/symfony/DependencyInjection
